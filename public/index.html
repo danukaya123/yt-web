@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Downloader</title>
+  <style>
+    body { font-family: Arial; text-align:center; margin-top:50px; }
+    input, select, button { padding:10px; margin:5px; width:300px; }
+  </style>
+</head>
+<body>
+  <h1>YouTube Downloader</h1>
+  <form id="form">
+    <input id="query" placeholder="YouTube URL or name" required><br>
+    <select id="type">
+      <option value="mp3">MP3</option>
+      <option value="mp4">MP4</option>
+    </select><br>
+    <button type="submit">Download</button>
+  </form>
+  <p id="status"></p>
+
+  <script>
+    const form = document.getElementById("form");
+    const status = document.getElementById("status");
+
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const query = document.getElementById("query").value;
+      const type = document.getElementById("type").value;
+
+      status.textContent = "Fetching download link...";
+
+      const res = await fetch(`/api/download?query=${encodeURIComponent(query)}&type=${type}`);
+      const data = await res.json();
+
+      if (data.url) {
+        const a = document.createElement("a");
+        a.href = data.url;
+        a.download = data.filename;
+        a.click();
+        status.textContent = `Download started: ${data.filename}`;
+      } else {
+        status.textContent = `Error: ${data.error || "Failed to get download link"}`;
+      }
+    };
+  </script>
+</body>
+</html>

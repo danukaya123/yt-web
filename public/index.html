@@ -1777,6 +1777,7 @@
         // Reset any previous video info
         videoInfoSection.style.display = 'none';
         qualitySection.style.display = 'none';
+        downloadBtnContainer.style.display = 'none';
         
         try {
             // Store current query
@@ -1817,8 +1818,8 @@
             
             showNotification('Fetching video information...', 'info');
             
-            // Fetch from backend API WITHOUT type parameter first
-            const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(query)}`);
+            // Fetch from backend API for metadata only (type=info)
+            const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(query)}&type=info`);
             
             if (!response.ok) {
                 throw new Error(`Server error: ${response.status}`);
@@ -1833,15 +1834,20 @@
             // Extract metadata from backend response
             videoMetadata = {
                 title: data.metadata?.title || 'YouTube Video',
+                thumbnail: data.metadata?.thumbnail || '',
+                author: data.metadata?.author || {
+                    name: 'YouTube Channel',
+                    avatar: ''
+                },
                 views: data.metadata?.views || 0,
-                duration: data.metadata?.duration || data.metadata?.timestamp || '0:00',
-                uploadDate: data.metadata?.uploadDate || data.metadata?.ago || 'Unknown date',
+                duration: data.metadata?.duration || '0:00',
+                uploadDate: data.metadata?.uploadDate || 'Unknown date',
                 likes: data.metadata?.likes || 0,
                 description: data.metadata?.description || 'No description available'
             };
             
-            // Generate realistic quality options
-            availableFormats = generateRealisticFormats();
+            // Store available formats (use backend formats or generate default)
+            availableFormats = data.formats || generateDefaultFormats();
             
             // Update UI with actual data
             updateVideoInfoUI();
@@ -1855,6 +1861,11 @@
             // Fallback to default data
             videoMetadata = {
                 title: 'YouTube Video',
+                thumbnail: '',
+                author: {
+                    name: 'YouTube Channel',
+                    avatar: ''
+                },
                 views: 0,
                 duration: '0:00',
                 uploadDate: 'Unknown date',
@@ -1862,7 +1873,7 @@
                 description: 'Video information could not be fetched. You can still download using the options below.'
             };
             
-            availableFormats = generateRealisticFormats();
+            availableFormats = generateDefaultFormats();
             updateVideoInfoUI();
         } finally {
             // Reset button state
@@ -1883,15 +1894,47 @@
         videoDuration.textContent = formatDuration(videoMetadata.duration);
         videoDate.textContent = videoMetadata.uploadDate;
         videoLikes.textContent = formatNumber(videoMetadata.likes) + ' likes';
+        
+        // Update channel info
+        if (videoMetadata.author) {
+            channelName.textContent = videoMetadata.author.name;
+            
+            // Set channel avatar if available
+            if (videoMetadata.author.avatar) {
+                channelAvatar.src = videoMetadata.author.avatar;
+                channelAvatar.onerror = () => {
+                    channelAvatar.src = currentVideoId ? 
+                        `https://i.ytimg.com/vi/${currentVideoId}/default.jpg` : 
+                        'https://i.ytimg.com/vi/dQw4w9WgXcQ/default.jpg';
+                };
+            } else if (currentVideoId) {
+                channelAvatar.src = `https://i.ytimg.com/vi/${currentVideoId}/default.jpg`;
+            }
+        } else {
+            channelName.textContent = 'YouTube Channel';
+            if (currentVideoId) {
+                channelAvatar.src = `https://i.ytimg.com/vi/${currentVideoId}/default.jpg`;
+            }
+        }
+        
+        // Update thumbnail if available
+        if (videoMetadata.thumbnail) {
+            videoThumbnail.src = videoMetadata.thumbnail;
+        } else if (currentVideoId) {
+            videoThumbnail.src = `https://i.ytimg.com/vi/${currentVideoId}/maxresdefault.jpg`;
+            videoThumbnail.onerror = () => {
+                videoThumbnail.src = `https://i.ytimg.com/vi/${currentVideoId}/hqdefault.jpg`;
+            };
+        }
+        
+        // Update description
         videoDescription.textContent = videoMetadata.description;
         
-        // Update channel info (default values)
-        channelName.textContent = 'YouTube Channel';
-        channelSubs.textContent = 'Unknown subscribers';
-        
-        // Set channel avatar if video ID exists
-        if (currentVideoId) {
-            channelAvatar.src = `https://i.ytimg.com/vi/${currentVideoId}/default.jpg`;
+        // Show subscribers if available
+        if (videoMetadata.author?.subscribers) {
+            channelSubs.textContent = formatNumber(videoMetadata.author.subscribers) + ' subscribers';
+        } else {
+            channelSubs.textContent = 'Loading subscribers...';
         }
     }
 
@@ -1899,8 +1942,11 @@
         if (!duration) return '0:00';
         
         if (typeof duration === 'string') {
-            // Already formatted
+            // Already formatted (e.g., "3:45")
             return duration;
+        } else if (typeof duration === 'object' && duration.timestamp) {
+            // Object with timestamp property
+            return duration.timestamp;
         } else if (typeof duration === 'number') {
             // Convert seconds to MM:SS
             const minutes = Math.floor(duration / 60);
@@ -1911,98 +1957,22 @@
         return '0:00';
     }
 
-    function generateRealisticFormats() {
+    function generateDefaultFormats() {
         return [
-            // Video formats
-            { 
-                quality: '144p', 
-                bitrate: '144', 
-                type: 'video', 
-                ext: 'mp4', 
-                fileSize: '10-15 MB',
-                itag: '144'
-            },
-            { 
-                quality: '240p', 
-                bitrate: '240', 
-                type: 'video', 
-                ext: 'mp4', 
-                fileSize: '15-25 MB',
-                itag: '240'
-            },
-            { 
-                quality: '360p', 
-                bitrate: '360', 
-                type: 'video', 
-                ext: 'mp4', 
-                fileSize: '25-40 MB',
-                itag: '360'
-            },
-            { 
-                quality: '480p', 
-                bitrate: '480', 
-                type: 'video', 
-                ext: 'mp4', 
-                fileSize: '40-60 MB',
-                itag: '480'
-            },
-            { 
-                quality: '720p', 
-                bitrate: '720', 
-                type: 'video', 
-                ext: 'mp4', 
-                fileSize: '80-120 MB',
-                itag: '720'
-            },
-            { 
-                quality: '1080p', 
-                bitrate: '1080', 
-                type: 'video', 
-                ext: 'mp4', 
-                fileSize: '150-250 MB',
-                itag: '1080'
-            },
-            // Audio formats
-            { 
-                quality: '64 kbps', 
-                bitrate: '64', 
-                type: 'audio', 
-                ext: 'mp3', 
-                fileSize: '2-3 MB',
-                itag: 'mp3_64'
-            },
-            { 
-                quality: '128 kbps', 
-                bitrate: '128', 
-                type: 'audio', 
-                ext: 'mp3', 
-                fileSize: '4-6 MB',
-                itag: 'mp3_128'
-            },
-            { 
-                quality: '192 kbps', 
-                bitrate: '192', 
-                type: 'audio', 
-                ext: 'mp3', 
-                fileSize: '6-8 MB',
-                itag: 'mp3_192'
-            },
-            { 
-                quality: '256 kbps', 
-                bitrate: '256', 
-                type: 'audio', 
-                ext: 'mp3', 
-                fileSize: '8-10 MB',
-                itag: 'mp3_256'
-            },
-            { 
-                quality: '320 kbps', 
-                bitrate: '320', 
-                type: 'audio', 
-                ext: 'mp3', 
-                fileSize: '10-12 MB',
-                itag: 'mp3_320'
-            }
+            // Video formats with realistic file sizes
+            { quality: '144p', bitrate: '144', type: 'video', ext: 'mp4', fileSize: '10-15 MB', itag: '144' },
+            { quality: '240p', bitrate: '240', type: 'video', ext: 'mp4', fileSize: '15-25 MB', itag: '240' },
+            { quality: '360p', bitrate: '360', type: 'video', ext: 'mp4', fileSize: '25-40 MB', itag: '360' },
+            { quality: '480p', bitrate: '480', type: 'video', ext: 'mp4', fileSize: '40-60 MB', itag: '480' },
+            { quality: '720p', bitrate: '720', type: 'video', ext: 'mp4', fileSize: '80-120 MB', itag: '720' },
+            { quality: '1080p', bitrate: '1080', type: 'video', ext: 'mp4', fileSize: '150-250 MB', itag: '1080' },
+            
+            // Audio formats with realistic file sizes
+            { quality: '64 kbps', bitrate: '64', type: 'audio', ext: 'mp3', fileSize: '2-3 MB', itag: 'mp3_64' },
+            { quality: '128 kbps', bitrate: '128', type: 'audio', ext: 'mp3', fileSize: '4-6 MB', itag: 'mp3_128' },
+            { quality: '192 kbps', bitrate: '192', type: 'audio', ext: 'mp3', fileSize: '6-8 MB', itag: 'mp3_192' },
+            { quality: '256 kbps', bitrate: '256', type: 'audio', ext: 'mp3', fileSize: '8-10 MB', itag: 'mp3_256' },
+            { quality: '320 kbps', bitrate: '320', type: 'audio', ext: 'mp3', fileSize: '10-12 MB', itag: 'mp3_320' }
         ];
     }
 
@@ -2216,9 +2186,9 @@
             
             // Convert format for backend
             const backendType = selectedFormat === 'video' ? 'mp4' : 'mp3';
-            const backendQuality = selectedFormat === 'audio' ? '128' : selectedQuality;
+            const backendQuality = selectedFormat === 'audio' ? selectedQuality.replace(' kbps', '') : selectedQuality;
             
-            // Call backend API
+            // Call backend API with correct parameters
             const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(currentVideoUrl)}&type=${backendType}&quality=${backendQuality}`);
             
             if (!response.ok) {
@@ -2235,17 +2205,16 @@
                 throw new Error('No download URL received');
             }
             
-            // Generate filename
-            let filename;
-            if (data.filename) {
-                filename = data.filename;
-            } else {
-                const title = videoMetadata?.title || 'youtube_video';
-                const cleanTitle = title
+            // Use filename from backend or generate one
+            let filename = data.filename;
+            if (!filename && videoMetadata?.title) {
+                const cleanTitle = videoMetadata.title
                     .replace(/[^a-z0-9]/gi, '_')
                     .replace(/_+/g, '_')
                     .substring(0, 50);
                 filename = `${cleanTitle}_${selectedQualityData.quality.replace(/\s+/g, '_')}.${backendType}`;
+            } else if (!filename) {
+                filename = `youtube_video_${selectedQualityData.quality.replace(/\s+/g, '_')}.${backendType}`;
             }
             
             // Start download
@@ -2256,6 +2225,12 @@
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+            
+            // Update file size in table if provided by backend
+            if (data.fileSize && selectedQualityData) {
+                selectedQualityData.fileSize = data.fileSize;
+                updateFileSizeInTable(selectedQualityData);
+            }
             
             showNotification(`Download started: ${filename}`, 'success');
             
@@ -2271,6 +2246,20 @@
         }
     }
 
+    function updateFileSizeInTable(formatData) {
+        // Find and update the file size in the quality table
+        const allRows = document.querySelectorAll('#video-quality-table tr, #audio-quality-table tr');
+        allRows.forEach(row => {
+            const rowData = JSON.parse(row.dataset.format || '{}');
+            if (rowData.quality === formatData.quality && rowData.type === formatData.type) {
+                const sizeCell = row.querySelector('td:nth-child(4)'); // 4th column is file size
+                if (sizeCell) {
+                    sizeCell.textContent = formatData.fileSize;
+                }
+            }
+        });
+    }
+
     function extractVideoId(url) {
         const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
         const match = url.match(regExp);
@@ -2283,6 +2272,8 @@
         if (typeof num === 'string') {
             num = parseInt(num.replace(/,/g, ''));
         }
+        
+        if (isNaN(num)) return '0';
         
         if (num >= 1000000000) {
             return (num / 1000000000).toFixed(1) + 'B';
@@ -2410,6 +2401,23 @@
                 }
             });
         }
+        
+        // Initialize quality tables with empty message
+        videoQualityTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-8 text-gray-500">
+                    Analyze a video to see available qualities
+                </td>
+            </tr>
+        `;
+        
+        audioQualityTable.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-8 text-gray-500">
+                    Analyze a video to see available qualities
+                </td>
+            </tr>
+        `;
     });
 </script>
 </body>

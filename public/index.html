@@ -306,7 +306,7 @@
             }
         }
         
-        /* ========== YOUTUBE DOWNLOADER HERO ========== */
+        /* ========== YOUTUBE DOWNLOADER HERO WITH BACKGROUND ========== */
         .yt-hero-section {
             position: relative;
             min-height: 600px;
@@ -491,6 +491,14 @@
             line-height: 1.4;
         }
         
+        .video-description {
+            color: #6b7280;
+            line-height: 1.6;
+            max-height: 120px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
         .video-stats {
             display: flex;
             flex-wrap: wrap;
@@ -510,8 +518,33 @@
             color: #ff0000;
         }
         
-        /* Download Options */
-        .download-options {
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: #f9fafb;
+            border-radius: 0.75rem;
+            border: 1px solid #e5e7eb;
+            margin-top: 1rem;
+        }
+        
+        .channel-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #e5e7eb;
+        }
+        
+        .channel-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Quality Selection Table */
+        .quality-section {
             background: white;
             border-radius: 1.5rem;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -521,63 +554,120 @@
             display: none;
         }
         
-        .download-options-header {
+        .quality-header {
             padding: 1.5rem 2rem;
             border-bottom: 1px solid #f3f4f6;
             background: #f9fafb;
         }
         
-        .download-options-content {
+        .quality-content {
             padding: 2rem;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
         }
         
-        @media (min-width: 768px) {
-            .download-options-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        .download-option {
-            background: #f9fafb;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 1px solid #e5e7eb;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .download-option:hover {
-            border-color: #7c3aed;
-            background: #faf5ff;
-            transform: translateY(-2px);
-        }
-        
-        .download-option.selected {
-            border-color: #7c3aed;
-            background: #faf5ff;
-            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.1);
-        }
-        
-        .download-option-icon {
-            width: 50px;
-            height: 50px;
-            background: #7c3aed;
-            border-radius: 0.75rem;
+        /* Format Tabs */
+        .format-tabs {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.5rem;
         }
         
-        .download-option-icon i {
-            font-size: 1.5rem;
+        .format-tab {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: #6b7280;
+        }
+        
+        .format-tab:hover {
+            background: #f9fafb;
+            color: #374151;
+        }
+        
+        .format-tab.active {
+            background: #7c3aed;
             color: white;
         }
         
-        /* Download Button */
+        /* Quality Table */
+        .quality-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .quality-table thead {
+            background: #f9fafb;
+        }
+        
+        .quality-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .quality-table tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .quality-table tbody tr:hover {
+            background: #faf5ff;
+        }
+        
+        .quality-table td {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            color: #6b7280;
+        }
+        
+        .quality-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .quality-radio {
+            width: 20px;
+            height: 20px;
+            accent-color: #7c3aed;
+            cursor: pointer;
+        }
+        
+        .quality-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            color: #374151;
+        }
+        
+        .quality-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .quality-badge.video {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .quality-badge.audio {
+            background: #dcfce7;
+            color: #166534;
+        }
+        
+        /* Download Button Container */
         .download-btn-container {
             text-align: center;
             margin-top: 2rem;
@@ -621,6 +711,116 @@
             padding: 2.5rem;
             margin: 2rem 0;
             display: none;
+        }
+        
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+        
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #e5e7eb;
+            z-index: 1;
+        }
+        
+        .progress-step {
+            text-align: center;
+            flex: 1;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-icon {
+            width: 48px;
+            height: 48px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            border: 3px solid white;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active .step-icon {
+            background: #7c3aed;
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #f3f4f6;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #7c3aed, #8b5cf6);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+        
+        @media (min-width: 640px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-3px);
+            border-color: #7c3aed;
+        }
+        
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: #faf5ff;
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+        
+        .feature-icon i {
+            font-size: 1.75rem;
+            color: #7c3aed;
         }
         
         /* ========== MOBILE MENU ========== */
@@ -734,6 +934,19 @@
         
         .fade-in-up {
             animation: fadeInUp 0.5s ease forwards;
+        }
+
+        /* Skeleton loading */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 0.5rem;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
         }
 
     </style>
@@ -880,7 +1093,7 @@
         <div class="content-container">
             <!-- Step 1: URL Input -->
             <div class="url-input-container" id="step1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Download YouTube Videos & Music</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Step 1: Enter YouTube URL</h2>
                 <div class="url-input-wrapper">
                     <input 
                         type="url"
@@ -903,7 +1116,7 @@
                         <span class="btn-text">Get Download Options</span>
                         <span class="btn-loading" style="display: none;">
                             <i data-lucide="loader" class="h-4 w-4 animate-spin"></i>
-                            Loading...
+                            Analyzing...
                         </span>
                     </button>
                     <button id="clear-btn" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
@@ -948,66 +1161,108 @@
                                 <i data-lucide="calendar" class="h-4 w-4"></i>
                                 <span id="video-date">Loading date...</span>
                             </div>
+                            <div class="stat-item">
+                                <i data-lucide="thumbs-up" class="h-4 w-4"></i>
+                                <span id="video-likes">Loading likes...</span>
+                            </div>
                         </div>
                         
-                        <div id="video-description" class="text-gray-600 mt-4">
-                            Video description will appear here...
+                        <div class="channel-info">
+                            <div class="channel-avatar">
+                                <img id="channel-avatar" src="" alt="Channel Avatar">
+                            </div>
+                            <div>
+                                <div id="channel-name" class="font-medium text-gray-900">Loading channel...</div>
+                                <div id="channel-subs" class="text-sm text-gray-600">Loading subscribers...</div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-medium text-gray-900 mb-2">Description</h4>
+                            <div id="video-description" class="video-description">
+                                Video description will appear here...
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <button id="select-quality-btn" class="analyze-btn w-full">
+                                <i data-lucide="download" class="h-4 w-4"></i>
+                                Select Quality & Download
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3: Download Options -->
-            <div class="download-options" id="step3">
-                <div class="download-options-header">
-                    <h2 class="text-2xl font-bold text-gray-900">Select Download Format</h2>
-                    <p class="text-gray-600 mt-1">Choose your preferred download option</p>
+            <!-- Step 3: Quality Selection -->
+            <div class="quality-section" id="step3">
+                <div class="quality-header">
+                    <h2 class="text-2xl font-bold text-gray-900">Select Quality & Format</h2>
+                    <p class="text-gray-600 mt-1">Choose your preferred download options</p>
                 </div>
-                <div class="download-options-content">
-                    <div class="download-option selected" data-type="mp4">
-                        <div class="download-option-icon">
-                            <i class="fas fa-video"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Download Video (MP4)</h3>
-                        <p class="text-gray-600 text-sm mb-3">
-                            Download the video with audio in MP4 format. Standard 360p quality.
-                        </p>
-                        <div class="text-sm text-gray-500">
-                            <i data-lucide="check-circle" class="h-4 w-4 inline mr-1 text-green-500"></i>
-                            Includes video and audio
-                        </div>
+                <div class="quality-content">
+                    <div class="format-tabs">
+                        <button class="format-tab active" data-format="video">
+                            <i data-lucide="video" class="h-4 w-4 inline mr-2"></i>
+                            Video (MP4)
+                        </button>
+                        <button class="format-tab" data-format="audio">
+                            <i data-lucide="music" class="h-4 w-4 inline mr-2"></i>
+                            Audio (MP3)
+                        </button>
                     </div>
                     
-                    <div class="download-option" data-type="mp3">
-                        <div class="download-option-icon">
-                            <i class="fas fa-music"></i>
-                        </div>
-                        <h3 class="text-lg font-bold text-gray-900 mb-2">Download Audio (MP3)</h3>
-                        <p class="text-gray-600 text-sm mb-3">
-                            Download only audio in MP3 format. High quality 128kbps.
+                    <!-- Video Qualities Table -->
+                    <div id="video-qualities" class="quality-table-container">
+                        <table class="quality-table">
+                            <thead>
+                                <tr>
+                                    <th width="50">Select</th>
+                                    <th>Quality</th>
+                                    <th>Format</th>
+                                    <th>Size</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="video-quality-table">
+                                <!-- Video quality rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Audio Qualities Table -->
+                    <div id="audio-qualities" class="quality-table-container" style="display: none;">
+                        <table class="quality-table">
+                            <thead>
+                                <tr>
+                                    <th width="50">Select</th>
+                                    <th>Quality</th>
+                                    <th>Format</th>
+                                    <th>Size</th>
+                                    <th>Type</th>
+                                </tr>
+                            </thead>
+                            <tbody id="audio-quality-table">
+                                <!-- Audio quality rows will be inserted here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="download-btn-container" id="download-btn-container">
+                        <button id="download-btn" class="download-btn" disabled>
+                            <i data-lucide="download" class="h-5 w-5"></i>
+                            <span class="btn-text">Download Now</span>
+                            <span class="btn-loading" style="display: none;">
+                                <i data-lucide="loader" class="h-5 w-5 animate-spin"></i>
+                                Preparing...
+                            </span>
+                        </button>
+                        <p class="text-gray-500 text-sm mt-3">
+                            <i data-lucide="shield" class="h-4 w-4 inline mr-1"></i>
+                            Secure download · No registration required
                         </p>
-                        <div class="text-sm text-gray-500">
-                            <i data-lucide="check-circle" class="h-4 w-4 inline mr-1 text-green-500"></i>
-                            Audio only, smaller file size
-                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Step 4: Download Button -->
-            <div class="download-btn-container" id="step4">
-                <button id="download-btn" class="download-btn">
-                    <i data-lucide="download" class="h-5 w-5"></i>
-                    <span class="btn-text">Start Download</span>
-                    <span class="btn-loading" style="display: none;">
-                        <i data-lucide="loader" class="h-5 w-5 animate-spin"></i>
-                        Preparing download...
-                    </span>
-                </button>
-                <p class="text-gray-500 text-sm mt-3">
-                    <i data-lucide="shield" class="h-4 w-4 inline mr-1"></i>
-                    Secure download · No registration required
-                </p>
             </div>
 
             <!-- Features Section -->
@@ -1019,29 +1274,37 @@
                     </p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="bg-white rounded-xl p-6 border border-gray-200">
-                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="zap" class="h-5 w-5 text-purple-600"></i>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
                         </div>
                         <h4 class="text-lg font-bold text-gray-900 mb-2">Lightning Fast</h4>
                         <p class="text-gray-600 text-sm">Download videos in seconds with our optimized servers.</p>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-6 border border-gray-200">
-                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="shield" class="h-5 w-5 text-purple-600"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
                         </div>
                         <h4 class="text-lg font-bold text-gray-900 mb-2">100% Safe</h4>
                         <p class="text-gray-600 text-sm">No malware, no viruses. Your safety is our priority.</p>
                     </div>
                     
-                    <div class="bg-white rounded-xl p-6 border border-gray-200">
-                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
-                            <i data-lucide="infinity" class="h-5 w-5 text-purple-600"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-infinity"></i>
                         </div>
                         <h4 class="text-lg font-bold text-gray-900 mb-2">Unlimited Downloads</h4>
                         <p class="text-gray-600 text-sm">No daily limits or restrictions. Download as much as you want.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Mobile Friendly</h4>
+                        <p class="text-gray-600 text-sm">Works perfectly on smartphones, tablets, and desktops.</p>
                     </div>
                 </div>
             </div>
@@ -1122,9 +1385,9 @@
         const analyzeBtn = document.getElementById('analyze-btn');
         const clearBtn = document.getElementById('clear-btn');
         const videoInfoSection = document.getElementById('step2');
-        const downloadOptions = document.getElementById('step3');
-        const downloadBtnContainer = document.getElementById('step4');
+        const qualitySection = document.getElementById('step3');
         const downloadBtn = document.getElementById('download-btn');
+        const selectQualityBtn = document.getElementById('select-quality-btn');
         
         // Video info elements
         const videoTitle = document.getElementById('video-title');
@@ -1132,16 +1395,27 @@
         const videoViews = document.getElementById('video-views');
         const videoDuration = document.getElementById('video-duration');
         const videoDate = document.getElementById('video-date');
+        const videoLikes = document.getElementById('video-likes');
+        const channelAvatar = document.getElementById('channel-avatar');
+        const channelName = document.getElementById('channel-name');
+        const channelSubs = document.getElementById('channel-subs');
         const videoDescription = document.getElementById('video-description');
         
-        // Download options
-        const downloadOptionElements = document.querySelectorAll('.download-option');
+        // Quality tables
+        const videoQualityTable = document.getElementById('video-quality-table');
+        const audioQualityTable = document.getElementById('audio-quality-table');
+        const formatTabs = document.querySelectorAll('.format-tab');
+        const videoQualitiesDiv = document.getElementById('video-qualities');
+        const audioQualitiesDiv = document.getElementById('audio-qualities');
+        const downloadBtnContainer = document.getElementById('download-btn-container');
         
         // State
         let currentVideoUrl = '';
         let currentVideoId = '';
-        let selectedType = 'mp4';
+        let selectedFormat = 'video';
+        let selectedQuality = null;
         let videoMetadata = null;
+        let availableFormats = [];
 
         // Initialize
         function initYouTubeDownloader() {
@@ -1150,13 +1424,26 @@
             analyzeBtn.addEventListener('click', analyzeVideo);
             clearBtn.addEventListener('click', resetDownloader);
             downloadBtn.addEventListener('click', startDownload);
+            selectQualityBtn.addEventListener('click', showQualitySelection);
             
-            // Download option selection
-            downloadOptionElements.forEach(option => {
-                option.addEventListener('click', () => {
-                    downloadOptionElements.forEach(opt => opt.classList.remove('selected'));
-                    option.classList.add('selected');
-                    selectedType = option.getAttribute('data-type');
+            // Format tabs
+            formatTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    formatTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    selectedFormat = tab.dataset.format;
+                    
+                    if (selectedFormat === 'video') {
+                        videoQualitiesDiv.style.display = 'block';
+                        audioQualitiesDiv.style.display = 'none';
+                    } else {
+                        videoQualitiesDiv.style.display = 'none';
+                        audioQualitiesDiv.style.display = 'block';
+                    }
+                    
+                    // Reset selection
+                    selectedQuality = null;
+                    downloadBtn.disabled = true;
                 });
             });
             
@@ -1169,6 +1456,9 @@
                     analyzeVideo();
                 }
             });
+            
+            // Initialize
+            validateYouTubeUrl();
         }
 
         async function pasteFromClipboard() {
@@ -1210,9 +1500,20 @@
                 currentVideoUrl = query;
                 currentVideoId = extractVideoId(query);
                 
-                // Show video info section with loading state
+                // Show video info section with skeleton loading
                 videoInfoSection.style.display = 'block';
                 videoInfoSection.classList.add('fade-in-up');
+                
+                // Set skeleton loading states
+                videoTitle.textContent = 'Loading video information...';
+                videoTitle.classList.add('skeleton', 'h-8', 'w-3/4');
+                videoViews.textContent = 'Loading views...';
+                videoDuration.textContent = 'Loading duration...';
+                videoDate.textContent = 'Loading date...';
+                videoLikes.textContent = 'Loading likes...';
+                channelName.textContent = 'Loading channel...';
+                channelSubs.textContent = 'Loading subscribers...';
+                videoDescription.textContent = 'Fetching video details from YouTube...';
                 
                 // Set thumbnail based on video ID (if available)
                 if (currentVideoId) {
@@ -1224,12 +1525,28 @@
                     videoThumbnail.src = 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
                 }
                 
-                // Set initial text
-                videoTitle.textContent = 'Fetching video information...';
-                videoViews.textContent = 'Loading...';
-                videoDuration.textContent = 'Loading...';
-                videoDate.textContent = 'Loading...';
-                videoDescription.textContent = 'Fetching video details from YouTube...';
+                // Fetch video metadata from your backend
+                const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(query)}&type=info`);
+                
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.error) {
+                    throw new Error(data.error);
+                }
+                
+                // Update video metadata
+                videoMetadata = data.metadata || {};
+                availableFormats = data.formats || [];
+                
+                // Update UI with actual data
+                updateVideoInfoUI();
+                
+                // Show notification
+                showNotification('Video information loaded successfully!', 'success');
                 
                 // Scroll to video info
                 setTimeout(() => {
@@ -1239,42 +1556,20 @@
                     });
                 }, 100);
                 
-                // Show notification
-                showNotification('Fetching video information...', 'info');
-                
-                // Note: We can't fetch actual metadata without a separate API call
-                // For now, we'll show placeholder info and proceed to download options
-                
-                // Simulate a short delay
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Update with placeholder info
-                videoTitle.textContent = 'YouTube Video';
-                videoViews.textContent = 'Views: Loading...';
-                videoDuration.textContent = 'Duration: Loading...';
-                videoDate.textContent = 'Uploaded: Recently';
-                videoDescription.textContent = 'Video information will be available when you start the download.';
-                
-                // Show download options
-                downloadOptions.style.display = 'block';
-                downloadOptions.classList.add('fade-in-up');
-                
-                // Show download button
-                downloadBtnContainer.style.display = 'block';
-                
-                // Scroll to download options
-                setTimeout(() => {
-                    downloadOptions.scrollIntoView({ 
-                        behavior: 'smooth', 
-                        block: 'center'
-                    });
-                }, 100);
-                
-                showNotification('Ready to download! Select your format.', 'success');
-                
             } catch (err) {
                 console.error('Analysis Error:', err);
                 showError('Failed to analyze video. Please check the URL and try again.');
+                
+                // Show placeholder info
+                videoTitle.textContent = 'YouTube Video';
+                videoTitle.classList.remove('skeleton', 'h-8', 'w-3/4');
+                videoViews.textContent = 'Views: Not available';
+                videoDuration.textContent = 'Duration: Not available';
+                videoDate.textContent = 'Uploaded: Not available';
+                videoLikes.textContent = 'Likes: Not available';
+                channelName.textContent = 'YouTube Channel';
+                channelSubs.textContent = 'Subscribers: Not available';
+                videoDescription.textContent = 'Video details could not be loaded. You can still download the video.';
             } finally {
                 analyzeBtn.disabled = false;
                 analyzeBtn.querySelector('.btn-text').style.display = 'flex';
@@ -1282,15 +1577,177 @@
             }
         }
 
-        function extractVideoId(url) {
-            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-            const match = url.match(regExp);
-            return (match && match[7].length === 11) ? match[7] : null;
+        function updateVideoInfoUI() {
+            if (!videoMetadata) return;
+            
+            // Remove skeleton classes
+            videoTitle.classList.remove('skeleton', 'h-8', 'w-3/4');
+            
+            // Update video info
+            videoTitle.textContent = videoMetadata.title || 'YouTube Video';
+            videoViews.textContent = videoMetadata.views ? `Views: ${formatNumber(videoMetadata.views)}` : 'Views: Not available';
+            videoDuration.textContent = videoMetadata.duration ? `Duration: ${videoMetadata.duration}` : 'Duration: Not available';
+            videoDate.textContent = videoMetadata.uploadDate ? `Uploaded: ${videoMetadata.uploadDate}` : 'Uploaded: Not available';
+            videoLikes.textContent = videoMetadata.likes ? `Likes: ${formatNumber(videoMetadata.likes)}` : 'Likes: Not available';
+            
+            // Update channel info
+            if (videoMetadata.channel) {
+                channelName.textContent = videoMetadata.channel.name || 'YouTube Channel';
+                channelSubs.textContent = videoMetadata.channel.subscribers ? 
+                    `${formatNumber(videoMetadata.channel.subscribers)} subscribers` : 'Subscribers: Not available';
+                
+                if (videoMetadata.channel.avatar) {
+                    channelAvatar.src = videoMetadata.channel.avatar;
+                }
+            }
+            
+            // Update description
+            if (videoMetadata.description) {
+                videoDescription.textContent = videoMetadata.description.length > 200 
+                    ? videoMetadata.description.substring(0, 200) + '...' 
+                    : videoMetadata.description;
+            }
+            
+            // Update thumbnail if available from metadata
+            if (videoMetadata.thumbnail && currentVideoId) {
+                videoThumbnail.src = videoMetadata.thumbnail;
+            }
+        }
+
+        function showQualitySelection() {
+            if (!availableFormats || availableFormats.length === 0) {
+                showNotification('No download formats available for this video', 'error');
+                return;
+            }
+            
+            // Populate quality tables
+            populateQualityTables();
+            
+            // Show quality section
+            qualitySection.style.display = 'block';
+            qualitySection.classList.add('fade-in-up');
+            downloadBtnContainer.style.display = 'block';
+            
+            // Scroll to quality section
+            setTimeout(() => {
+                qualitySection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'
+                });
+            }, 100);
+        }
+
+        function populateQualityTables() {
+            // Clear existing rows
+            videoQualityTable.innerHTML = '';
+            audioQualityTable.innerHTML = '';
+            
+            // Filter video and audio formats
+            const videoFormats = availableFormats.filter(f => f.type === 'video');
+            const audioFormats = availableFormats.filter(f => f.type === 'audio');
+            
+            // Populate video table
+            if (videoFormats.length > 0) {
+                videoFormats.forEach((format, index) => {
+                    const row = createQualityRow(format, index === 0);
+                    videoQualityTable.appendChild(row);
+                    if (index === 0) {
+                        selectedQuality = format;
+                        downloadBtn.disabled = false;
+                    }
+                });
+            } else {
+                videoQualityTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-gray-500">
+                            <i data-lucide="alert-circle" class="h-8 w-8 mx-auto mb-2"></i>
+                            <p>No video formats available for this video</p>
+                        </td>
+                    </tr>
+                `;
+            }
+            
+            // Populate audio table
+            if (audioFormats.length > 0) {
+                audioFormats.forEach((format, index) => {
+                    const row = createQualityRow(format, index === 0);
+                    audioQualityTable.appendChild(row);
+                });
+            } else {
+                audioQualityTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="text-center py-8 text-gray-500">
+                            <i data-lucide="alert-circle" class="h-8 w-8 mx-auto mb-2"></i>
+                            <p>No audio formats available for this video</p>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function createQualityRow(format, isDefault = false) {
+            const row = document.createElement('tr');
+            
+            const qualityLabel = format.quality || format.bitrate || 'Unknown';
+            const fileSize = format.fileSize ? format.fileSize : 'Unknown';
+            const typeBadge = format.type === 'video' ? 'Video' : 'Audio';
+            const badgeClass = format.type === 'video' ? 'quality-badge video' : 'quality-badge audio';
+            
+            row.innerHTML = `
+                <td>
+                    <input 
+                        type="radio" 
+                        name="quality" 
+                        value="${format.quality || format.bitrate}"
+                        class="quality-radio" 
+                        ${isDefault ? 'checked' : ''}
+                        data-format='${JSON.stringify(format).replace(/'/g, "\\'")}'
+                        onchange="selectQuality(this)"
+                    >
+                </td>
+                <td>
+                    <div class="quality-label">
+                        ${qualityLabel}
+                    </div>
+                </td>
+                <td>${format.ext || format.type === 'video' ? 'MP4' : 'MP3'}</td>
+                <td>${fileSize}</td>
+                <td><span class="${badgeClass}">${typeBadge}</span></td>
+            `;
+            
+            return row;
+        }
+
+        function selectQuality(radio) {
+            const formatData = JSON.parse(radio.getAttribute('data-format'));
+            selectedQuality = formatData;
+            downloadBtn.disabled = false;
+            
+            // Update selected format type
+            selectedFormat = formatData.type;
+            
+            // Update active tab
+            formatTabs.forEach(tab => {
+                if (tab.dataset.format === selectedFormat) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // Show correct table
+            if (selectedFormat === 'video') {
+                videoQualitiesDiv.style.display = 'block';
+                audioQualitiesDiv.style.display = 'none';
+            } else {
+                videoQualitiesDiv.style.display = 'none';
+                audioQualitiesDiv.style.display = 'block';
+            }
         }
 
         async function startDownload() {
-            if (!currentVideoUrl) {
-                showNotification('Please enter a YouTube URL first', 'error');
+            if (!selectedQuality || !currentVideoUrl) {
+                showNotification('Please select a quality first', 'error');
                 return;
             }
             
@@ -1300,10 +1757,14 @@
             downloadBtn.querySelector('.btn-loading').style.display = 'flex';
             
             try {
-                showNotification('Getting download link...', 'info');
+                showNotification('Preparing your download...', 'info');
                 
-                // Call your backend API
-                const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(currentVideoUrl)}&type=${selectedType}`);
+                // Build download URL
+                const qualityParam = selectedQuality.quality || selectedQuality.bitrate || 'best';
+                const typeParam = selectedFormat;
+                
+                // Call your backend API for download
+                const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(currentVideoUrl)}&type=${typeParam}&quality=${qualityParam}`);
                 
                 if (!response.ok) {
                     throw new Error(`Server error: ${response.status}`);
@@ -1322,17 +1783,12 @@
                 // Start the actual download
                 const link = document.createElement('a');
                 link.href = data.url;
-                link.download = data.filename || `youtube_${selectedType === 'mp4' ? 'video' : 'audio'}.${selectedType}`;
+                link.download = data.filename || `youtube_${typeParam}.${selectedFormat === 'video' ? 'mp4' : 'mp3'}`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
                 
                 showNotification(`Download started: ${data.filename}`, 'success');
-                
-                // Update video info with actual data if available
-                if (data.metadata) {
-                    updateVideoInfo(data.metadata);
-                }
                 
             } catch (err) {
                 console.error('Download Error:', err);
@@ -1344,32 +1800,10 @@
             }
         }
 
-        function updateVideoInfo(metadata) {
-            if (metadata) {
-                videoTitle.textContent = metadata.title || 'YouTube Video';
-                
-                if (metadata.views) {
-                    videoViews.textContent = `Views: ${formatNumber(metadata.views)}`;
-                }
-                
-                if (metadata.timestamp) {
-                    videoDuration.textContent = `Duration: ${metadata.timestamp}`;
-                }
-                
-                if (metadata.ago) {
-                    videoDate.textContent = `Uploaded: ${metadata.ago}`;
-                }
-                
-                if (metadata.description) {
-                    videoDescription.textContent = metadata.description.length > 200 
-                        ? metadata.description.substring(0, 200) + '...' 
-                        : metadata.description;
-                }
-                
-                if (metadata.image && currentVideoId) {
-                    videoThumbnail.src = metadata.image;
-                }
-            }
+        function extractVideoId(url) {
+            const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[7].length === 11) ? match[7] : null;
         }
 
         function formatNumber(num) {
@@ -1379,6 +1813,9 @@
                 num = parseInt(num.replace(/,/g, ''));
             }
             
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(1) + 'B';
+            }
             if (num >= 1000000) {
                 return (num / 1000000).toFixed(1) + 'M';
             }
@@ -1391,21 +1828,41 @@
         function resetDownloader() {
             // Hide all sections
             videoInfoSection.style.display = 'none';
-            downloadOptions.style.display = 'none';
+            qualitySection.style.display = 'none';
             downloadBtnContainer.style.display = 'none';
             
             // Reset inputs
             youtubeUrlInput.value = '';
             analyzeBtn.disabled = true;
             
-            // Reset selections
+            // Reset state
             currentVideoUrl = '';
             currentVideoId = '';
-            selectedType = 'mp4';
+            selectedFormat = 'video';
+            selectedQuality = null;
+            videoMetadata = null;
+            availableFormats = [];
             
-            // Reset option selection
-            downloadOptionElements[0].classList.add('selected');
-            downloadOptionElements[1].classList.remove('selected');
+            // Reset UI
+            videoTitle.textContent = 'Loading video information...';
+            videoViews.textContent = 'Loading views...';
+            videoDuration.textContent = 'Loading duration...';
+            videoDate.textContent = 'Loading date...';
+            videoLikes.textContent = 'Loading likes...';
+            channelName.textContent = 'Loading channel...';
+            channelSubs.textContent = 'Loading subscribers...';
+            videoDescription.textContent = 'Video description will appear here...';
+            channelAvatar.src = '';
+            
+            // Reset quality tables
+            videoQualityTable.innerHTML = '';
+            audioQualityTable.innerHTML = '';
+            
+            // Reset tabs
+            formatTabs[0].classList.add('active');
+            formatTabs[1].classList.remove('active');
+            videoQualitiesDiv.style.display = 'block';
+            audioQualitiesDiv.style.display = 'none';
             
             // Scroll back to top
             youtubeUrlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });

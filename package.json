@@ -1,0 +1,19 @@
+{
+  "name": "youtube-web-downloader",
+  "version": "1.0.0",
+  "description": "YouTube Audio/Video Downloader Web App using @vreden/youtube_scraper",
+  "main": "index.js",
+  "scripts": {
+    "start": "vercel dev",
+    "deploy": "vercel"
+  },
+  "dependencies": {
+    "@vreden/youtube_scraper": "^1.2.8",
+    "yt-search": "^2.13.1",
+    "he": "^1.2.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {},
+  "author": "Your Name",
+  "license": "MIT"
+}

@@ -306,7 +306,7 @@
             }
         }
         
-        /* ========== YOUTUBE DOWNLOADER HERO WITH BACKGROUND ========== */
+        /* ========== YOUTUBE DOWNLOADER HERO ========== */
         .yt-hero-section {
             position: relative;
             min-height: 600px;
@@ -491,14 +491,6 @@
             line-height: 1.4;
         }
         
-        .video-description {
-            color: #6b7280;
-            line-height: 1.6;
-            max-height: 120px;
-            overflow-y: auto;
-            padding-right: 0.5rem;
-        }
-        
         .video-stats {
             display: flex;
             flex-wrap: wrap;
@@ -518,33 +510,8 @@
             color: #ff0000;
         }
         
-        .channel-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: #f9fafb;
-            border-radius: 0.75rem;
-            border: 1px solid #e5e7eb;
-            margin-top: 1rem;
-        }
-        
-        .channel-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            overflow: hidden;
-            background: #e5e7eb;
-        }
-        
-        .channel-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        /* Quality Selection Table */
-        .quality-section {
+        /* Download Options */
+        .download-options {
             background: white;
             border-radius: 1.5rem;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
@@ -554,120 +521,63 @@
             display: none;
         }
         
-        .quality-header {
+        .download-options-header {
             padding: 1.5rem 2rem;
             border-bottom: 1px solid #f3f4f6;
             background: #f9fafb;
         }
         
-        .quality-content {
+        .download-options-content {
             padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
         }
         
-        /* Format Tabs */
-        .format-tabs {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            border-bottom: 1px solid #e5e7eb;
-            padding-bottom: 0.5rem;
+        @media (min-width: 768px) {
+            .download-options-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
         
-        .format-tab {
-            padding: 0.75rem 1.5rem;
-            background: transparent;
-            border: none;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #6b7280;
-        }
-        
-        .format-tab:hover {
+        .download-option {
             background: #f9fafb;
-            color: #374151;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
         
-        .format-tab.active {
+        .download-option:hover {
+            border-color: #7c3aed;
+            background: #faf5ff;
+            transform: translateY(-2px);
+        }
+        
+        .download-option.selected {
+            border-color: #7c3aed;
+            background: #faf5ff;
+            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.1);
+        }
+        
+        .download-option-icon {
+            width: 50px;
+            height: 50px;
             background: #7c3aed;
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .download-option-icon i {
+            font-size: 1.5rem;
             color: white;
         }
         
-        /* Quality Table */
-        .quality-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            border-radius: 1rem;
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
-        }
-        
-        .quality-table thead {
-            background: #f9fafb;
-        }
-        
-        .quality-table th {
-            padding: 1rem 1.5rem;
-            text-align: left;
-            font-weight: 600;
-            color: #374151;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .quality-table tbody tr {
-            transition: all 0.2s ease;
-        }
-        
-        .quality-table tbody tr:hover {
-            background: #faf5ff;
-        }
-        
-        .quality-table td {
-            padding: 1rem 1.5rem;
-            border-bottom: 1px solid #e5e7eb;
-            color: #6b7280;
-        }
-        
-        .quality-table tr:last-child td {
-            border-bottom: none;
-        }
-        
-        .quality-radio {
-            width: 20px;
-            height: 20px;
-            accent-color: #7c3aed;
-            cursor: pointer;
-        }
-        
-        .quality-label {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-weight: 500;
-            color: #374151;
-        }
-        
-        .quality-badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-        }
-        
-        .quality-badge.video {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .quality-badge.audio {
-            background: #dcfce7;
-            color: #166534;
-        }
-        
-        /* Download Button Container */
+        /* Download Button */
         .download-btn-container {
             text-align: center;
             margin-top: 2rem;
@@ -711,116 +621,6 @@
             padding: 2.5rem;
             margin: 2rem 0;
             display: none;
-        }
-        
-        .progress-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2.5rem;
-            position: relative;
-        }
-        
-        .progress-steps::before {
-            content: '';
-            position: absolute;
-            top: 24px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: #e5e7eb;
-            z-index: 1;
-        }
-        
-        .progress-step {
-            text-align: center;
-            flex: 1;
-            position: relative;
-            z-index: 2;
-        }
-        
-        .step-icon {
-            width: 48px;
-            height: 48px;
-            background: #f3f4f6;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            border: 3px solid white;
-            transition: all 0.3s ease;
-        }
-        
-        .progress-step.active .step-icon {
-            background: #7c3aed;
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        .progress-bar {
-            height: 8px;
-            background: #f3f4f6;
-            border-radius: 4px;
-            overflow: hidden;
-            margin: 2rem 0;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #7c3aed, #8b5cf6);
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 4px;
-        }
-        
-        /* Features Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        @media (min-width: 640px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .features-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            border: 1px solid #e5e7eb;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-3px);
-            border-color: #7c3aed;
-        }
-        
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: #faf5ff;
-            border-radius: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-        }
-        
-        .feature-icon i {
-            font-size: 1.75rem;
-            color: #7c3aed;
         }
         
         /* ========== MOBILE MENU ========== */
@@ -940,7 +740,7 @@
 </head>
 <body class="bg-gray-50">
 
-    <!-- Fixed Navigation - Exact Copy from Your Pages -->
+    <!-- Fixed Navigation -->
     <header>
         <div class="nav-container">
             <!-- Logo -->
@@ -952,238 +752,44 @@
                 >
             </a>
 
-            <!-- Desktop Search Bar -->
-            <div class="search-container hidden lg:block">
-                <form action="https://wall-rust.vercel.app/" method="GET" target="_blank">
-                    <i data-lucide="search" class="search-icon h-4 w-4"></i>
-                    <input 
-                        type="search" 
-                        name="q"
-                        placeholder="Search images, wallpapers, videos..." 
-                        class="search-input"
-                        required
-                    >
-                </form>
-            </div>
-
-            <!-- Desktop Navigation with Dropdowns -->
+            <!-- Desktop Navigation -->
             <nav class="desktop-nav">
-                <!-- Images Dropdown -->
+                <div class="nav-item">
+                    <a href="/" class="nav-link">
+                        <span>Home</span>
+                    </a>
+                </div>
                 <div class="nav-item">
                     <a href="#" class="nav-link">
                         <span>Images</span>
                         <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Browse Images by Category</h4>
-                        <div class="nav-image-grid">
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                    alt="Nature" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Nature</h5>
-                                    <p class="text-xs text-gray-500">2,500+ images</p>
-                                </div>
-                            </div>
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/abstract-nav-bar.jpg?raw=true" 
-                                    alt="Abstract" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Abstract</h5>
-                                    <p class="text-xs text-gray-500">1,800+ images</p>
-                                </div>
-                            </div>
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                    alt="Business" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Business</h5>
-                                    <p class="text-xs text-gray-500">3,200+ images</p>
-                                </div>
-                            </div>
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/technology-nav-bar.png?raw=true" 
-                                    alt="Technology" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Technology</h5>
-                                    <p class="text-xs text-gray-500">2,100+ images</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <h5 class="font-medium text-gray-900 mb-2">Popular Searches</h5>
-                                    <div class="flex flex-wrap gap-2">
-                                        <a href="https://wall-rust.vercel.app/?q=wallpapers" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Wallpapers</a>
-                                        <a href="https://wall-rust.vercel.app/?q=stock+photos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Photos</a>
-                                        <a href="https://wall-rust.vercel.app/?q=ai+generated" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">AI Generated</a>
-                                        <a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Videos</a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h5 class="font-medium text-gray-900 mb-2">Quick Links</h5>
-                                    <div class="space-y-1">
-                                        <a href="#trending-gallery" class="block text-sm text-gray-600 hover:text-purple-600">Trending Images</a>
-                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">New Arrivals</a>
-                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">Premium Collection</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                
-                <!-- Videos Dropdown -->
                 <div class="nav-item">
                     <a href="#" class="nav-link">
                         <span>Videos</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Video Collections</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="video" class="h-4 w-4"></i> Stock Videos</a></li>
-                                    <li><a href="https://wall-rust.vercel.app/?q=motion+graphics" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="film" class="h-4 w-4"></i> Motion Graphics</a></li>
-                                    <li><a href="https://wall-rust.vercel.app/?q=4k+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Videos</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Travel Video" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">Travel & Adventure</h6>
-                                            <p class="text-xs text-gray-500">850+ videos</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                
                 <div class="nav-item">
-                    <a href="#" class="nav-link active">
+                    <a href="#" class="nav-link">
                         <span>Wallpapers</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Wallpaper Collections</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="wallpapers.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="image" class="h-4 w-4"></i> HD Wallpapers</a></li>
-                                    <li><a href="wallpapers.html?q=4k+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Wallpapers</a></li>
-                                    <li><a href="wallpapers.html?q=mobile+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="smartphone" class="h-4 w-4"></i> Mobile Wallpapers</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Nature Wallpaper" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">Nature & Landscape</h6>
-                                            <p class="text-xs text-gray-500">1,200+ wallpapers</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                
                 <div class="nav-item">
                     <a href="#" class="nav-link">
                         <span>AI Tools</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
                     </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">AI Tools</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">AI Tools</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="ai-image-generator.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="sparkles" class="h-4 w-4"></i> AI Image Generator</a></li>
-                                    <li><a href="ai-background-remover.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="scissors" class="h-4 w-4"></i> Background Remover</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/ai-image-generator.webp?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="AI Image Generator" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">AI Image Generator</h6>
-                                            <p class="text-xs text-gray-500">Create AI art from text</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://github.com/danukaya123/bgtest/blob/main/bgremove-banner.PNG?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Background Remover" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">Background Remover</h6>
-                                            <p class="text-xs text-gray-500">Remove backgrounds instantly</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-                
-                <!-- YouTube Downloader Link -->
                 <div class="nav-item">
                     <a href="youtube-downloader.html" class="nav-link" style="color: #ff0000;">
                         <i class="fab fa-youtube h-4 w-4 mr-1"></i>
                         <span>YouTube Downloader</span>
                     </a>
                 </div>
-                
-                <button class="cta-button ml-2">
-                    Get Started Free
-                </button>
             </nav>
 
-            <!-- Mobile Search and Menu -->
+            <!-- Mobile Menu Button -->
             <div class="flex items-center gap-4 lg:hidden">
-                <div class="search-container">
-                    <form action="https://wall-rust.vercel.app/" method="GET" target="_blank">
-                        <i data-lucide="search" class="search-icon h-4 w-4"></i>
-                        <input 
-                            type="search" 
-                            name="q"
-                            placeholder="Search..." 
-                            class="search-input"
-                            required
-                        >
-                    </form>
-                </div>
                 <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
                     <i data-lucide="menu" class="h-6 w-6"></i>
                 </button>
@@ -1211,36 +817,14 @@
                 <i data-lucide="home" class="h-5 w-5 mr-3"></i>
                 Home
             </a>
-            <a href="copyright-free-images.html" class="mobile-nav-link">
-                <i data-lucide="image" class="h-5 w-5 mr-3"></i>
-                Free Images
-            </a>
-            <a href="videos.html" class="mobile-nav-link">
-                <i data-lucide="video" class="h-5 w-5 mr-3"></i>
-                Videos
-            </a>
-            <a href="wallpapers.html" class="mobile-nav-link">
-                <i data-lucide="layout" class="h-5 w-5 mr-3"></i>
-                Wallpapers
-            </a>
-            <a href="ai-image-generator.html" class="mobile-nav-link">
-                <i data-lucide="zap" class="h-5 w-5 mr-3"></i>
-                AI Generator
-            </a>
             <a href="youtube-downloader.html" class="mobile-nav-link active">
                 <i class="fab fa-youtube h-5 w-5 mr-3" style="color: #ff0000;"></i>
                 YouTube Downloader
             </a>
         </div>
-        
-        <div class="mobile-cta">
-            <button class="cta-button w-full" onclick="closeMobileMenu()">
-                Get Started Free
-            </button>
-        </div>
     </div>
 
-    <!-- Hero Section with YouTube Background -->
+    <!-- Hero Section -->
     <section class="yt-hero-section">
         <div class="hero-background"></div>
         <div class="hero-overlay"></div>
@@ -1296,7 +880,7 @@
         <div class="content-container">
             <!-- Step 1: URL Input -->
             <div class="url-input-container" id="step1">
-                <h2 class="text-2xl font-bold text-gray-900 mb-4">Step 1: Enter YouTube URL</h2>
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">Download YouTube Videos & Music</h2>
                 <div class="url-input-wrapper">
                     <input 
                         type="url"
@@ -1316,10 +900,10 @@
                 <div class="url-actions">
                     <button id="analyze-btn" class="analyze-btn">
                         <i data-lucide="search" class="h-4 w-4"></i>
-                        <span class="btn-text">Analyze Video</span>
+                        <span class="btn-text">Get Download Options</span>
                         <span class="btn-loading" style="display: none;">
                             <i data-lucide="loader" class="h-4 w-4 animate-spin"></i>
-                            Analyzing...
+                            Loading...
                         </span>
                     </button>
                     <button id="clear-btn" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium transition-colors">
@@ -1329,7 +913,7 @@
                 </div>
                 <div class="mt-4 flex items-center gap-2 text-sm text-gray-500">
                     <i data-lucide="info" class="h-4 w-4"></i>
-                    Works with YouTube videos, shorts, music, and playlists
+                    Works with YouTube videos, shorts, music, and playlists. You can also paste a search term.
                 </div>
             </div>
 
@@ -1350,162 +934,80 @@
                     </div>
                     
                     <div class="video-details">
-                        <h3 id="video-title" class="video-title">Video Title</h3>
+                        <h3 id="video-title" class="video-title">Loading video information...</h3>
                         <div class="video-stats">
                             <div class="stat-item">
                                 <i data-lucide="eye" class="h-4 w-4"></i>
-                                <span id="video-views">0 views</span>
+                                <span id="video-views">Loading views...</span>
                             </div>
                             <div class="stat-item">
                                 <i data-lucide="clock" class="h-4 w-4"></i>
-                                <span id="video-duration">0:00</span>
+                                <span id="video-duration">Loading duration...</span>
                             </div>
                             <div class="stat-item">
                                 <i data-lucide="calendar" class="h-4 w-4"></i>
-                                <span id="video-date">Just now</span>
-                            </div>
-                            <div class="stat-item">
-                                <i data-lucide="thumbs-up" class="h-4 w-4"></i>
-                                <span id="video-likes">0 likes</span>
+                                <span id="video-date">Loading date...</span>
                             </div>
                         </div>
                         
-                        <div class="channel-info">
-                            <div class="channel-avatar">
-                                <img id="channel-avatar" src="" alt="Channel Avatar">
-                            </div>
-                            <div>
-                                <div id="channel-name" class="font-medium text-gray-900">Channel Name</div>
-                                <div id="channel-subs" class="text-sm text-gray-600">0 subscribers</div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h4 class="font-medium text-gray-900 mb-2">Description</h4>
-                            <div id="video-description" class="video-description">
-                                Video description will appear here...
-                            </div>
-                        </div>
-                        
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <button id="select-quality-btn" class="analyze-btn w-full">
-                                <i data-lucide="download" class="h-4 w-4"></i>
-                                Select Quality & Download
-                            </button>
+                        <div id="video-description" class="text-gray-600 mt-4">
+                            Video description will appear here...
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Step 3: Quality Selection -->
-            <div class="quality-section" id="step3">
-                <div class="quality-header">
-                    <h2 class="text-2xl font-bold text-gray-900">Select Quality & Format</h2>
-                    <p class="text-gray-600 mt-1">Choose your preferred download options</p>
+            <!-- Step 3: Download Options -->
+            <div class="download-options" id="step3">
+                <div class="download-options-header">
+                    <h2 class="text-2xl font-bold text-gray-900">Select Download Format</h2>
+                    <p class="text-gray-600 mt-1">Choose your preferred download option</p>
                 </div>
-                <div class="quality-content">
-                    <div class="format-tabs">
-                        <button class="format-tab active" data-format="video">
-                            <i data-lucide="video" class="h-4 w-4 inline mr-2"></i>
-                            Video (MP4)
-                        </button>
-                        <button class="format-tab" data-format="audio">
-                            <i data-lucide="music" class="h-4 w-4 inline mr-2"></i>
-                            Audio (MP3)
-                        </button>
-                    </div>
-                    
-                    <!-- Video Qualities Table -->
-                    <div id="video-qualities" class="quality-table-container">
-                        <table class="quality-table">
-                            <thead>
-                                <tr>
-                                    <th width="50">Select</th>
-                                    <th>Quality</th>
-                                    <th>Format</th>
-                                    <th>Size</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                            <tbody id="video-quality-table">
-                                <!-- Video quality rows will be inserted here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <!-- Audio Qualities Table -->
-                    <div id="audio-qualities" class="quality-table-container" style="display: none;">
-                        <table class="quality-table">
-                            <thead>
-                                <tr>
-                                    <th width="50">Select</th>
-                                    <th>Quality</th>
-                                    <th>Format</th>
-                                    <th>Size</th>
-                                    <th>Type</th>
-                                </tr>
-                            </thead>
-                            <tbody id="audio-quality-table">
-                                <!-- Audio quality rows will be inserted here -->
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                    <div class="download-btn-container" id="download-btn-container">
-                        <button id="download-btn" class="download-btn" disabled>
-                            <i data-lucide="download" class="h-5 w-5"></i>
-                            <span class="btn-text">Download Now</span>
-                            <span class="btn-loading" style="display: none;">
-                                <i data-lucide="loader" class="h-5 w-5 animate-spin"></i>
-                                Preparing...
-                            </span>
-                        </button>
-                        <p class="text-gray-500 text-sm mt-3">
-                            <i data-lucide="shield" class="h-4 w-4 inline mr-1"></i>
-                            Secure download · No registration required
+                <div class="download-options-content">
+                    <div class="download-option selected" data-type="mp4">
+                        <div class="download-option-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Download Video (MP4)</h3>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Download the video with audio in MP4 format. Standard 360p quality.
                         </p>
+                        <div class="text-sm text-gray-500">
+                            <i data-lucide="check-circle" class="h-4 w-4 inline mr-1 text-green-500"></i>
+                            Includes video and audio
+                        </div>
+                    </div>
+                    
+                    <div class="download-option" data-type="mp3">
+                        <div class="download-option-icon">
+                            <i class="fas fa-music"></i>
+                        </div>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Download Audio (MP3)</h3>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Download only audio in MP3 format. High quality 128kbps.
+                        </p>
+                        <div class="text-sm text-gray-500">
+                            <i data-lucide="check-circle" class="h-4 w-4 inline mr-1 text-green-500"></i>
+                            Audio only, smaller file size
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Progress Container -->
-            <div id="download-progress" class="progress-container">
-                <div class="text-center mb-6">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Preparing Your Download</h3>
-                    <p class="text-gray-600">We're fetching the video details and preparing your download.</p>
-                </div>
-                
-                <div class="progress-steps">
-                    <div class="progress-step" id="progress-step1">
-                        <div class="step-icon">
-                            <i data-lucide="link" class="h-5 w-5"></i>
-                        </div>
-                        <div class="text-sm font-medium text-gray-700">Validating URL</div>
-                    </div>
-                    
-                    <div class="progress-step" id="progress-step2">
-                        <div class="step-icon">
-                            <i data-lucide="download" class="h-5 w-5"></i>
-                        </div>
-                        <div class="text-sm font-medium text-gray-700">Fetching Details</div>
-                    </div>
-                    
-                    <div class="progress-step" id="progress-step3">
-                        <div class="step-icon">
-                            <i data-lucide="zap" class="h-5 w-5"></i>
-                        </div>
-                        <div class="text-sm font-medium text-gray-700">Preparing Download</div>
-                    </div>
-                </div>
-                
-                <div class="progress-bar">
-                    <div id="progress-fill" class="progress-fill"></div>
-                </div>
-                
-                <div class="flex justify-between items-center mt-6">
-                    <div class="text-purple-600 font-medium" id="progress-time">Estimated time: 15s</div>
-                    <div class="text-gray-500 text-sm">Please don't close this page</div>
-                </div>
+            <!-- Step 4: Download Button -->
+            <div class="download-btn-container" id="step4">
+                <button id="download-btn" class="download-btn">
+                    <i data-lucide="download" class="h-5 w-5"></i>
+                    <span class="btn-text">Start Download</span>
+                    <span class="btn-loading" style="display: none;">
+                        <i data-lucide="loader" class="h-5 w-5 animate-spin"></i>
+                        Preparing download...
+                    </span>
+                </button>
+                <p class="text-gray-500 text-sm mt-3">
+                    <i data-lucide="shield" class="h-4 w-4 inline mr-1"></i>
+                    Secure download · No registration required
+                </p>
             </div>
 
             <!-- Features Section -->
@@ -1517,37 +1019,29 @@
                     </p>
                 </div>
                 
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="zap" class="h-5 w-5 text-purple-600"></i>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900 mb-2">Fast Download</h4>
-                        <p class="text-gray-600 text-sm">High-speed downloads with optimized servers for quick results.</p>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">Lightning Fast</h4>
+                        <p class="text-gray-600 text-sm">Download videos in seconds with our optimized servers.</p>
                     </div>
                     
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="shield" class="h-5 w-5 text-purple-600"></i>
                         </div>
-                        <h4 class="text-lg font-bold text-gray-900 mb-2">Safe & Secure</h4>
+                        <h4 class="text-lg font-bold text-gray-900 mb-2">100% Safe</h4>
                         <p class="text-gray-600 text-sm">No malware, no viruses. Your safety is our priority.</p>
                     </div>
                     
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-infinity"></i>
+                    <div class="bg-white rounded-xl p-6 border border-gray-200">
+                        <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                            <i data-lucide="infinity" class="h-5 w-5 text-purple-600"></i>
                         </div>
                         <h4 class="text-lg font-bold text-gray-900 mb-2">Unlimited Downloads</h4>
                         <p class="text-gray-600 text-sm">No daily limits or restrictions. Download as much as you want.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-mobile-alt"></i>
-                        </div>
-                        <h4 class="text-lg font-bold text-gray-900 mb-2">Mobile Friendly</h4>
-                        <p class="text-gray-600 text-sm">Works perfectly on smartphones, tablets, and desktops.</p>
                     </div>
                 </div>
             </div>
@@ -1568,11 +1062,6 @@
                     </div>
                     
                     <div class="bg-white rounded-xl p-6 border border-gray-200">
-                        <h4 class="text-lg font-bold text-gray-900 mb-2">What video qualities are available?</h4>
-                        <p class="text-gray-600">We support multiple qualities from 144p to 4K. The available qualities depend on the original video's upload quality on YouTube.</p>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl p-6 border border-gray-200">
                         <h4 class="text-lg font-bold text-gray-900 mb-2">Can I download YouTube Shorts or Music?</h4>
                         <p class="text-gray-600">Yes! Our downloader works with all YouTube content including Shorts, Music videos, playlists (individual videos), and regular videos.</p>
                     </div>
@@ -1581,40 +1070,10 @@
         </div>
     </main>
 
-    <!-- Footer - Exact Copy from Your Pages -->
+    <!-- Footer -->
     <footer class="bg-gray-900 text-white">
         <div class="content-container py-12">
-            <!-- Newsletter -->
-            <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 md:p-8 mb-8 md:mb-12">
-                <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
-                    <div>
-                        <h3 class="text-xl md:text-2xl font-bold mb-3">Stay Updated with Creative Insights</h3>
-                        <p class="text-blue-100 text-sm md:text-base">
-                            Subscribe to our newsletter for the latest design trends and AI tips.
-                        </p>
-                    </div>
-                    <div>
-                        <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 md:gap-4">
-                            <input 
-                                type="email" 
-                                placeholder="Enter your email address" 
-                                class="flex-1 px-4 md:px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-sm md:text-base"
-                                required
-                            >
-                            <button 
-                                type="submit" 
-                                class="bg-white text-purple-600 px-6 md:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap text-sm md:text-base"
-                            >
-                                Subscribe
-                            </button>
-                        </form>
-                        <p class="text-xs md:text-sm text-blue-200 mt-2 md:mt-3">By subscribing, you agree to our Privacy Policy.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Links -->
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
                 <!-- Logo and Social -->
                 <div class="col-span-2 md:col-span-2">
                     <a href="/" class="inline-block mb-4">
@@ -1627,39 +1086,6 @@
                     <p class="mt-2 md:mt-4 text-gray-400 text-sm mb-4 md:mb-6">
                         Quizontal is a free and easy-to-use platform that provides high-quality stock photos and HD videos for both personal and commercial use. 
                     </p>
-                    <div class="flex space-x-3 md:space-x-4">
-                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
-                            <i data-lucide="facebook" class="h-4 w-4 md:h-5 md:w-5"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
-                            <i data-lucide="youtube" class="h-4 w-4 md:h-5 md:w-5"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
-                            <i data-lucide="linkedin" class="h-4 w-4 md:h-5 md:w-5"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Product Column -->
-                <div>
-                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Services</h3>
-                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
-                        <li><a href="copyright-free-images.html" class="hover:text-white transition-colors block">Images</a></li>
-                        <li><a href="wallpapers.html" class="hover:text-white transition-colors block">Wallpapers</a></li>
-                        <li><a href="videos.html" class="hover:text-white transition-colors block">Videos</a></li>
-                        <li><a href="ai-image-generator.html" class="hover:text-white transition-colors block">AI Generator</a></li>
-                        <li><a href="youtube-downloader.html" class="hover:text-white transition-colors block">YouTube Downloader</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Company Column -->
-                <div>
-                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Company</h3>
-                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors block">About Us</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors block">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors block">Contact</a></li>
-                    </ul>
                 </div>
                 
                 <!-- Support Column -->
@@ -1678,10 +1104,6 @@
                 <p class="text-gray-400 text-xs md:text-sm text-center md:text-left mb-4 md:mb-0">
                     © 2025 Quizontal. All rights reserved.
                 </p>
-                <div class="flex space-x-4 md:space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">Terms of Service</a>
-                </div>
             </div>
         </div>
     </footer>
@@ -1691,9 +1113,8 @@
         // Initialize Lucide icons
         lucide.createIcons();
 
-        // YouTube Downloader Logic
-        const DOWNLOAD_API = "https://yt-web-six.vercel.app/api/download";
-        const MOCK_API = false; // Set to false when backend is ready
+        // Your Backend API URL
+        const BACKEND_API = "https://yt-web-six.vercel.app/api/download";
         
         // DOM Elements
         const youtubeUrlInput = document.getElementById('youtube-url');
@@ -1701,14 +1122,9 @@
         const analyzeBtn = document.getElementById('analyze-btn');
         const clearBtn = document.getElementById('clear-btn');
         const videoInfoSection = document.getElementById('step2');
-        const qualitySection = document.getElementById('step3');
-        const selectQualityBtn = document.getElementById('select-quality-btn');
-        const formatTabs = document.querySelectorAll('.format-tab');
+        const downloadOptions = document.getElementById('step3');
+        const downloadBtnContainer = document.getElementById('step4');
         const downloadBtn = document.getElementById('download-btn');
-        const downloadBtnContainer = document.getElementById('download-btn-container');
-        const downloadProgress = document.getElementById('download-progress');
-        const progressFill = document.getElementById('progress-fill');
-        const progressTime = document.getElementById('progress-time');
         
         // Video info elements
         const videoTitle = document.getElementById('video-title');
@@ -1716,22 +1132,16 @@
         const videoViews = document.getElementById('video-views');
         const videoDuration = document.getElementById('video-duration');
         const videoDate = document.getElementById('video-date');
-        const videoLikes = document.getElementById('video-likes');
-        const channelName = document.getElementById('channel-name');
-        const channelAvatar = document.getElementById('channel-avatar');
-        const channelSubs = document.getElementById('channel-subs');
         const videoDescription = document.getElementById('video-description');
         
-        // Tables
-        const videoQualityTable = document.getElementById('video-quality-table');
-        const audioQualityTable = document.getElementById('audio-quality-table');
+        // Download options
+        const downloadOptionElements = document.querySelectorAll('.download-option');
         
         // State
-        let currentVideoData = null;
-        let selectedFormat = 'video'; // 'video' or 'audio'
-        let selectedQuality = null;
-        let progressInterval;
-        let currentProgress = 0;
+        let currentVideoUrl = '';
+        let currentVideoId = '';
+        let selectedType = 'mp4';
+        let videoMetadata = null;
 
         // Initialize
         function initYouTubeDownloader() {
@@ -1739,32 +1149,16 @@
             pasteBtn.addEventListener('click', pasteFromClipboard);
             analyzeBtn.addEventListener('click', analyzeVideo);
             clearBtn.addEventListener('click', resetDownloader);
-            selectQualityBtn.addEventListener('click', showQualitySelection);
+            downloadBtn.addEventListener('click', startDownload);
             
-            // Format tabs
-            formatTabs.forEach(tab => {
-                tab.addEventListener('click', () => {
-                    formatTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    selectedFormat = tab.getAttribute('data-format');
-                    
-                    // Show/hide quality tables
-                    if (selectedFormat === 'video') {
-                        document.getElementById('video-qualities').style.display = 'block';
-                        document.getElementById('audio-qualities').style.display = 'none';
-                    } else {
-                        document.getElementById('video-qualities').style.display = 'none';
-                        document.getElementById('audio-qualities').style.display = 'block';
-                    }
-                    
-                    // Reset selected quality
-                    selectedQuality = null;
-                    downloadBtn.disabled = true;
+            // Download option selection
+            downloadOptionElements.forEach(option => {
+                option.addEventListener('click', () => {
+                    downloadOptionElements.forEach(opt => opt.classList.remove('selected'));
+                    option.classList.add('selected');
+                    selectedType = option.getAttribute('data-type');
                 });
             });
-            
-            // Download button
-            downloadBtn.addEventListener('click', startDownload);
             
             // URL input validation
             youtubeUrlInput.addEventListener('input', validateYouTubeUrl);
@@ -1773,31 +1167,6 @@
             youtubeUrlInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Enter') {
                     analyzeVideo();
-                }
-            });
-            
-            // Add event listeners for quality selection
-            setupQualityTableListeners();
-        }
-
-        function setupQualityTableListeners() {
-            // Event delegation for quality selection
-            document.addEventListener('change', (e) => {
-                if (e.target.classList.contains('quality-radio')) {
-                    selectedQuality = e.target.value;
-                    downloadBtn.disabled = false;
-                    
-                    // Update UI to show selected quality
-                    document.querySelectorAll('.quality-radio').forEach(radio => {
-                        const row = radio.closest('tr');
-                        if (radio.checked) {
-                            row.style.backgroundColor = '#faf5ff';
-                            row.style.borderLeft = '3px solid #7c3aed';
-                        } else {
-                            row.style.backgroundColor = '';
-                            row.style.borderLeft = '';
-                        }
-                    });
                 }
             });
         }
@@ -1816,31 +1185,18 @@
 
         function validateYouTubeUrl() {
             const url = youtubeUrlInput.value.trim();
-            const youtubeRegex = /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+/;
-            const isValid = youtubeRegex.test(url);
+            const isValid = url.length > 0;
             
-            if (url && !isValid) {
-                youtubeUrlInput.classList.add('border-red-300');
-                analyzeBtn.disabled = true;
-            } else {
-                youtubeUrlInput.classList.remove('border-red-300');
-                analyzeBtn.disabled = !url;
-            }
-            
+            analyzeBtn.disabled = !isValid;
             return isValid;
         }
 
         async function analyzeVideo() {
-            const url = youtubeUrlInput.value.trim();
+            const query = youtubeUrlInput.value.trim();
             
-            if (!url) {
-                showNotification('Please enter a YouTube URL', 'error');
+            if (!query) {
+                showNotification('Please enter a YouTube URL or search term', 'error');
                 youtubeUrlInput.focus();
-                return;
-            }
-            
-            if (!validateYouTubeUrl()) {
-                showNotification('Please enter a valid YouTube URL', 'error');
                 return;
             }
             
@@ -1850,49 +1206,75 @@
             analyzeBtn.querySelector('.btn-loading').style.display = 'flex';
             
             try {
-                // Show progress
-                startProgressAnimation();
-                updateProgressStep(1);
+                // Store current query
+                currentVideoUrl = query;
+                currentVideoId = extractVideoId(query);
                 
-                // Fetch video metadata (mock or real API)
-                if (MOCK_API) {
-                    // Use mock data for demonstration
-                    await simulateProgress(1500);
-                    currentVideoData = await fetchMockVideoData(url);
-                } else {
-                    // Fetch from real API
-                    currentVideoData = await fetchVideoMetadata(url);
-                }
-                
-                updateProgressStep(2);
-                await simulateProgress(1000);
-                
-                // Stop progress and show video info
-                stopProgress();
-                downloadProgress.style.display = 'none';
-                
-                // Display video information
-                displayVideoInfo(currentVideoData);
-                
-                // Show video info section with animation
+                // Show video info section with loading state
                 videoInfoSection.style.display = 'block';
                 videoInfoSection.classList.add('fade-in-up');
                 
-                // Scroll to video info section
+                // Set thumbnail based on video ID (if available)
+                if (currentVideoId) {
+                    videoThumbnail.src = `https://i.ytimg.com/vi/${currentVideoId}/maxresdefault.jpg`;
+                    videoThumbnail.onerror = () => {
+                        videoThumbnail.src = `https://i.ytimg.com/vi/${currentVideoId}/hqdefault.jpg`;
+                    };
+                } else {
+                    videoThumbnail.src = 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
+                }
+                
+                // Set initial text
+                videoTitle.textContent = 'Fetching video information...';
+                videoViews.textContent = 'Loading...';
+                videoDuration.textContent = 'Loading...';
+                videoDate.textContent = 'Loading...';
+                videoDescription.textContent = 'Fetching video details from YouTube...';
+                
+                // Scroll to video info
                 setTimeout(() => {
                     videoInfoSection.scrollIntoView({ 
                         behavior: 'smooth', 
-                        block: 'center',
-                        inline: 'nearest'
+                        block: 'center'
                     });
                 }, 100);
                 
-                showNotification('Video information loaded successfully!', 'success');
+                // Show notification
+                showNotification('Fetching video information...', 'info');
+                
+                // Note: We can't fetch actual metadata without a separate API call
+                // For now, we'll show placeholder info and proceed to download options
+                
+                // Simulate a short delay
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Update with placeholder info
+                videoTitle.textContent = 'YouTube Video';
+                videoViews.textContent = 'Views: Loading...';
+                videoDuration.textContent = 'Duration: Loading...';
+                videoDate.textContent = 'Uploaded: Recently';
+                videoDescription.textContent = 'Video information will be available when you start the download.';
+                
+                // Show download options
+                downloadOptions.style.display = 'block';
+                downloadOptions.classList.add('fade-in-up');
+                
+                // Show download button
+                downloadBtnContainer.style.display = 'block';
+                
+                // Scroll to download options
+                setTimeout(() => {
+                    downloadOptions.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'center'
+                    });
+                }, 100);
+                
+                showNotification('Ready to download! Select your format.', 'success');
                 
             } catch (err) {
                 console.error('Analysis Error:', err);
-                stopProgress();
-                showError(err.message || 'Failed to analyze video. Please check the URL and try again.');
+                showError('Failed to analyze video. Please check the URL and try again.');
             } finally {
                 analyzeBtn.disabled = false;
                 analyzeBtn.querySelector('.btn-text').style.display = 'flex';
@@ -1900,246 +1282,17 @@
             }
         }
 
-        async function fetchVideoMetadata(url) {
-            // This would call your actual backend
-            const videoId = extractVideoId(url);
-            
-            // For now, return mock data
-            return getMockVideoData(videoId);
-        }
-
-        function fetchMockVideoData(url) {
-            const videoId = extractVideoId(url) || 'dQw4w9WgXcQ';
-            
-            // Mock data based on @vreden/youtube_scraper output structure
-            return {
-                status: true,
-                creator: "@vreden/youtube_scraper",
-                metadata: {
-                    type: "video",
-                    videoId: videoId,
-                    url: `https://youtube.com/watch?v=${videoId}`,
-                    title: "Sample YouTube Video - Amazing Content",
-                    description: "This is a sample video description. In a real implementation, this would be fetched from YouTube API. The video shows amazing content that you'll love to watch and download.",
-                    image: `https://i.ytimg.com/vi/${videoId}/hq720.jpg`,
-                    thumbnail: `https://i.ytimg.com/vi/${videoId}/hq720.jpg`,
-                    seconds: 245,
-                    timestamp: "4:05",
-                    duration: { seconds: 245, timestamp: "4:05" },
-                    ago: "2 weeks ago",
-                    views: 1543287,
-                    author: {
-                        name: "Sample Channel",
-                        url: "https://youtube.com/channel/UCxxxxxxxx"
-                    }
-                },
-                download: {
-                    status: true,
-                    quality: "128kbps",
-                    availableQuality: [92, 128, 256, 320],
-                    url: "#",
-                    filename: `Sample_Video_${videoId}.mp3`
-                }
-            };
-        }
-
-        function getMockVideoData(videoId) {
-            // More detailed mock data
-            return {
-                id: videoId,
-                channel_id: "UCX6OQ3DkcsbYNE6H8uQQuVA",
-                channel_title: "Sample Creator",
-                title: "Amazing YouTube Video Tutorial 2024",
-                description: "This is a detailed description of the video. It contains information about the content, timestamps, and other relevant details. This text would normally come from the YouTube API.",
-                thumbnails: [
-                    {
-                        quality: "maxres",
-                        url: `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
-                        width: 1280,
-                        height: 720
-                    }
-                ],
-                tags: ["tutorial", "2024", "how-to", "education", "learning"],
-                published_date: "2024-01-15T14:30:00Z",
-                published_format: "15 Jan 2024, 14:30 UTC",
-                statistics: {
-                    like: "15432",
-                    view: "1254321",
-                    favorit: "5432",
-                    comment: "843"
-                },
-                channel_metadata: {
-                    id: "UCX6OQ3DkcsbYNE6H8uQQuVA",
-                    title: "Sample Creator Channel",
-                    description: "Creating amazing content for everyone",
-                    thumbnails: [
-                        {
-                            quality: "high",
-                            url: "https://yt3.ggpht.com/example-avatar.jpg",
-                            width: 800,
-                            height: 800
-                        }
-                    ],
-                    banner: "https://yt3.googleusercontent.com/example-banner.jpg",
-                    statistics: {
-                        view: "98788932",
-                        video: "154",
-                        subscriber: "1250000"
-                    }
-                }
-            };
-        }
-
         function extractVideoId(url) {
             const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
             const match = url.match(regExp);
-            return (match && match[7].length === 11) ? match[7] : 'dQw4w9WgXcQ';
-        }
-
-        function displayVideoInfo(data) {
-            // Update video information
-            if (data.metadata) {
-                // @vreden/youtube_scraper format
-                videoTitle.textContent = data.metadata.title;
-                videoThumbnail.src = data.metadata.image;
-                videoViews.textContent = formatNumber(data.metadata.views) + ' views';
-                videoDuration.textContent = data.metadata.timestamp;
-                videoDate.textContent = data.metadata.ago;
-                videoLikes.textContent = 'Loading...';
-                channelName.textContent = data.metadata.author.name;
-                channelAvatar.src = `https://i.ytimg.com/vi/${data.metadata.videoId}/default.jpg`;
-                channelSubs.textContent = 'Loading subscribers...';
-                videoDescription.textContent = data.metadata.description || 'No description available.';
-                
-                // Generate quality tables based on available qualities
-                generateQualityTables(data);
-            } else {
-                // Mock data format
-                videoTitle.textContent = data.title;
-                videoThumbnail.src = data.thumbnails[0].url;
-                videoViews.textContent = formatNumber(data.statistics.view) + ' views';
-                videoDuration.textContent = '4:05'; // Would come from actual duration
-                videoDate.textContent = data.published_format;
-                videoLikes.textContent = formatNumber(data.statistics.like) + ' likes';
-                channelName.textContent = data.channel_title;
-                channelAvatar.src = data.channel_metadata?.thumbnails[0]?.url || `https://i.ytimg.com/vi/${data.id}/default.jpg`;
-                channelSubs.textContent = formatNumber(data.channel_metadata?.statistics?.subscriber || 1250000) + ' subscribers';
-                videoDescription.textContent = data.description || 'No description available.';
-                
-                // Generate quality tables
-                generateQualityTables(data);
-            }
-        }
-
-        function generateQualityTables(data) {
-            // Clear existing rows
-            videoQualityTable.innerHTML = '';
-            audioQualityTable.innerHTML = '';
-            
-            // Video qualities (simulated based on typical YouTube qualities)
-            const videoQualities = [
-                { quality: '144p', format: 'MP4', size: '15-25 MB', type: 'Low', bitrate: '144' },
-                { quality: '240p', format: 'MP4', size: '25-40 MB', type: 'Low', bitrate: '240' },
-                { quality: '360p', format: 'MP4', size: '40-70 MB', type: 'Standard', bitrate: '360' },
-                { quality: '480p', format: 'MP4', size: '70-120 MB', type: 'Standard', bitrate: '480' },
-                { quality: '720p', format: 'MP4', size: '120-250 MB', type: 'HD', bitrate: '720' },
-                { quality: '1080p', format: 'MP4', size: '250-500 MB', type: 'Full HD', bitrate: '1080' },
-                { quality: '1440p', format: 'MP4', size: '500-800 MB', type: '2K', bitrate: '1440' },
-                { quality: '2160p', format: 'MP4', size: '800 MB - 2 GB', type: '4K', bitrate: '2160' }
-            ];
-            
-            // Audio qualities
-            const audioQualities = [
-                { quality: '64 kbps', format: 'MP3', size: '2-4 MB', type: 'Low', bitrate: '64' },
-                { quality: '128 kbps', format: 'MP3', size: '4-8 MB', type: 'Standard', bitrate: '128' },
-                { quality: '192 kbps', format: 'MP3', size: '6-12 MB', type: 'Good', bitrate: '192' },
-                { quality: '256 kbps', format: 'MP3', size: '8-16 MB', type: 'High', bitrate: '256' },
-                { quality: '320 kbps', format: 'MP3', size: '10-20 MB', type: 'Best', bitrate: '320' }
-            ];
-            
-            // Generate video quality rows
-            videoQualities.forEach((quality, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <input type="radio" name="video-quality" class="quality-radio" 
-                               value="${quality.bitrate}" ${index === 3 ? 'checked' : ''}>
-                    </td>
-                    <td>
-                        <div class="quality-label">
-                            <span>${quality.quality}</span>
-                            ${index === 5 ? '<span class="quality-badge video">Recommended</span>' : ''}
-                        </div>
-                    </td>
-                    <td>${quality.format}</td>
-                    <td>${quality.size}</td>
-                    <td>${quality.type}</td>
-                `;
-                videoQualityTable.appendChild(row);
-            });
-            
-            // Generate audio quality rows
-            audioQualities.forEach((quality, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>
-                        <input type="radio" name="audio-quality" class="quality-radio" 
-                               value="${quality.bitrate}" ${index === 1 ? 'checked' : ''}>
-                    </td>
-                    <td>
-                        <div class="quality-label">
-                            <span>${quality.quality}</span>
-                            ${index === 1 ? '<span class="quality-badge audio">Recommended</span>' : ''}
-                        </div>
-                    </td>
-                    <td>${quality.format}</td>
-                    <td>${quality.size}</td>
-                    <td>${quality.type}</td>
-                `;
-                audioQualityTable.appendChild(row);
-            });
-            
-            // Set default selection
-            if (videoQualityTable.querySelector('.quality-radio[checked]')) {
-                videoQualityTable.querySelector('.quality-radio[checked]').checked = true;
-                selectedQuality = '480'; // Default to 480p for video
-                downloadBtn.disabled = false;
-                
-                // Highlight selected row
-                const selectedRow = videoQualityTable.querySelector('.quality-radio[checked]').closest('tr');
-                selectedRow.style.backgroundColor = '#faf5ff';
-                selectedRow.style.borderLeft = '3px solid #7c3aed';
-            }
-        }
-
-        function showQualitySelection() {
-            // Show quality section with animation
-            qualitySection.style.display = 'block';
-            qualitySection.classList.add('fade-in-up');
-            
-            // Show download button container
-            downloadBtnContainer.style.display = 'block';
-            
-            // Scroll to quality section
-            setTimeout(() => {
-                qualitySection.scrollIntoView({ 
-                    behavior: 'smooth', 
-                    block: 'center',
-                    inline: 'nearest'
-                });
-            }, 100);
+            return (match && match[7].length === 11) ? match[7] : null;
         }
 
         async function startDownload() {
-            if (!selectedQuality) {
-                showNotification('Please select a quality first', 'error');
+            if (!currentVideoUrl) {
+                showNotification('Please enter a YouTube URL first', 'error');
                 return;
             }
-            
-            // Show progress
-            downloadProgress.style.display = 'block';
-            downloadProgress.classList.add('fade-in-up');
-            startProgressAnimation();
             
             // Update UI
             downloadBtn.disabled = true;
@@ -2147,32 +1300,43 @@
             downloadBtn.querySelector('.btn-loading').style.display = 'flex';
             
             try {
-                updateProgressStep(1);
-                await simulateProgress(1000);
+                showNotification('Getting download link...', 'info');
                 
-                updateProgressStep(2);
-                await simulateProgress(1000);
+                // Call your backend API
+                const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(currentVideoUrl)}&type=${selectedType}`);
                 
-                updateProgressStep(3);
-                await simulateProgress(1000);
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
                 
-                // Complete progress
-                completeProgress();
+                const data = await response.json();
                 
-                // Simulate download
-                await simulateDownload();
+                if (data.error) {
+                    throw new Error(data.error);
+                }
                 
-                showNotification('Download started successfully!', 'success');
+                if (!data.url) {
+                    throw new Error('No download URL received');
+                }
                 
-                // Reset after download
-                setTimeout(() => {
-                    resetDownloader();
-                }, 2000);
+                // Start the actual download
+                const link = document.createElement('a');
+                link.href = data.url;
+                link.download = data.filename || `youtube_${selectedType === 'mp4' ? 'video' : 'audio'}.${selectedType}`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                showNotification(`Download started: ${data.filename}`, 'success');
+                
+                // Update video info with actual data if available
+                if (data.metadata) {
+                    updateVideoInfo(data.metadata);
+                }
                 
             } catch (err) {
                 console.error('Download Error:', err);
-                stopProgress();
-                showError('Failed to start download. Please try again.');
+                showError(err.message || 'Failed to start download. Please try again.');
             } finally {
                 downloadBtn.disabled = false;
                 downloadBtn.querySelector('.btn-text').style.display = 'flex';
@@ -2180,112 +1344,37 @@
             }
         }
 
-        function simulateDownload() {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    // Create a fake download link (in real implementation, this would be your backend URL)
-                    const filename = currentVideoData?.metadata?.title 
-                        ? `${currentVideoData.metadata.title.replace(/[^a-z0-9]/gi, '_')}.${selectedFormat === 'video' ? 'mp4' : 'mp3'}`
-                        : `youtube_video.${selectedFormat === 'video' ? 'mp4' : 'mp3'}`;
-                    
-                    const blob = new Blob(['Simulated download content'], { type: 'text/plain' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    
-                    resolve();
-                }, 500);
-            });
-        }
-
-        function startProgressAnimation() {
-            currentProgress = 0;
-            const startTime = Date.now();
-            
-            // Reset steps
-            ['progress-step1', 'progress-step2', 'progress-step3'].forEach(step => {
-                document.getElementById(step).classList.remove('active');
-            });
-            
-            // Time counter
-            progressInterval = setInterval(() => {
-                const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                const remaining = Math.max(0, 15 - elapsed);
-                progressTime.textContent = `Estimated time: ${remaining}s`;
-            }, 1000);
-            
-            // Progress bar animation
-            window.progressBarInterval = setInterval(() => {
-                currentProgress += 0.5;
-                if (currentProgress > 95) currentProgress = 95;
-                progressFill.style.width = currentProgress + '%';
-            }, 100);
-        }
-
-        function updateProgressStep(stepNumber) {
-            // Activate the current step
-            for (let i = 1; i <= stepNumber; i++) {
-                document.getElementById(`progress-step${i}`).classList.add('active');
+        function updateVideoInfo(metadata) {
+            if (metadata) {
+                videoTitle.textContent = metadata.title || 'YouTube Video';
+                
+                if (metadata.views) {
+                    videoViews.textContent = `Views: ${formatNumber(metadata.views)}`;
+                }
+                
+                if (metadata.timestamp) {
+                    videoDuration.textContent = `Duration: ${metadata.timestamp}`;
+                }
+                
+                if (metadata.ago) {
+                    videoDate.textContent = `Uploaded: ${metadata.ago}`;
+                }
+                
+                if (metadata.description) {
+                    videoDescription.textContent = metadata.description.length > 200 
+                        ? metadata.description.substring(0, 200) + '...' 
+                        : metadata.description;
+                }
+                
+                if (metadata.image && currentVideoId) {
+                    videoThumbnail.src = metadata.image;
+                }
             }
-            
-            // Update progress based on step
-            const progressPercent = stepNumber * 30;
-            if (progressPercent > currentProgress) {
-                currentProgress = progressPercent;
-                progressFill.style.width = `${currentProgress}%`;
-            }
-        }
-
-        function simulateProgress(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        function completeProgress() {
-            progressFill.style.width = '100%';
-            ['progress-step1', 'progress-step2', 'progress-step3'].forEach(step => {
-                document.getElementById(step).classList.add('active');
-            });
-            
-            setTimeout(() => {
-                stopProgress();
-                downloadProgress.style.display = 'none';
-            }, 1000);
-        }
-
-        function stopProgress() {
-            if (progressInterval) clearInterval(progressInterval);
-            if (window.progressBarInterval) clearInterval(window.progressBarInterval);
-        }
-
-        function resetDownloader() {
-            // Reset all sections
-            videoInfoSection.style.display = 'none';
-            qualitySection.style.display = 'none';
-            downloadBtnContainer.style.display = 'none';
-            downloadProgress.style.display = 'none';
-            
-            // Reset inputs
-            youtubeUrlInput.value = '';
-            analyzeBtn.disabled = true;
-            downloadBtn.disabled = true;
-            
-            // Reset selections
-            selectedQuality = null;
-            currentVideoData = null;
-            
-            // Scroll back to top
-            youtubeUrlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            youtubeUrlInput.focus();
-            
-            showNotification('Ready for new download!', 'info');
         }
 
         function formatNumber(num) {
+            if (!num) return '0';
+            
             if (typeof num === 'string') {
                 num = parseInt(num.replace(/,/g, ''));
             }
@@ -2297,6 +1386,32 @@
                 return (num / 1000).toFixed(1) + 'K';
             }
             return num.toString();
+        }
+
+        function resetDownloader() {
+            // Hide all sections
+            videoInfoSection.style.display = 'none';
+            downloadOptions.style.display = 'none';
+            downloadBtnContainer.style.display = 'none';
+            
+            // Reset inputs
+            youtubeUrlInput.value = '';
+            analyzeBtn.disabled = true;
+            
+            // Reset selections
+            currentVideoUrl = '';
+            currentVideoId = '';
+            selectedType = 'mp4';
+            
+            // Reset option selection
+            downloadOptionElements[0].classList.add('selected');
+            downloadOptionElements[1].classList.remove('selected');
+            
+            // Scroll back to top
+            youtubeUrlInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            youtubeUrlInput.focus();
+            
+            showNotification('Ready for new download!', 'info');
         }
 
         function showNotification(message, type = 'info') {
@@ -2333,25 +1448,6 @@
 
         function showError(message) {
             showNotification(message, 'error');
-            
-            // Create error state
-            const errorHtml = `
-                <div class="text-center p-8">
-                    <i data-lucide="alert-triangle" class="h-12 w-12 text-red-500 mx-auto mb-4"></i>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Download Failed</h3>
-                    <p class="text-gray-600 mb-4">${message}</p>
-                    <p class="text-sm text-gray-500 mb-6">Please check the URL and try again.</p>
-                    <button onclick="resetDownloader()" class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition">
-                        Try Again
-                    </button>
-                </div>
-            `;
-            
-            // If progress container is visible, update it
-            if (downloadProgress.style.display === 'block') {
-                downloadProgress.innerHTML = errorHtml;
-                lucide.createIcons();
-            }
         }
 
         // Mobile menu functions
@@ -2370,22 +1466,6 @@
         document.addEventListener('DOMContentLoaded', () => {
             initYouTubeDownloader();
             lucide.createIcons();
-            
-            // Newsletter form
-            const newsletterForm = document.getElementById('newsletterForm');
-            if (newsletterForm) {
-                newsletterForm.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    const email = this.querySelector('input[type="email"]').value;
-                    if (email) {
-                        alert('Thank you for subscribing to updates!');
-                        this.reset();
-                    }
-                });
-            }
-            
-            // Add YouTube Downloader to desktop navigation
-            addYouTubeLinkToNav();
         });
 
     </script>

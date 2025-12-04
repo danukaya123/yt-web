@@ -1649,290 +1649,768 @@
 
     <!-- JavaScript - Fixed Version -->
 <script>
-const BACKEND_API = "https://yt-web-six.vercel.app/api/download";
+    // Initialize Lucide icons
+    lucide.createIcons();
 
-// DOM Elements
-const youtubeUrlInput = document.getElementById('youtube-url');
-const pasteBtn = document.getElementById('paste-btn');
-const analyzeBtn = document.getElementById('analyze-btn');
-const clearBtn = document.getElementById('clear-btn');
-const videoInfoSection = document.getElementById('step2');
-const qualitySection = document.getElementById('step3');
-const downloadBtn = document.getElementById('download-btn');
-const selectQualityBtn = document.getElementById('select-quality-btn');
+    // Your Backend API URL
+    const BACKEND_API = "https://yt-web-six.vercel.app/api/download";
+    
+    // DOM Elements
+    const youtubeUrlInput = document.getElementById('youtube-url');
+    const pasteBtn = document.getElementById('paste-btn');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const videoInfoSection = document.getElementById('step2');
+    const qualitySection = document.getElementById('step3');
+    const downloadBtn = document.getElementById('download-btn');
+    const selectQualityBtn = document.getElementById('select-quality-btn');
+    
+    // Video info elements
+    const videoTitle = document.getElementById('video-title');
+    const videoThumbnail = document.getElementById('video-thumbnail');
+    const videoViews = document.getElementById('video-views');
+    const videoDuration = document.getElementById('video-duration');
+    const videoDate = document.getElementById('video-date');
+    const videoLikes = document.getElementById('video-likes');
+    const channelAvatar = document.getElementById('channel-avatar');
+    const channelName = document.getElementById('channel-name');
+    const channelSubs = document.getElementById('channel-subs');
+    const videoDescription = document.getElementById('video-description');
+    
+    // Quality tables
+    const videoQualityTable = document.getElementById('video-quality-table');
+    const audioQualityTable = document.getElementById('audio-quality-table');
+    const formatTabs = document.querySelectorAll('.format-tab');
+    const videoQualitiesDiv = document.getElementById('video-qualities');
+    const audioQualitiesDiv = document.getElementById('audio-qualities');
+    const downloadBtnContainer = document.getElementById('download-btn-container');
+    
+    // State
+    let currentVideoUrl = '';
+    let currentVideoId = '';
+    let selectedFormat = 'video';
+    let selectedQuality = null;
+    let selectedQualityData = null;
+    let videoMetadata = null;
+    let availableFormats = [];
 
-const videoTitle = document.getElementById('video-title');
-const videoThumbnail = document.getElementById('video-thumbnail');
-const videoViews = document.getElementById('video-views');
-const videoDuration = document.getElementById('video-duration');
-const videoDate = document.getElementById('video-date');
-const videoLikes = document.getElementById('video-likes');
-const channelAvatar = document.getElementById('channel-avatar');
-const channelName = document.getElementById('channel-name');
-const channelSubs = document.getElementById('channel-subs');
-const videoDescription = document.getElementById('video-description');
-
-const videoQualityTable = document.getElementById('video-quality-table');
-const audioQualityTable = document.getElementById('audio-quality-table');
-const formatTabs = document.querySelectorAll('.format-tab');
-const videoQualitiesDiv = document.getElementById('video-qualities');
-const audioQualitiesDiv = document.getElementById('audio-qualities');
-const downloadBtnContainer = document.getElementById('download-btn-container');
-
-let currentVideoUrl = '';
-let currentVideoId = '';
-let selectedFormat = 'video';
-let selectedQualityData = null;
-let videoMetadata = null;
-let availableFormats = [];
-
-function initYouTubeDownloader() {
-    pasteBtn.addEventListener('click', pasteFromClipboard);
-    analyzeBtn.addEventListener('click', analyzeVideo);
-    clearBtn.addEventListener('click', resetDownloader);
-    downloadBtn.addEventListener('click', startDownload);
-    selectQualityBtn.addEventListener('click', showQualitySelection);
-
-    formatTabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            formatTabs.forEach(t => t.classList.remove('active'));
-            tab.classList.add('active');
-            selectedFormat = tab.dataset.format;
-            if (selectedFormat === 'video') {
-                videoQualitiesDiv.style.display = 'block';
-                audioQualitiesDiv.style.display = 'none';
-                selectFirstQuality('video');
-            } else {
-                videoQualitiesDiv.style.display = 'none';
-                audioQualitiesDiv.style.display = 'block';
-                selectFirstQuality('audio');
-            }
-            updateSelectedQuality();
+    // Initialize
+    function initYouTubeDownloader() {
+        // Event Listeners
+        pasteBtn.addEventListener('click', pasteFromClipboard);
+        analyzeBtn.addEventListener('click', analyzeVideo);
+        clearBtn.addEventListener('click', resetDownloader);
+        downloadBtn.addEventListener('click', startDownload);
+        selectQualityBtn.addEventListener('click', showQualitySelection);
+        
+        // Format tabs
+        formatTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                formatTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                selectedFormat = tab.dataset.format;
+                
+                if (selectedFormat === 'video') {
+                    videoQualitiesDiv.style.display = 'block';
+                    audioQualitiesDiv.style.display = 'none';
+                    selectFirstQuality('video');
+                } else {
+                    videoQualitiesDiv.style.display = 'none';
+                    audioQualitiesDiv.style.display = 'block';
+                    selectFirstQuality('audio');
+                }
+                
+                updateSelectedQuality();
+            });
         });
-    });
-
-    youtubeUrlInput.addEventListener('input', () => {
-        analyzeBtn.disabled = !youtubeUrlInput.value.trim();
-    });
-
-    youtubeUrlInput.addEventListener('keydown', e => {
-        if(e.key === 'Enter') analyzeVideo();
-    });
-}
-
-async function pasteFromClipboard() {
-    try {
-        const text = await navigator.clipboard.readText();
-        youtubeUrlInput.value = text;
-        analyzeBtn.disabled = !text.trim();
-        showNotification('URL pasted from clipboard!', 'success');
-    } catch {
-        showNotification('Unable to read clipboard', 'error');
+        
+        // URL input validation
+        youtubeUrlInput.addEventListener('input', validateYouTubeUrl);
+        
+        // Enter key to analyze
+        youtubeUrlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                analyzeVideo();
+            }
+        });
+        
+        // Initialize
+        validateYouTubeUrl();
     }
-}
 
-async function analyzeVideo() {
-    const url = youtubeUrlInput.value.trim();
-    if (!url) return showNotification('Enter a YouTube URL', 'error');
-
-    analyzeBtn.disabled = true;
-    try {
-        currentVideoUrl = url;
-        currentVideoId = extractVideoId(url);
-        showLoadingVideoInfo();
-        const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(url)}&type=info`);
-        const data = await response.json();
-
-        if (data.error) throw new Error(data.error);
-
-        videoMetadata = parseMetadata(data);
-        availableFormats = parseFormats(data);
-        updateVideoInfoUI();
-        showNotification('Video info loaded!', 'success');
-    } catch(err) {
-        console.error(err);
-        showNotification('Failed to fetch video info, using sample data.', 'error');
-        videoMetadata = sampleMetadata();
-        availableFormats = generateSampleFormats();
-        updateVideoInfoUI();
-    } finally {
-        analyzeBtn.disabled = false;
+    async function pasteFromClipboard() {
+        try {
+            const text = await navigator.clipboard.readText();
+            youtubeUrlInput.value = text;
+            validateYouTubeUrl();
+            showNotification('URL pasted from clipboard!', 'success');
+        } catch (err) {
+            console.error('Failed to read clipboard:', err);
+            showNotification('Unable to paste from clipboard. Please paste manually.', 'error');
+        }
     }
-}
 
-function showLoadingVideoInfo() {
-    videoInfoSection.style.display = 'block';
-    videoThumbnail.src = currentVideoId ? `https://i.ytimg.com/vi/${currentVideoId}/hqdefault.jpg` : '';
-    videoTitle.textContent = 'Loading...';
-    videoViews.textContent = 'Loading...';
-    videoDuration.textContent = 'Loading...';
-    videoDate.textContent = 'Loading...';
-    videoLikes.textContent = 'Loading...';
-    channelName.textContent = 'Loading...';
-    channelSubs.textContent = 'Loading...';
-    videoDescription.textContent = 'Loading...';
-}
+    function validateYouTubeUrl() {
+        const url = youtubeUrlInput.value.trim();
+        const isValid = url.length > 0;
+        
+        analyzeBtn.disabled = !isValid;
+        return isValid;
+    }
 
-function parseMetadata(data) {
-    const md = {
-        title: data.metadata?.title || 'YouTube Video',
-        views: data.metadata?.views || 0,
-        duration: data.metadata?.duration?.timestamp || '0:00',
-        uploadDate: data.metadata?.ago || 'N/A',
-        likes: data.metadata?.likes || 0,
-        channel: {
-            name: data.metadata?.author?.name || data.metadata?.channel?.title || 'YouTube Channel',
-            subscribers: data.metadata?.channel?.subscribers || 0,
-            avatar: `https://i.ytimg.com/vi/${currentVideoId}/default.jpg`
-        },
-        description: data.metadata?.description || 'No description available'
-    };
-    return md;
-}
+    async function analyzeVideo() {
+        const query = youtubeUrlInput.value.trim();
+        
+        if (!query) {
+            showNotification('Please enter a YouTube URL or search term', 'error');
+            youtubeUrlInput.focus();
+            return;
+        }
+        
+        // Update UI - Show loading state
+        analyzeBtn.disabled = true;
+        const btnText = analyzeBtn.querySelector('.btn-text');
+        const btnLoading = analyzeBtn.querySelector('.btn-loading');
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        
+        // Reset any previous video info
+        videoInfoSection.style.display = 'none';
+        qualitySection.style.display = 'none';
+        
+        try {
+            // Store current query
+            currentVideoUrl = query;
+            currentVideoId = extractVideoId(query);
+            
+            // Show video info section with loading state
+            videoInfoSection.style.display = 'block';
+            
+            // Set all fields to "Loading..." state
+            videoTitle.textContent = 'Loading video information...';
+            videoViews.textContent = 'Loading views...';
+            videoDuration.textContent = 'Loading duration...';
+            videoDate.textContent = 'Loading date...';
+            videoLikes.textContent = 'Loading likes...';
+            channelName.textContent = 'Loading channel...';
+            channelSubs.textContent = 'Loading subscribers...';
+            videoDescription.textContent = 'Fetching video details from YouTube...';
+            channelAvatar.src = '';
+            
+            // Set thumbnail placeholder
+            if (currentVideoId) {
+                videoThumbnail.src = `https://i.ytimg.com/vi/${currentVideoId}/maxresdefault.jpg`;
+                videoThumbnail.onerror = () => {
+                    videoThumbnail.src = `https://i.ytimg.com/vi/${currentVideoId}/hqdefault.jpg`;
+                };
+            } else {
+                videoThumbnail.src = 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80';
+            }
+            
+            // Scroll to video info
+            setTimeout(() => {
+                videoInfoSection.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center'
+                });
+            }, 100);
+            
+            showNotification('Fetching video information...', 'info');
+            
+            // Fetch from backend API WITHOUT type parameter first
+            const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(query)}`);
+            
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            // Extract metadata from backend response
+            videoMetadata = {
+                title: data.metadata?.title || 'YouTube Video',
+                views: data.metadata?.views || 0,
+                duration: data.metadata?.duration || data.metadata?.timestamp || '0:00',
+                uploadDate: data.metadata?.uploadDate || data.metadata?.ago || 'Unknown date',
+                likes: data.metadata?.likes || 0,
+                description: data.metadata?.description || 'No description available'
+            };
+            
+            // Generate realistic quality options
+            availableFormats = generateRealisticFormats();
+            
+            // Update UI with actual data
+            updateVideoInfoUI();
+            
+            showNotification('Video information loaded successfully!', 'success');
+            
+        } catch (err) {
+            console.error('Analysis Error:', err);
+            showNotification('Failed to fetch metadata. Showing default options...', 'warning');
+            
+            // Fallback to default data
+            videoMetadata = {
+                title: 'YouTube Video',
+                views: 0,
+                duration: '0:00',
+                uploadDate: 'Unknown date',
+                likes: 0,
+                description: 'Video information could not be fetched. You can still download using the options below.'
+            };
+            
+            availableFormats = generateRealisticFormats();
+            updateVideoInfoUI();
+        } finally {
+            // Reset button state
+            analyzeBtn.disabled = false;
+            const btnText = analyzeBtn.querySelector('.btn-text');
+            const btnLoading = analyzeBtn.querySelector('.btn-loading');
+            btnText.style.display = 'flex';
+            btnLoading.style.display = 'none';
+        }
+    }
 
-function parseFormats(data) {
-    if (data.download) {
-        const formats = [];
-        if (data.download.url) {
-            const type = data.download.filename.endsWith('.mp3') ? 'audio' : 'video';
-            formats.push({
-                quality: data.download.quality,
-                ext: type === 'audio' ? 'mp3' : 'mp4',
-                fileSize: 'Unknown',
-                url: data.download.url,
-                type
+    function updateVideoInfoUI() {
+        if (!videoMetadata) return;
+        
+        // Update video info
+        videoTitle.textContent = videoMetadata.title;
+        videoViews.textContent = formatNumber(videoMetadata.views) + ' views';
+        videoDuration.textContent = formatDuration(videoMetadata.duration);
+        videoDate.textContent = videoMetadata.uploadDate;
+        videoLikes.textContent = formatNumber(videoMetadata.likes) + ' likes';
+        videoDescription.textContent = videoMetadata.description;
+        
+        // Update channel info (default values)
+        channelName.textContent = 'YouTube Channel';
+        channelSubs.textContent = 'Unknown subscribers';
+        
+        // Set channel avatar if video ID exists
+        if (currentVideoId) {
+            channelAvatar.src = `https://i.ytimg.com/vi/${currentVideoId}/default.jpg`;
+        }
+    }
+
+    function formatDuration(duration) {
+        if (!duration) return '0:00';
+        
+        if (typeof duration === 'string') {
+            // Already formatted
+            return duration;
+        } else if (typeof duration === 'number') {
+            // Convert seconds to MM:SS
+            const minutes = Math.floor(duration / 60);
+            const seconds = Math.floor(duration % 60);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        return '0:00';
+    }
+
+    function generateRealisticFormats() {
+        return [
+            // Video formats
+            { 
+                quality: '144p', 
+                bitrate: '144', 
+                type: 'video', 
+                ext: 'mp4', 
+                fileSize: '10-15 MB',
+                itag: '144'
+            },
+            { 
+                quality: '240p', 
+                bitrate: '240', 
+                type: 'video', 
+                ext: 'mp4', 
+                fileSize: '15-25 MB',
+                itag: '240'
+            },
+            { 
+                quality: '360p', 
+                bitrate: '360', 
+                type: 'video', 
+                ext: 'mp4', 
+                fileSize: '25-40 MB',
+                itag: '360'
+            },
+            { 
+                quality: '480p', 
+                bitrate: '480', 
+                type: 'video', 
+                ext: 'mp4', 
+                fileSize: '40-60 MB',
+                itag: '480'
+            },
+            { 
+                quality: '720p', 
+                bitrate: '720', 
+                type: 'video', 
+                ext: 'mp4', 
+                fileSize: '80-120 MB',
+                itag: '720'
+            },
+            { 
+                quality: '1080p', 
+                bitrate: '1080', 
+                type: 'video', 
+                ext: 'mp4', 
+                fileSize: '150-250 MB',
+                itag: '1080'
+            },
+            // Audio formats
+            { 
+                quality: '64 kbps', 
+                bitrate: '64', 
+                type: 'audio', 
+                ext: 'mp3', 
+                fileSize: '2-3 MB',
+                itag: 'mp3_64'
+            },
+            { 
+                quality: '128 kbps', 
+                bitrate: '128', 
+                type: 'audio', 
+                ext: 'mp3', 
+                fileSize: '4-6 MB',
+                itag: 'mp3_128'
+            },
+            { 
+                quality: '192 kbps', 
+                bitrate: '192', 
+                type: 'audio', 
+                ext: 'mp3', 
+                fileSize: '6-8 MB',
+                itag: 'mp3_192'
+            },
+            { 
+                quality: '256 kbps', 
+                bitrate: '256', 
+                type: 'audio', 
+                ext: 'mp3', 
+                fileSize: '8-10 MB',
+                itag: 'mp3_256'
+            },
+            { 
+                quality: '320 kbps', 
+                bitrate: '320', 
+                type: 'audio', 
+                ext: 'mp3', 
+                fileSize: '10-12 MB',
+                itag: 'mp3_320'
+            }
+        ];
+    }
+
+    function showQualitySelection() {
+        if (!availableFormats || availableFormats.length === 0) {
+            showNotification('No download formats available', 'error');
+            return;
+        }
+        
+        // Populate quality tables
+        populateQualityTables();
+        
+        // Show quality section
+        qualitySection.style.display = 'block';
+        downloadBtnContainer.style.display = 'block';
+        
+        // Scroll to quality section
+        setTimeout(() => {
+            qualitySection.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center'
+            });
+        }, 100);
+    }
+
+    function populateQualityTables() {
+        // Clear existing rows
+        videoQualityTable.innerHTML = '';
+        audioQualityTable.innerHTML = '';
+        
+        // Filter video and audio formats
+        const videoFormats = availableFormats.filter(f => f.type === 'video');
+        const audioFormats = availableFormats.filter(f => f.type === 'audio');
+        
+        // Populate video table
+        if (videoFormats.length > 0) {
+            videoFormats.forEach((format, index) => {
+                const row = createQualityRow(format, index === 0, 'video');
+                videoQualityTable.appendChild(row);
+                if (index === 0 && selectedFormat === 'video') {
+                    selectedQuality = format.bitrate;
+                    selectedQualityData = format;
+                }
+            });
+        } else {
+            videoQualityTable.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center py-8 text-gray-500">
+                        No video formats available
+                    </td>
+                </tr>
+            `;
+        }
+        
+        // Populate audio table
+        if (audioFormats.length > 0) {
+            audioFormats.forEach((format, index) => {
+                const row = createQualityRow(format, index === 0, 'audio');
+                audioQualityTable.appendChild(row);
+                if (index === 0 && selectedFormat === 'audio') {
+                    selectedQuality = format.bitrate;
+                    selectedQualityData = format;
+                }
+            });
+        } else {
+            audioQualityTable.innerHTML = `
+                <tr>
+                    <td colspan="5" class="text-center py-8 text-gray-500">
+                        No audio formats available
+                    </td>
+                </tr>
+            `;
+        }
+        
+        // Enable download button
+        updateSelectedQuality();
+        
+        // Add click handlers
+        setupTableRowClickHandlers();
+    }
+
+    function createQualityRow(format, isDefault = false, formatType) {
+        const row = document.createElement('tr');
+        row.dataset.format = JSON.stringify(format);
+        row.dataset.quality = format.bitrate;
+        row.dataset.type = formatType;
+        
+        const radioName = formatType === 'video' ? 'video-quality' : 'audio-quality';
+        
+        row.innerHTML = `
+            <td>
+                <input 
+                    type="radio" 
+                    name="${radioName}" 
+                    value="${format.bitrate}"
+                    class="quality-radio" 
+                    ${isDefault ? 'checked' : ''}
+                    onclick="event.stopPropagation()"
+                >
+            </td>
+            <td>
+                <div class="quality-label">
+                    ${format.quality}
+                </div>
+            </td>
+            <td>${format.ext.toUpperCase()}</td>
+            <td>${format.fileSize}</td>
+            <td><span class="quality-badge ${formatType}">${formatType === 'video' ? 'Video' : 'Audio'}</span></td>
+        `;
+        
+        if (isDefault && ((formatType === 'video' && selectedFormat === 'video') || (formatType === 'audio' && selectedFormat === 'audio'))) {
+            row.classList.add('selected');
+        }
+        
+        return row;
+    }
+
+    function setupTableRowClickHandlers() {
+        const allRows = document.querySelectorAll('#video-quality-table tr, #audio-quality-table tr');
+        allRows.forEach(row => {
+            row.addEventListener('click', (e) => {
+                if (e.target.type === 'radio') return;
+                
+                const formatData = JSON.parse(row.dataset.format || '{}');
+                const quality = row.dataset.quality;
+                const type = row.dataset.type;
+                
+                // Update selected quality
+                selectedQuality = quality;
+                selectedQualityData = formatData;
+                
+                // Update selected format if needed
+                if (type && type !== selectedFormat) {
+                    selectedFormat = type;
+                    formatTabs.forEach(tab => {
+                        tab.classList.toggle('active', tab.dataset.format === type);
+                    });
+                    
+                    // Show correct table
+                    if (type === 'video') {
+                        videoQualitiesDiv.style.display = 'block';
+                        audioQualitiesDiv.style.display = 'none';
+                    } else {
+                        videoQualitiesDiv.style.display = 'none';
+                        audioQualitiesDiv.style.display = 'block';
+                    }
+                }
+                
+                // Update radio button
+                const radio = row.querySelector('.quality-radio');
+                if (radio) {
+                    radio.checked = true;
+                }
+                
+                // Update UI
+                updateSelectedQuality();
+            });
+        });
+    }
+
+    function selectFirstQuality(type) {
+        const table = type === 'video' ? videoQualityTable : audioQualityTable;
+        const firstRow = table.querySelector('tr');
+        if (firstRow) {
+            const formatData = JSON.parse(firstRow.dataset.format || '{}');
+            selectedQuality = firstRow.dataset.quality;
+            selectedQualityData = formatData;
+            updateSelectedQuality();
+        }
+    }
+
+    function updateSelectedQuality() {
+        // Remove selected class from all rows
+        document.querySelectorAll('#video-quality-table tr, #audio-quality-table tr').forEach(row => {
+            row.classList.remove('selected');
+        });
+        
+        // Find and select the row with the selected quality
+        const selectedRadio = document.querySelector(`input[name="${selectedFormat === 'video' ? 'video-quality' : 'audio-quality'}"]:checked`);
+        if (selectedRadio) {
+            const selectedRow = selectedRadio.closest('tr');
+            if (selectedRow) {
+                selectedRow.classList.add('selected');
+                
+                // Extract format data
+                const formatData = JSON.parse(selectedRow.dataset.format || '{}');
+                selectedQuality = selectedRadio.value;
+                selectedQualityData = formatData;
+            }
+        }
+        
+        // Enable download button
+        downloadBtn.disabled = !selectedQuality;
+    }
+
+    async function startDownload() {
+        if (!selectedQuality || !currentVideoUrl || !selectedQualityData) {
+            showNotification('Please select a quality first', 'error');
+            return;
+        }
+        
+        // Update UI
+        downloadBtn.disabled = true;
+        const btnText = downloadBtn.querySelector('.btn-text');
+        const btnLoading = downloadBtn.querySelector('.btn-loading');
+        btnText.style.display = 'none';
+        btnLoading.style.display = 'flex';
+        
+        try {
+            showNotification('Preparing download...', 'info');
+            
+            // Convert format for backend
+            const backendType = selectedFormat === 'video' ? 'mp4' : 'mp3';
+            const backendQuality = selectedFormat === 'audio' ? '128' : selectedQuality;
+            
+            // Call backend API
+            const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(currentVideoUrl)}&type=${backendType}&quality=${backendQuality}`);
+            
+            if (!response.ok) {
+                throw new Error(`Server error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.error) {
+                throw new Error(data.error);
+            }
+            
+            if (!data.url) {
+                throw new Error('No download URL received');
+            }
+            
+            // Generate filename
+            let filename;
+            if (data.filename) {
+                filename = data.filename;
+            } else {
+                const title = videoMetadata?.title || 'youtube_video';
+                const cleanTitle = title
+                    .replace(/[^a-z0-9]/gi, '_')
+                    .replace(/_+/g, '_')
+                    .substring(0, 50);
+                filename = `${cleanTitle}_${selectedQualityData.quality.replace(/\s+/g, '_')}.${backendType}`;
+            }
+            
+            // Start download
+            const link = document.createElement('a');
+            link.href = data.url;
+            link.download = filename;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            showNotification(`Download started: ${filename}`, 'success');
+            
+        } catch (err) {
+            console.error('Download Error:', err);
+            showNotification(err.message || 'Download failed. Please try again.', 'error');
+        } finally {
+            downloadBtn.disabled = false;
+            const btnText = downloadBtn.querySelector('.btn-text');
+            const btnLoading = downloadBtn.querySelector('.btn-loading');
+            btnText.style.display = 'flex';
+            btnLoading.style.display = 'none';
+        }
+    }
+
+    function extractVideoId(url) {
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[7].length === 11) ? match[7] : null;
+    }
+
+    function formatNumber(num) {
+        if (!num || num === 0) return '0';
+        
+        if (typeof num === 'string') {
+            num = parseInt(num.replace(/,/g, ''));
+        }
+        
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(1) + 'B';
+        }
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1) + 'M';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(1) + 'K';
+        }
+        return num.toString();
+    }
+
+    function resetDownloader() {
+        // Hide sections
+        videoInfoSection.style.display = 'none';
+        qualitySection.style.display = 'none';
+        downloadBtnContainer.style.display = 'none';
+        
+        // Reset inputs
+        youtubeUrlInput.value = '';
+        analyzeBtn.disabled = true;
+        
+        // Reset state
+        currentVideoUrl = '';
+        currentVideoId = '';
+        selectedFormat = 'video';
+        selectedQuality = null;
+        selectedQualityData = null;
+        videoMetadata = null;
+        availableFormats = [];
+        
+        // Reset UI
+        videoTitle.textContent = 'Loading video information...';
+        videoViews.textContent = 'Loading views...';
+        videoDuration.textContent = 'Loading duration...';
+        videoDate.textContent = 'Loading date...';
+        videoLikes.textContent = 'Loading likes...';
+        channelName.textContent = 'Loading channel...';
+        channelSubs.textContent = 'Loading subscribers...';
+        videoDescription.textContent = 'Video description will appear here...';
+        channelAvatar.src = '';
+        
+        // Reset quality tables
+        videoQualityTable.innerHTML = '';
+        audioQualityTable.innerHTML = '';
+        
+        // Reset tabs
+        formatTabs[0].classList.add('active');
+        formatTabs[1].classList.remove('active');
+        videoQualitiesDiv.style.display = 'block';
+        audioQualitiesDiv.style.display = 'none';
+        
+        // Scroll to top
+        youtubeUrlInput.focus();
+        showNotification('Ready for new download!', 'info');
+    }
+
+    function showNotification(message, type = 'info') {
+        // Remove existing notifications
+        document.querySelectorAll('.notification').forEach(n => n.remove());
+        
+        // Create notification
+        const notification = document.createElement('div');
+        notification.className = `notification fixed top-25 right-4 left-4 md:left-auto md:right-6 md:top-25 px-4 md:px-6 py-3 md:py-4 rounded-xl shadow-lg z-50 border transform translate-x-full md:translate-x-32 transition-transform duration-300 ${
+            type === 'success' ? 'bg-green-50 border-green-200 text-green-700' :
+            type === 'error' ? 'bg-red-50 border-red-200 text-red-700' :
+            type === 'warning' ? 'bg-yellow-50 border-yellow-200 text-yellow-700' :
+            'bg-blue-50 border-blue-200 text-blue-700'
+        }`;
+        
+        const icons = {
+            success: 'check-circle',
+            error: 'alert-circle',
+            warning: 'alert-triangle',
+            info: 'info'
+        };
+        
+        notification.innerHTML = `
+            <div class="flex items-center gap-3">
+                <i data-lucide="${icons[type]}" class="h-5 w-5 flex-shrink-0"></i>
+                <span class="text-sm md:text-base">${message}</span>
+            </div>
+        `;
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => notification.style.transform = 'translateX(0)', 10);
+        
+        // Remove after 3s
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+        
+        lucide.createIcons();
+    }
+
+    // Mobile menu functions
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('active');
+        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+    }
+
+    function closeMobileMenu() {
+        document.getElementById('mobileMenu').classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    // Initialize everything
+    document.addEventListener('DOMContentLoaded', () => {
+        initYouTubeDownloader();
+        lucide.createIcons();
+        
+        // Newsletter form
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const email = this.querySelector('input[type="email"]').value;
+                if (email) {
+                    alert('Thank you for subscribing to updates!');
+                    this.reset();
+                }
             });
         }
-        return formats.length ? formats : generateSampleFormats();
-    }
-    return generateSampleFormats();
-}
-
-function generateSampleFormats() {
-    return [
-        { quality: '128kbps', type:'audio', ext:'mp3', fileSize:'3.2MB', url:'' },
-        { quality: '360p', type:'video', ext:'mp4', fileSize:'35MB', url:'' },
-        { quality: '720p', type:'video', ext:'mp4', fileSize:'100MB', url:'' },
-    ];
-}
-
-function sampleMetadata() {
-    return {
-        title:'YouTube Video',
-        views:1200000,
-        duration:'4:30',
-        uploadDate:'2 weeks ago',
-        likes:45000,
-        channel:{name:'YouTube Channel', subscribers:500000, avatar:''},
-        description:'Sample description...'
-    };
-}
-
-function updateVideoInfoUI() {
-    const md = videoMetadata;
-    videoTitle.textContent = md.title;
-    videoViews.textContent = formatNumber(md.views)+' views';
-    videoDuration.textContent = md.duration;
-    videoDate.textContent = md.uploadDate;
-    videoLikes.textContent = formatNumber(md.likes)+' likes';
-    channelName.textContent = md.channel.name;
-    channelSubs.textContent = formatNumber(md.channel.subscribers)+' subscribers';
-    channelAvatar.src = md.channel.avatar;
-    videoDescription.textContent = md.description;
-}
-
-function showQualitySelection() {
-    populateQualityTables();
-    qualitySection.style.display = 'block';
-    downloadBtnContainer.style.display = 'block';
-}
-
-function populateQualityTables() {
-    videoQualityTable.innerHTML='';
-    audioQualityTable.innerHTML='';
-    availableFormats.forEach(f=>{
-        const row = document.createElement('tr');
-        row.innerHTML = `
-        <td><input type="radio" name="${f.type}-quality"></td>
-        <td>${f.quality}</td>
-        <td>${f.ext}</td>
-        <td>${f.fileSize}</td>
-        <td>${f.type}</td>`;
-        row.addEventListener('click', ()=>{
-            selectedQualityData=f;
-            row.querySelector('input').checked=true;
-        });
-        if(f.type==='video') videoQualityTable.appendChild(row);
-        else audioQualityTable.appendChild(row);
     });
-}
-
-function selectFirstQuality(type) {
-    const table = type==='video'?videoQualityTable:audioQualityTable;
-    const firstRow = table.querySelector('tr');
-    if(firstRow) {
-        firstRow.querySelector('input').checked=true;
-        selectedQualityData = availableFormats.find(f=>f.type===type);
-    }
-}
-
-function updateSelectedQuality() { /* no-op, selection handled in table click */ }
-
-async function startDownload() {
-    if(!selectedQualityData) return showNotification('Select quality first','error');
-    try {
-        const type = selectedQualityData.type;
-        const quality = selectedQualityData.quality;
-        const response = await fetch(`${BACKEND_API}?query=${encodeURIComponent(currentVideoUrl)}&type=${type}&quality=${quality}`);
-        const data = await response.json();
-        if(!data.url) throw new Error('No download URL');
-        const filename = `${videoMetadata.title.replace(/[^a-z0-9]/gi,'_')}_${quality}.${selectedQualityData.ext}`;
-        const a = document.createElement('a');
-        a.href = data.url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        showNotification(`Downloading ${filename}`,'success');
-    } catch(err){
-        console.error(err);
-        showNotification('Download failed','error');
-    }
-}
-
-function extractVideoId(url){
-    const reg=/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-    const match = url.match(reg);
-    return match && match[7].length===11 ? match[7]:null;
-}
-
-function formatNumber(num){
-    if(num>=1e9) return (num/1e9).toFixed(1)+'B';
-    if(num>=1e6) return (num/1e6).toFixed(1)+'M';
-    if(num>=1e3) return (num/1e3).toFixed(1)+'K';
-    return num.toString();
-}
-
-function resetDownloader(){
-    youtubeUrlInput.value='';
-    analyzeBtn.disabled=true;
-    videoInfoSection.style.display='none';
-    qualitySection.style.display='none';
-    downloadBtnContainer.style.display='none';
-    selectedFormat='video';
-    selectedQualityData=null;
-    videoMetadata=null;
-    availableFormats=[];
-    videoQualityTable.innerHTML='';
-    audioQualityTable.innerHTML='';
-}
-
-function showNotification(msg,type='info'){
-    alert(msg); // simple alert, replace with your styled notification
-}
-
-document.addEventListener('DOMContentLoaded',()=>initYouTubeDownloader());
 </script>
-
 </body>
 </html>

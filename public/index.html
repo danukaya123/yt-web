@@ -1523,7 +1523,20 @@
                 videoDescription.textContent = meta.description || 'No description available';
                 authorText.textContent = meta.author || meta.channel || 'Unknown Author';
                 authorText.textContent = meta.author || 'Unknown Author';
-                durationText.textContent = meta.duration?.timestamp || 'Unknown duration';
+                let durationStr = 'Unknown duration';
+
+// 1️⃣ Try duration.timestamp
+if (meta.duration?.timestamp) {
+    durationStr = meta.duration.timestamp;
+} 
+// 2️⃣ Fallback: compute from seconds
+else if (meta.seconds) {
+    const minutes = Math.floor(meta.seconds / 60);
+    const seconds = meta.seconds % 60;
+    durationStr = `${minutes}:${seconds.toString().padStart(2,'0')}`;
+}
+
+durationText.textContent = durationStr;
                 
                 metaCard.classList.add('active');
                 showStatus('Video information loaded successfully!', 'success');

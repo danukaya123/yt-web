@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
     // Add brand name prefix (or suffix)
     const brand = "Quizontal";
     // Example: prepend brand
-    filename = `${filename} - ${brand}`;
+    filename = `${brand} - ${filename}`;
     // Or example: append brand
     // filename = `${filename} - ${brand}`;
 

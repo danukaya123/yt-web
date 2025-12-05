@@ -6,221 +6,209 @@
   <title>YouTube Downloader</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* small UI polish */
     .thumb { width: 100%; max-width: 320px; height: auto; border-radius: 8px; }
     .table-fixed { table-layout: fixed; width: 100%; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-800">
-  <div class="max-w-4xl mx-auto p-6">
-    <h1 class="text-3xl font-semibold mb-4">YouTube Downloader</h1>
+<div class="max-w-4xl mx-auto p-6">
+  <h1 class="text-3xl font-semibold mb-4">YouTube Downloader</h1>
 
-    <div class="bg-white shadow rounded p-4 mb-6">
-      <label class="block text-sm font-medium mb-2">YouTube URL or Video ID</label>
-      <div class="flex gap-2">
-        <input id="urlInput" class="flex-1 border rounded px-3 py-2" placeholder="https://www.youtube.com/watch?v=..." />
-        <button id="fetchBtn" class="px-4 py-2 bg-indigo-600 text-white rounded">Proceed</button>
-      </div>
-      <p id="status" class="text-sm text-slate-500 mt-2"></p>
+  <div class="bg-white shadow rounded p-4 mb-6">
+    <label class="block text-sm font-medium mb-2">YouTube URL or Video ID</label>
+    <div class="flex gap-2">
+      <input id="urlInput" class="flex-1 border rounded px-3 py-2" placeholder="https://www.youtube.com/watch?v=..." />
+      <button id="fetchBtn" class="px-4 py-2 bg-indigo-600 text-white rounded">Proceed</button>
     </div>
-
-    <div id="metaCard" class="hidden bg-white shadow rounded p-4 mb-6">
-      <div class="flex gap-4">
-        <img id="thumb" class="thumb" src="" alt="thumbnail" />
-        <div class="flex-1">
-          <h2 id="title" class="text-xl font-semibold"></h2>
-          <p id="author" class="text-sm text-slate-500"></p>
-          <p id="views" class="text-sm text-slate-500"></p>
-          <p id="duration" class="text-sm text-slate-500"></p>
-          <p id="desc" class="mt-3 text-sm text-slate-700"></p>
-        </div>
-      </div>
-    </div>
-
-    <div id="results" class="hidden">
-      <div class="bg-white shadow rounded p-4 mb-6">
-        <h3 class="font-semibold mb-3">Video (MP4) Downloads</h3>
-        <div class="overflow-x-auto">
-          <table class="table-fixed w-full text-sm">
-            <thead>
-              <tr class="text-left">
-                <th class="w-1/6 px-2">Quality</th>
-                <th class="w-1/6 px-2">Size</th>
-                <th class="w-1/6 px-2">File</th>
-                <th class="w-1/6 px-2">Action</th>
-              </tr>
-            </thead>
-            <tbody id="mp4List"></tbody>
-          </table>
-        </div>
-      </div>
-
-      <div class="bg-white shadow rounded p-4 mb-6">
-        <h3 class="font-semibold mb-3">Audio (MP3) Downloads</h3>
-        <div class="overflow-x-auto">
-          <table class="table-fixed w-full text-sm">
-            <thead>
-              <tr class="text-left">
-                <th class="w-1/6 px-2">Quality</th>
-                <th class="w-1/6 px-2">Size</th>
-                <th class="w-1/6 px-2">File</th>
-                <th class="w-1/6 px-2">Action</th>
-              </tr>
-            </thead>
-            <tbody id="mp3List"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div id="errors" class="text-red-600"></div>
+    <p id="status" class="text-sm text-slate-500 mt-2"></p>
   </div>
 
-  <script>
-    const fetchBtn = document.getElementById("fetchBtn");
-    const urlInput = document.getElementById("urlInput");
-    const status = document.getElementById("status");
-    const metaCard = document.getElementById("metaCard");
-    const thumb = document.getElementById("thumb");
-    const titleEl = document.getElementById("title");
-    const authorEl = document.getElementById("author");
-    const viewsEl = document.getElementById("views");
-    const durationEl = document.getElementById("duration");
-    const descEl = document.getElementById("desc");
-    const results = document.getElementById("results");
-    const mp4List = document.getElementById("mp4List");
-    const mp3List = document.getElementById("mp3List");
-    const errors = document.getElementById("errors");
+  <div id="metaCard" class="hidden bg-white shadow rounded p-4 mb-6">
+    <div class="flex gap-4">
+      <img id="thumb" class="thumb" src="" alt="thumbnail" />
+      <div class="flex-1">
+        <h2 id="title" class="text-xl font-semibold"></h2>
+        <p id="author" class="text-sm text-slate-500"></p>
+        <p id="views" class="text-sm text-slate-500"></p>
+        <p id="duration" class="text-sm text-slate-500"></p>
+        <p id="desc" class="mt-3 text-sm text-slate-700"></p>
+      </div>
+    </div>
+  </div>
 
-    function humanFileSize(bytes) {
-      if (bytes === null || bytes === undefined) return "Unknown";
-      if (bytes === 0) return "0 B";
-      const i = Math.floor(Math.log(bytes) / Math.log(1024));
-      const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
-      return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
-    }
+  <div id="results" class="hidden">
+    <div class="bg-white shadow rounded p-4 mb-6">
+      <h3 class="font-semibold mb-3">Video (MP4) Downloads</h3>
+      <div class="overflow-x-auto">
+        <table class="table-fixed w-full text-sm">
+          <thead>
+            <tr class="text-left">
+              <th class="w-1/6 px-2">Quality</th>
+              <th class="w-1/6 px-2">Size</th>
+              <th class="w-1/6 px-2">File</th>
+              <th class="w-1/6 px-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="mp4List"></tbody>
+        </table>
+      </div>
+    </div>
 
-    async function fetchInfo() {
-      errors.textContent = "";
-      const q = urlInput.value.trim();
-      if (!q) {
-        errors.textContent = "Enter a YouTube URL or ID.";
-        return;
-      }
+    <div class="bg-white shadow rounded p-4 mb-6">
+      <h3 class="font-semibold mb-3">Audio (MP3) Downloads</h3>
+      <div class="overflow-x-auto">
+        <table class="table-fixed w-full text-sm">
+          <thead>
+            <tr class="text-left">
+              <th class="w-1/6 px-2">Quality</th>
+              <th class="w-1/6 px-2">Size</th>
+              <th class="w-1/6 px-2">File</th>
+              <th class="w-1/6 px-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="mp3List"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-      status.textContent = "Fetching metadata and available qualities (may take a few seconds)...";
-      fetchBtn.disabled = true;
-      metaCard.classList.add("hidden");
-      results.classList.add("hidden");
-      mp4List.innerHTML = "";
-      mp3List.innerHTML = "";
+  <div id="errors" class="text-red-600"></div>
+</div>
 
-      try {
-        const resp = await fetch(`/api/info?q=${encodeURIComponent(q)}`);
-        const data = await resp.json();
-        if (!data.ok) {
-          errors.textContent = data.message || data.error || "Failed to fetch info";
-          status.textContent = "";
-          fetchBtn.disabled = false;
-          return;
-        }
+<script>
+const fetchBtn = document.getElementById("fetchBtn");
+const urlInput = document.getElementById("urlInput");
+const status = document.getElementById("status");
+const metaCard = document.getElementById("metaCard");
+const thumb = document.getElementById("thumb");
+const titleEl = document.getElementById("title");
+const authorEl = document.getElementById("author");
+const viewsEl = document.getElementById("views");
+const durationEl = document.getElementById("duration");
+const descEl = document.getElementById("desc");
+const results = document.getElementById("results");
+const mp4List = document.getElementById("mp4List");
+const mp3List = document.getElementById("mp3List");
+const errors = document.getElementById("errors");
 
-        const meta = data.metadata || {};
-        thumb.src = meta.image || meta.thumbnail || "";
-        titleEl.textContent = meta.title || meta.videoTitle || "No title";
-        authorEl.textContent = meta.author?.name ? `By ${meta.author.name}` : "";
-        viewsEl.textContent = meta.views ? `${meta.views.toLocaleString()} views` : "";
-        durationEl.textContent = meta.duration?.timestamp ? `Duration: ${meta.duration.timestamp}` : "";
-        descEl.textContent = (meta.description || "").slice(0, 500);
+function humanFileSize(bytes) {
+  if (!bytes) return "Unknown";
+  if (bytes === 0) return "0 B";
+  const i = Math.floor(Math.log(bytes)/Math.log(1024));
+  const sizes = ['B','KB','MB','GB','TB'];
+  return (bytes/Math.pow(1024,i)).toFixed(2) + ' ' + sizes[i];
+}
 
-        metaCard.classList.remove("hidden");
+async function fetchInfo() {
+  errors.textContent = "";
+  const q = urlInput.value.trim();
+  if (!q) { errors.textContent = "Enter a YouTube URL or ID."; return; }
 
-        // mp4 table
-        const mp4 = (data.downloads?.mp4 || []).sort((a,b)=> (b.qualityNumber||0)-(a.qualityNumber||0));
-        mp4.forEach(item => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td class="px-2 py-2">${item.quality}</td>
-            <td class="px-2 py-2">${humanFileSize(item.size)}</td>
-            <td class="px-2 py-2">${item.filename || ""}</td>
-            <td class="px-2 py-2">
-              <button class="downloadBtn px-3 py-1 bg-green-600 text-white rounded" 
-                data-type="mp4" data-quality="${item.qualityNumber}" data-q="${encodeURIComponent(q)}">
-                Download
-              </button>
-            </td>`;
-          mp4List.appendChild(tr);
-        });
+  status.textContent = "Fetching metadata...";
+  fetchBtn.disabled = true;
+  metaCard.classList.add("hidden");
+  results.classList.add("hidden");
+  mp4List.innerHTML = "";
+  mp3List.innerHTML = "";
 
-        // mp3 table
-        const mp3 = (data.downloads?.mp3 || []).sort((a,b)=> (b.qualityNumber||0)-(a.qualityNumber||0));
-        mp3.forEach(item => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td class="px-2 py-2">${item.quality}</td>
-            <td class="px-2 py-2">${humanFileSize(item.size)}</td>
-            <td class="px-2 py-2">${item.filename || ""}</td>
-            <td class="px-2 py-2">
-              <button class="downloadBtn px-3 py-1 bg-green-600 text-white rounded"
-                data-type="mp3" data-quality="${item.qualityNumber}" data-q="${encodeURIComponent(q)}">
-                Download
-              </button>
-            </td>`;
-          mp3List.appendChild(tr);
-        });
+  try {
+    const resp = await fetch(`/api/info?q=${encodeURIComponent(q)}`);
+    const data = await resp.json();
+    if (!data.ok) { errors.textContent = data.message||data.error||"Failed"; status.textContent=""; fetchBtn.disabled=false; return; }
 
-        // attach download handlers
-// attach download handlers
-document.querySelectorAll(".downloadBtn").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const type = btn.dataset.type;
-    const quality = btn.dataset.quality;
-    const qval = decodeURIComponent(btn.dataset.q);
+    const meta = data.metadata || {};
+    thumb.src = meta.image || meta.thumbnail || "";
+    titleEl.textContent = meta.title || meta.videoTitle || "No title";
+    authorEl.textContent = meta.author?.name ? `By ${meta.author.name}` : "";
+    viewsEl.textContent = meta.views ? `${meta.views.toLocaleString()} views` : "";
+    durationEl.textContent = meta.duration?.timestamp ? `Duration: ${meta.duration.timestamp}` : "";
+    descEl.textContent = (meta.description||"").slice(0,500);
+    metaCard.classList.remove("hidden");
 
-    btn.disabled = true;
-    btn.textContent = "Preparing...";
-
-    try {
-      const r = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
-      const j = await r.json();
-
-      if (!j.ok) {
-        alert(j.message || j.error || "Download failed");
-        btn.disabled = false;
-        btn.textContent = "Download";
-        return;
-      }
-
-      // SAFE download – no CORS issues
-      window.location.href = j.url;
-
-    } catch (err) {
-      console.error(err);
-      alert("Download failed: " + err.message);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = "Download";
-    }
-  });
-});
-
-
-
-        results.classList.remove("hidden");
-        status.textContent = "";
-      } catch (err) {
-        console.error(err);
-        errors.textContent = "Error fetching info: " + (err?.message || err);
-        status.textContent = "";
-      } finally {
-        fetchBtn.disabled = false;
-      }
-    }
-
-    fetchBtn.addEventListener("click", fetchInfo);
-    urlInput.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") fetchInfo();
+    // MP4 table
+    const mp4 = (data.downloads?.mp4||[]).sort((a,b)=> (b.qualityNumber||0)-(a.qualityNumber||0));
+    mp4.forEach(item => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="px-2 py-2">${item.quality}</td>
+        <td class="px-2 py-2">${humanFileSize(item.size)}</td>
+        <td class="px-2 py-2">${item.filename||""}</td>
+        <td class="px-2 py-2">
+          <button class="downloadBtn px-3 py-1 bg-green-600 text-white rounded" 
+            data-type="mp4" data-quality="${item.qualityNumber}" data-q="${encodeURIComponent(q)}">
+            Download
+          </button>
+        </td>`;
+      mp4List.appendChild(tr);
     });
-  </script>
+
+    // MP3 table
+    const mp3 = (data.downloads?.mp3||[]).sort((a,b)=> (b.qualityNumber||0)-(a.qualityNumber||0));
+    mp3.forEach(item => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td class="px-2 py-2">${item.quality}</td>
+        <td class="px-2 py-2">${humanFileSize(item.size)}</td>
+        <td class="px-2 py-2">${item.filename||""}</td>
+        <td class="px-2 py-2">
+          <button class="downloadBtn px-3 py-1 bg-green-600 text-white rounded"
+            data-type="mp3" data-quality="${item.qualityNumber}" data-q="${encodeURIComponent(q)}">
+            Download
+          </button>
+        </td>`;
+      mp3List.appendChild(tr);
+    });
+
+    // Attach download handlers
+    document.querySelectorAll(".downloadBtn").forEach(btn=>{
+      btn.addEventListener("click", async ()=>{
+        const type = btn.dataset.type;
+        const quality = btn.dataset.quality;
+        const qval = decodeURIComponent(btn.dataset.q);
+
+        btn.disabled=true;
+        btn.textContent="Preparing...";
+
+        try {
+          const r = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
+          if (!r.ok) throw new Error("Download failed");
+          const blob = await r.blob();
+
+          // Extract filename from header
+          const disposition = r.headers.get("Content-Disposition") || "";
+          let filename = "video";
+          const match = disposition.match(/filename="?(.+?)"?$/);
+          if (match && match[1]) filename = match[1];
+
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+        } catch(err) {
+          console.error(err);
+          alert("Download failed: " + err.message);
+        } finally {
+          btn.disabled=false;
+          btn.textContent="Download";
+        }
+      });
+    });
+
+    results.classList.remove("hidden");
+    status.textContent="";
+  } catch(err) {
+    console.error(err);
+    errors.textContent="Error fetching info: " + (err?.message||err);
+    status.textContent="";
+  } finally { fetchBtn.disabled=false; }
+}
+
+fetchBtn.addEventListener("click", fetchInfo);
+urlInput.addEventListener("keydown", e=>{ if(e.key==="Enter") fetchInfo(); });
+</script>
 </body>
 </html>

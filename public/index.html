@@ -382,36 +382,44 @@
         }
         
         /* Input Styling */
-        .url-input-container {
-            position: relative;
-            margin-bottom: 1rem;
-        }
-        
-        .url-input {
-            width: 100%;
-            padding: 1rem 1rem 1rem 3rem;
-            border: 2px solid #e5e7eb;
-            border-radius: 0.75rem;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            background-color: #f9fafb;
-        }
-        
-        .url-input:focus {
-            border-color: #7c3aed;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-            outline: none;
-        }
-        
-        .url-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6b7280;
-            pointer-events: none;
-        }
+.url-input-container {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.url-input {
+    width: 100%;
+    padding: 1rem 1rem 1rem 3rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f9fafb;
+    color: #111827; /* 🔥 Dark text so URL is visible */
+}
+
+/* Placeholder color */
+.url-input::placeholder {
+    color: #6b7280; /* Gray placeholder */
+}
+
+/* When user types / focus */
+.url-input:focus {
+    border-color: #7c3aed;
+    background-color: white;
+    color: #111827; /* ensure text remains visible */
+    box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    outline: none;
+}
+
+.url-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+    pointer-events: none;
+}
         
         /* Status Message */
         .status-message {

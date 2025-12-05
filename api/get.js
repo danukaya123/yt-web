@@ -6,58 +6,67 @@ const yt = require("@vreden/youtube_scraper");
 
 module.exports = async (req, res) => {
   try {
-    const type = (req.query.type || "mp4").toString();
+    const type = (req.query.type || "mp4").toString().toLowerCase();
     const quality = Number(req.query.quality || (type === "mp3" ? 128 : 360));
     const q = (req.query.q || "").toString().trim();
 
     if (!q) {
       return res.status(400).json({
         ok: false,
-        message: "Missing q param (YouTube URL or ID)."
+        message: "Missing 'q' param (YouTube URL or ID)."
       });
     }
 
-    // Fetch conversion from library
+    // Validate type
+    if (!["mp3", "mp4"].includes(type)) {
+      return res.status(400).json({
+        ok: false,
+        message: "Invalid type. Must be 'mp3' or 'mp4'."
+      });
+    }
+
+    // Fetch conversion
     let result;
     try {
-      result = type === "mp3"
-        ? await yt.ytmp3(q, quality)
-        : await yt.ytmp4(q, quality);
+      if (type === "mp3") {
+        result = await yt.ytmp3(q, quality);
+      } else {
+        result = await yt.ytmp4(q, quality);
+      }
     } catch (err) {
+      console.error("Conversion error:", err);
       return res.status(500).json({
         ok: false,
-        message: "Conversion failed",
+        message: "Conversion failed.",
         error: err.message
       });
     }
 
-    // Validate downloader response
-    if (!result?.download?.url) {
+    // Validate result
+    const downloadUrl = result?.download?.url;
+    if (!downloadUrl) {
       return res.status(500).json({
         ok: false,
         message: "No download URL received from extractor."
       });
     }
 
-    const url = result.download.url;
-
-    // Sanitize filename
+    // Generate safe filename
     let filename = result.download.filename || "";
     if (!filename || filename.trim() === "") {
       const title = result?.metadata?.title || "video";
-      if (type === "mp3") {
-        filename = `${title.replace(/[^\w\d\- ]/g, "")} (${quality}kbps).mp3`;
-      } else {
-        filename = `${title.replace(/[^\w\d\- ]/g, "")} (${quality}p).mp4`;
-      }
+      const safeTitle = title.replace(/[^\w\d\- ]/g, "");
+      filename = type === "mp3"
+        ? `${safeTitle} (${quality}kbps).mp3`
+        : `${safeTitle} (${quality}p).mp4`;
     }
 
-    // Set forced filename for browser download
+    // Set headers to force download
     res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
     res.setHeader("Content-Type", "application/octet-stream");
 
-    // Perform redirect
-    res.writeHead(302, { Location: url });
+    // Redirect to actual download URL
+    res.writeHead(302, { Location: downloadUrl });
     return res.end();
 
   } catch (err) {

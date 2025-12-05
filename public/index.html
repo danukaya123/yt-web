@@ -161,6 +161,7 @@ async function fetchInfo() {
 
     // Attach download handlers
 // Attach download handlers
+// Attach download handlers
 document.querySelectorAll(".downloadBtn").forEach(btn => {
   btn.addEventListener("click", async () => {
     const type = btn.dataset.type;
@@ -171,27 +172,23 @@ document.querySelectorAll(".downloadBtn").forEach(btn => {
     btn.textContent = "Preparing...";
 
     try {
-      // Fetch the actual file as a blob
-      const response = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
-      if (!response.ok) throw new Error("Download failed");
+      // 1️⃣ Fetch JSON output from your backend
+      const resp = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
+      if (!resp.ok) throw new Error("Failed to fetch download info");
 
-      const blob = await response.blob();
+      const data = await resp.json();
+      if (!data.ok || !data.url) throw new Error("No download URL returned");
 
-      // Extract the filename from Content-Disposition
-      const disposition = response.headers.get("Content-Disposition") || "";
-      let filename = "video";
-      const match = disposition.match(/filename="?(.+?)"?$/);
-      if (match && match[1]) filename = match[1];
+      const fileUrl = data.url;
+      const filename = data.filename || "video";
 
-      // Create a temporary download link
-      const url = window.URL.createObjectURL(blob);
+      // 2️⃣ Create temporary <a> element to trigger download
       const a = document.createElement("a");
-      a.href = url;
-      a.download = filename;
+      a.href = fileUrl;
+      a.download = filename; // use JSON output filename
       document.body.appendChild(a);
       a.click();
       a.remove();
-      window.URL.revokeObjectURL(url);
 
     } catch (err) {
       console.error(err);
@@ -202,6 +199,7 @@ document.querySelectorAll(".downloadBtn").forEach(btn => {
     }
   });
 });
+
 
 
     results.classList.remove("hidden");

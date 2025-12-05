@@ -1519,10 +1519,23 @@
             }
                 
                 videoTitle.textContent = meta.title || 'Unknown Title';
-                authorText.textContent = meta.author?.name || 'Unknown Author';
-                viewsText.textContent = meta.views ? `${meta.views.toLocaleString()} views` : 'No views data';
-                durationText.textContent = meta.duration?.timestamp || 'Unknown duration';
+                viewsText.textContent = meta.views ? `${meta.views.toLocaleString()} views` : 'No views data';              
                 videoDescription.textContent = meta.description || 'No description available';
+                authorText.textContent = meta.author || meta.channel || 'Unknown Author';
+
+// Duration (if number, format as mm:ss)
+if (meta.duration != null) {
+    let seconds = Number(meta.duration);
+    if (!isNaN(seconds)) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        durationText.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+    } else {
+        durationText.textContent = meta.duration; // already string
+    }
+} else {
+    durationText.textContent = 'Unknown duration';
+}
                 
                 metaCard.classList.add('active');
                 showStatus('Video information loaded successfully!', 'success');

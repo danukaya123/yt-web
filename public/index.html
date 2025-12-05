@@ -1519,9 +1519,9 @@
             }
                 
                 videoTitle.textContent = meta.title || 'Unknown Title';
-                authorText.textContent = meta.author || 'Unknown Author';
+                authorText.textContent = meta.author?.name || 'Unknown Author';
                 viewsText.textContent = meta.views ? `${meta.views.toLocaleString()} views` : 'No views data';
-                durationText.textContent = meta.duration || 'Unknown duration';
+                durationText.textContent = meta.duration?.timestamp || 'Unknown duration';
                 videoDescription.textContent = meta.description || 'No description available';
                 
                 metaCard.classList.add('active');

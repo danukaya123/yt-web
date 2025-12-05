@@ -1522,20 +1522,8 @@
                 viewsText.textContent = meta.views ? `${meta.views.toLocaleString()} views` : 'No views data';              
                 videoDescription.textContent = meta.description || 'No description available';
                 authorText.textContent = meta.author || meta.channel || 'Unknown Author';
-
-// Duration (if number, format as mm:ss)
-if (meta.duration != null) {
-    let seconds = Number(meta.duration);
-    if (!isNaN(seconds)) {
-        const m = Math.floor(seconds / 60);
-        const s = seconds % 60;
-        durationText.textContent = `${m}:${s.toString().padStart(2, '0')}`;
-    } else {
-        durationText.textContent = meta.duration; // already string
-    }
-} else {
-    durationText.textContent = 'Unknown duration';
-}
+                authorText.textContent = meta.author || 'Unknown Author';
+                durationText.textContent = meta.duration || 'Unknown Duration';
                 
                 metaCard.classList.add('active');
                 showStatus('Video information loaded successfully!', 'success');

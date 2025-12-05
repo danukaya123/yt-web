@@ -160,8 +160,6 @@ async function fetchInfo() {
     });
 
     // Attach download handlers
-// Attach download handlers
-// Attach download handlers
 document.querySelectorAll(".downloadBtn").forEach(btn => {
   btn.addEventListener("click", async () => {
     const type = btn.dataset.type;
@@ -179,16 +177,12 @@ document.querySelectorAll(".downloadBtn").forEach(btn => {
       const data = await resp.json();
       if (!data.ok || !data.url) throw new Error("No download URL returned");
 
-      const fileUrl = data.url;
-      const filename = data.filename || "video";
+      // 2️⃣ Use backend proxy to download file with JSON filename
+      const proxyUrl = `/api/proxy?url=${encodeURIComponent(data.url)}&filename=${encodeURIComponent(data.filename)}`;
 
-      // 2️⃣ Create temporary <a> element to trigger download
       const a = document.createElement("a");
-      a.href = fileUrl;
-      a.download = filename; // use JSON output filename
-      document.body.appendChild(a);
+      a.href = proxyUrl;
       a.click();
-      a.remove();
 
     } catch (err) {
       console.error(err);
@@ -199,6 +193,7 @@ document.querySelectorAll(".downloadBtn").forEach(btn => {
     }
   });
 });
+
 
 
 

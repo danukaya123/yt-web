@@ -82,11 +82,13 @@ module.exports = async (req, res) => {
 const safeMeta = {
   title: meta.title || meta.videoTitle || "Unknown Title",
   description: meta.description || "",
-  thumbnail: meta.image || meta.thumbnail || (meta.thumbnails?.[meta.thumbnails.length-1]?.url) || "",
   author: meta.author?.name || meta.channel_title || "Unknown Author",
   views: meta.views || meta.statistics?.view || 0,
-  duration: meta.duration?.timestamp || meta.timestamp || "Unknown duration",
-  videoId: meta.videoId || meta.id
+  duration: meta.duration?.timestamp 
+            || meta.timestamp 
+            || (meta.seconds ? `${Math.floor(meta.seconds/60)}:${String(meta.seconds%60).padStart(2,'0')}` : "Unknown duration"),
+  videoId: meta.videoId || meta.id,
+  thumbnail
 };
 
     // Probe qualities concurrently but bounded (Promise.all with map)

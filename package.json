@@ -11,7 +11,8 @@
     "@vreden/youtube_scraper": "^1.2.8",
     "yt-search": "^2.13.1",
     "he": "^1.2.0",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {},
   "author": "Your Name",

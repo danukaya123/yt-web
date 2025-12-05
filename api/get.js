@@ -1,12 +1,25 @@
 const yt = require("@vreden/youtube_scraper");
 
-function cleanTitle(title) {
+// Clean title for filename and HTTP header
+function sanitizeFilename(title) {
   if (!title) return "video";
-  return title
-    .replace(/-\d+-ytshorts\.savetube\.me$/i, "")
-    .replace(/[\x00-\x1F\x7F"]/g, "")
-    .replace(/[<>:\\\/|?*]/g, "")
-    .trim();
+
+  // Remove common unwanted suffixes
+  let clean = title.replace(/-\d+-ytshorts\.savetube\.me$/i, "");
+
+  // Remove control chars
+  clean = clean.replace(/[\x00-\x1F\x7F]/g, "");
+
+  // Replace characters invalid in filenames or HTTP headers
+  clean = clean.replace(/[<>:"\/\\|?*]/g, "");
+
+  // Replace multiple spaces/dashes with single dash
+  clean = clean.replace(/\s+/g, " ").trim();
+
+  // Fallback
+  if (!clean) clean = "video";
+
+  return clean;
 }
 
 module.exports = async (req, res) => {
@@ -22,15 +35,22 @@ module.exports = async (req, res) => {
     const downloadUrl = result?.download?.url;
     if (!downloadUrl) return res.status(500).json({ ok:false, message: "No download URL" });
 
+    // Generate a fully safe filename
     let filename = result.download.filename || result.metadata?.title || "video";
-    filename = cleanTitle(filename);
+    filename = sanitizeFilename(filename);
     filename = type==="mp3" ? `${filename} (${quality}kbps).mp3` : `${filename} (${quality}p).mp4`;
 
-    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    // Use RFC 5987 encoding for Content-Disposition to handle any unicode safely
+    const encodedFilename = encodeURIComponent(filename).replace(/['()]/g, escape);
+
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${filename}"; filename*=UTF-8''${encodedFilename}`
+    );
     res.setHeader("Content-Type", type==="mp3" ? "audio/mpeg" : "video/mp4");
     res.setHeader("Access-Control-Allow-Origin","*");
 
-    // Use Node 18+ native fetch
+    // Stream the file using Node 18+ fetch
     const response = await fetch(downloadUrl);
     if (!response.ok) throw new Error("Failed to fetch file from source");
 

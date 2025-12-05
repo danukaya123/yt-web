@@ -1,63 +1,71 @@
 // api/get.js
+// Redirects user to actual download URL with a forced filename
+// Params: ?type=mp4|mp3&quality=360|128&q=<youtube url or id>
+
 const yt = require("@vreden/youtube_scraper");
-const he = require("he");
-
-function cleanFileName(title = "download", qualityLabel = "", ext = "mp4") {
-  const safe = he.decode(String(title))
-    .replace(/[\u200B-\u200D\uFEFF]/g, "")
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, " ")
-    .trim()
-    .toLowerCase();
-  const name = safe || "download";
-  const quality = qualityLabel ? ` (${qualityLabel})` : "";
-  return `${name}${quality}.${ext}`;
-}
-
-async function headContentLength(url) {
-  try {
-    const res = await fetch(url, { method: "HEAD", redirect: "follow" });
-    if (!res.ok) return null;
-    const len = res.headers.get("content-length");
-    return len ? Number(len) : null;
-  } catch (e) {
-    return null;
-  }
-}
 
 module.exports = async (req, res) => {
-  // basic CORS
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  if (req.method === "OPTIONS") return res.status(200).end();
-
   try {
-    const type = (req.query.type || "mp4").toString().toLowerCase();
+    const type = (req.query.type || "mp4").toString();
     const quality = Number(req.query.quality || (type === "mp3" ? 128 : 360));
     const q = (req.query.q || "").toString().trim();
-    if (!q) return res.status(400).json({ ok: false, message: "Missing q param (YouTube link/id)" });
 
-    // call the appropriate downloader
-    const call = type === "mp3" ? yt.ytmp3(q, quality) : yt.ytmp4(q, quality);
-    const result = await call;
+    if (!q) {
+      return res.status(400).json({
+        ok: false,
+        message: "Missing q param (YouTube URL or ID)."
+      });
+    }
 
+    // Fetch conversion from library
+    let result;
+    try {
+      result = type === "mp3"
+        ? await yt.ytmp3(q, quality)
+        : await yt.ytmp4(q, quality);
+    } catch (err) {
+      return res.status(500).json({
+        ok: false,
+        message: "Conversion failed",
+        error: err.message
+      });
+    }
+
+    // Validate downloader response
     if (!result?.download?.url) {
-      return res.status(500).json({ ok: false, message: "Downloader returned no url" });
+      return res.status(500).json({
+        ok: false,
+        message: "No download URL received from extractor."
+      });
     }
 
     const url = result.download.url;
-    const rawTitle = result.metadata?.title || result.download?.filename || "download";
-    const ext = type === "mp3" ? "mp3" : "mp4";
-    const qualityLabel = type === "mp3" ? `${quality}kbps` : `${quality}p`;
-    const filename = cleanFileName(rawTitle, qualityLabel, ext);
 
-    const size = await headContentLength(url);
+    // Sanitize filename
+    let filename = result.download.filename || "";
+    if (!filename || filename.trim() === "") {
+      const title = result?.metadata?.title || "video";
+      if (type === "mp3") {
+        filename = `${title.replace(/[^\w\d\- ]/g, "")} (${quality}kbps).mp3`;
+      } else {
+        filename = `${title.replace(/[^\w\d\- ]/g, "")} (${quality}p).mp4`;
+      }
+    }
 
-    // return final info (frontend can use window.location = url)
-    return res.json({ ok: true, url, filename, size });
+    // Set forced filename for browser download
+    res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
+    res.setHeader("Content-Type", "application/octet-stream");
+
+    // Perform redirect
+    res.writeHead(302, { Location: url });
+    return res.end();
+
   } catch (err) {
-    console.error("api/get error:", err);
-    return res.status(500).json({ ok: false, error: err?.message || String(err) });
+    console.error("GET API ERROR:", err);
+    return res.status(500).json({
+      ok: false,
+      message: "Internal Server Error",
+      error: err.message
+    });
   }
 };

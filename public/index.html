@@ -1511,12 +1511,12 @@
                 // Update video metadata
                 const meta = data.metadata || {};
                 
-                if (meta.thumbnail) {
-                    videoThumbnail.src = meta.thumbnail;
-                    videoThumbnail.onerror = () => {
-                        videoThumbnail.src = 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
-                    };
-                }
+            if (meta.thumbnail) {
+                videoThumbnail.src = meta.thumbnail.replace(/default\.jpg$/, 'maxresdefault.jpg');
+                videoThumbnail.onerror = () => {
+                    videoThumbnail.src = meta.thumbnail.replace(/default\.jpg$/, 'hqdefault.jpg');
+                };
+            }
                 
                 videoTitle.textContent = meta.title || 'Unknown Title';
                 authorText.textContent = meta.author || 'Unknown Author';

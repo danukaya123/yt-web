@@ -52,7 +52,7 @@
             }
         }
         
-        /* ========== NAVIGATION ========== */
+        /* ========== NAVIGATION - EXACT COPY FROM HOMEPAGE ========== */
         header {
             width: 100%;
             background: white;
@@ -135,6 +135,15 @@
             color: #7c3aed;
         }
         
+        .nav-link i {
+            margin-left: 0.25rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-link:hover i {
+            transform: rotate(180deg);
+        }
+        
         /* Search Bar */
         .search-container {
             position: relative;
@@ -179,6 +188,71 @@
             pointer-events: none;
         }
         
+        /* FIXED: Navigation Dropdown */
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-dropdown {
+            position: absolute;
+            top: calc(100% + 15px);
+            left: 0;
+            width: 800px;
+            max-width: 33vw;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            padding: 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #f3f4f6;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-dropdown {
+                width: 600px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-dropdown {
+                width: 400px;
+                left: -100%;
+            }
+        }
+        
+        /* Hover functionality fixed */
+        .nav-item:hover .nav-dropdown,
+        .nav-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Dropdown content grids */
+        .nav-image-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .nav-image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         /* CTA Button */
         .cta-button {
             display: inline-flex;
@@ -229,12 +303,12 @@
             }
         }
         
-        /* ========== HERO SECTION ========== */
+        /* ========== HERO SECTION WITH YOUTUBE BACKGROUND ========== */
         .hero-section {
             position: relative;
             color: white;
             overflow: hidden;
-            min-height: 50vh;
+            min-height: 60vh;
             display: flex;
             align-items: center;
             background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
@@ -282,218 +356,18 @@
             }
         }
         
-        /* NEW: Two Column Layout for Desktop */
-        .download-layout {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 2rem;
+        .downloader-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
         }
         
-        @media (min-width: 1024px) {
-            .download-layout {
-                grid-template-columns: 1fr 1fr;
-                gap: 3rem;
+        @media (min-width: 768px) {
+            .downloader-card {
+                padding: 2.5rem;
             }
-        }
-        
-        /* Video Metadata Card */
-        .metadata-card {
-            background: white;
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            display: none;
-        }
-        
-        .metadata-card.active {
-            display: block;
-        }
-        
-        .video-thumbnail-container {
-            position: relative;
-            width: 100%;
-            background: #000;
-        }
-        
-        .video-thumbnail {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16/9;
-            object-fit: cover;
-            display: block;
-            border-radius: 0.5rem 0.5rem 0 0;
-        }
-        
-        .thumbnail-placeholder {
-            width: 100%;
-            aspect-ratio: 16/9;
-            background: linear-gradient(45deg, #f3f4f6, #e5e7eb);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem 0.5rem 0 0;
-        }
-        
-        .video-details {
-            padding: 1.5rem;
-        }
-        
-        .video-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #111827;
-            margin-bottom: 1rem;
-            line-height: 1.3;
-        }
-        
-        .video-meta-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .meta-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .meta-label {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-bottom: 0.25rem;
-        }
-        
-        .meta-value {
-            font-size: 0.95rem;
-            color: #111827;
-            font-weight: 500;
-        }
-        
-        .video-description {
-            background: #f9fafb;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .description-text {
-            font-size: 0.95rem;
-            color: #374151;
-            line-height: 1.6;
-        }
-        
-        /* Downloads Table Container */
-        .downloads-container {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        
-        .downloads-header {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .downloads-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #111827;
-        }
-        
-        /* NEW: Combined MP4 & MP3 Table */
-        .download-table-combined {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
-        }
-        
-        .download-table-combined th {
-            background-color: #f9fafb;
-            padding: 1rem;
-            text-align: left;
-            font-weight: 600;
-            color: #374151;
-            border-bottom: 2px solid #e5e7eb;
-            font-size: 0.95rem;
-        }
-        
-        .download-table-combined td {
-            padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
-            vertical-align: middle;
-        }
-        
-        .download-table-combined tr:hover {
-            background-color: #f9fafb;
-        }
-        
-        /* Quality Badges */
-        .quality-badge {
-            display: inline-block;
-            padding: 0.375rem 0.75rem;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            text-align: center;
-            min-width: 70px;
-        }
-        
-        .quality-1080p {
-            background-color: #dcfce7;
-            color: #166534;
-        }
-        
-        .quality-720p {
-            background-color: #dbeafe;
-            color: #1e40af;
-        }
-        
-        .quality-480p {
-            background-color: #fef3c7;
-            color: #92400e;
-        }
-        
-        .quality-360p {
-            background-color: #fee2e2;
-            color: #991b1b;
-        }
-        
-        .quality-audio {
-            background-color: #f3e8ff;
-            color: #6b21a8;
-        }
-        
-        /* Download Buttons */
-        .download-btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            padding: 0.625rem 1rem;
-            background-color: #7c3aed;
-            color: white;
-            border: none;
-            border-radius: 0.5rem;
-            font-size: 0.875rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            min-width: 120px;
-        }
-        
-        .download-btn:hover:not(:disabled) {
-            background-color: #6d28d9;
-            transform: translateY(-1px);
-        }
-        
-        .download-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
         
         /* Input Styling */
@@ -555,71 +429,186 @@
             border-left: 4px solid #ef4444;
         }
         
-        /* ========== MOBILE RESPONSIVE ========== */
-        @media (max-width: 768px) {
-            .download-table-combined {
-                display: block;
-                overflow-x: auto;
-            }
-            
-            .download-table-combined thead {
-                display: none;
-            }
-            
-            .download-table-combined tr {
-                display: block;
-                margin-bottom: 1rem;
-                border: 1px solid #e5e7eb;
-                border-radius: 0.75rem;
-                padding: 1rem;
-            }
-            
-            .download-table-combined td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0.75rem 0;
-                border-bottom: 1px solid #f3f4f6;
-            }
-            
-            .download-table-combined td:last-child {
-                border-bottom: none;
-            }
-            
-            .download-table-combined td::before {
-                content: attr(data-label);
-                font-weight: 600;
-                color: #374151;
-                margin-right: 1rem;
-                flex-shrink: 0;
-            }
-            
-            .video-meta-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .download-btn {
-                min-width: auto;
-                max-width: 140px;
+        /* Video Info Card */
+        .video-info-card {
+            display: none;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .video-info-card.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @media (min-width: 768px) {
+            .video-info-card {
+                flex-direction: row;
             }
         }
         
-        /* Small mobile */
-        @media (max-width: 480px) {
-            .download-table-combined td {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 0.5rem;
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        @media (min-width: 768px) {
+            .video-thumbnail {
+                width: 320px;
+                height: 180px;
             }
-            
-            .download-table-combined td::before {
-                margin-bottom: 0.25rem;
-            }
-            
-            .download-btn {
-                width: 100%;
-                max-width: none;
-            }
+        }
+        
+        .video-details {
+            padding: 1.5rem;
+            flex: 1;
+        }
+        
+        /* NEW: COMPACT DOWNLOAD LAYOUT */
+        .compact-download-container {
+            display: none;
+        }
+        
+        .compact-download-container.active {
+            display: block;
+        }
+        
+        .compact-download-header {
+            background: #7c3aed;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .compact-quality-list {
+            background: white;
+            border-radius: 0 0 0.75rem 0.75rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .compact-quality-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s ease;
+        }
+        
+        .compact-quality-item:last-child {
+            border-bottom: none;
+        }
+        
+        .compact-quality-item:hover {
+            background-color: #f9fafb;
+        }
+        
+        .compact-quality-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .compact-quality-name {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.95rem;
+        }
+        
+        .compact-quality-size {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+        
+        /* Quality Badges */
+        .quality-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .quality-1080p {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .quality-720p {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .quality-480p {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .quality-audio {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+        
+        /* Download Buttons */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .download-btn:hover:not(:disabled) {
+            background-color: #6d28d9;
+            transform: translateY(-1px);
+        }
+        
+        .download-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .download-btn-loading {
+            position: relative;
+            padding-right: 2.5rem;
+        }
+        
+        .download-btn-loading::after {
+            content: "";
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
         }
         
         /* ========== MOBILE MENU ========== */
@@ -705,14 +694,7 @@
             box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
         }
         
-        /* ========== FOOTER STYLES ========== */
-        .footer-logo {
-            height: 40px;
-            width: auto;
-            filter: brightness(0) invert(1);
-        }
-        
-        /* ========== LOADING STATES ========== */
+        /* Loading Spinner */
         .loading-spinner {
             border: 3px solid rgba(0, 0, 0, 0.1);
             border-radius: 50%;
@@ -722,80 +704,64 @@
             animation: spin 1s linear infinite;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        /* ========== FOOTER STYLES ========== */
+        .footer-logo {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
         }
         
-        .download-btn-loading {
-            position: relative;
-            padding-right: 2.5rem;
-        }
-        
-        .download-btn-loading::after {
-            content: "";
-            position: absolute;
-            right: 0.75rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 1rem;
-            height: 1rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        /* Features Section */
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-            margin-top: 3rem;
-        }
-        
-        @media (min-width: 768px) {
-            .features-grid {
-                grid-template-columns: repeat(3, 1fr);
+        /* ========== RESPONSIVE TABLES ========== */
+        @media (max-width: 768px) {
+            .download-table {
+                display: none;
+            }
+            
+            /* Show compact layout on mobile */
+            .compact-download-container.active {
+                display: block;
             }
         }
         
-        .feature-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        @media (min-width: 769px) {
+            .compact-download-container {
+                display: none !important;
+            }
+            
+            .download-table {
+                display: table;
+            }
         }
         
-        .feature-icon {
-            width: 3rem;
-            height: 3rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
+        /* Desktop table styles */
+        .download-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
         }
         
-        .feature-icon.shield {
-            background-color: #dbeafe;
-            color: #1e40af;
+        .download-table th {
+            background-color: #f9fafb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
         }
         
-        .feature-icon.zap {
-            background-color: #dcfce7;
-            color: #166534;
+        .download-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
         }
         
-        .feature-icon.smartphone {
-            background-color: #f3e8ff;
-            color: #6b21a8;
+        .download-table tr:hover {
+            background-color: #f9fafb;
         }
     </style>
 </head>
 <body class="bg-gray-50">
 
-    <!-- Fixed Navigation -->
+    <!-- Fixed Navigation - Exact Homepage Version -->
     <header>
         <div class="nav-container">
             <!-- Logo -->
@@ -821,13 +787,204 @@
                 </form>
             </div>
 
-            <!-- Desktop Navigation -->
+            <!-- Desktop Navigation with Dropdowns -->
             <nav class="desktop-nav">
-                <a href="copyright-free-images.html" class="nav-link">Images</a>
-                <a href="videos.html" class="nav-link">Videos</a>
-                <a href="wallpapers.html" class="nav-link">Wallpapers</a>
-                <a href="ai-tools.html" class="nav-link">AI Tools</a>
-                <a href="youtube-downloader.html" class="nav-link active">YouTube Downloader</a>
+                <!-- Images Dropdown -->
+                <div class="nav-item">
+                    <a href="copyright-free-images.html" class="nav-link">
+                        <span>Images</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Browse Images by Category</h4>
+                        <div class="nav-image-grid">
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                    alt="Nature" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Nature</h5>
+                                    <p class="text-xs text-gray-500">2,500+ images</p>
+                                </div>
+                            </div>
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/abstract-nav-bar.jpg?raw=true" 
+                                    alt="Abstract" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Abstract</h5>
+                                    <p class="text-xs text-gray-500">1,800+ images</p>
+                                </div>
+                            </div>
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                    alt="Business" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Business</h5>
+                                    <p class="text-xs text-gray-500">3,200+ images</p>
+                                </div>
+                            </div>
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/technology-nav-bar.png?raw=true" 
+                                    alt="Technology" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Technology</h5>
+                                    <p class="text-xs text-gray-500">2,100+ images</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium text-gray-900 mb-2">Popular Searches</h5>
+                                    <div class="flex flex-wrap gap-2">
+                                        <a href="https://wall-rust.vercel.app/?q=wallpapers" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Wallpapers</a>
+                                        <a href="https://wall-rust.vercel.app/?q=stock+photos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Photos</a>
+                                        <a href="https://wall-rust.vercel.app/?q=ai+generated" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">AI Generated</a>
+                                        <a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Videos</a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-gray-900 mb-2">Quick Links</h5>
+                                    <div class="space-y-1">
+                                        <a href="#trending-gallery" class="block text-sm text-gray-600 hover:text-purple-600">Trending Images</a>
+                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">New Arrivals</a>
+                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">Premium Collection</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Videos Dropdown -->
+                <div class="nav-item">
+                    <a href="videos.html" class="nav-link">
+                        <span>Videos</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Video Collections</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
+                                <ul class="space-y-2">
+                                    <li><a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="video" class="h-4 w-4"></i> Stock Videos</a></li>
+                                    <li><a href="https://wall-rust.vercel.app/?q=motion+graphics" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="film" class="h-4 w-4"></i> Motion Graphics</a></li>
+                                    <li><a href="https://wall-rust.vercel.app/?q=4k+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Videos</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Travel Video" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">Travel & Adventure</h6>
+                                            <p class="text-xs text-gray-500">850+ videos</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wallpapers Dropdown -->
+                <div class="nav-item">
+                    <a href="wallpapers.html" class="nav-link">
+                        <span>Wallpapers</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Wallpaper Collections</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
+                                <ul class="space-y-2">
+                                    <li><a href="wallpapers.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="image" class="h-4 w-4"></i> HD Wallpapers</a></li>
+                                    <li><a href="wallpapers.html?q=4k+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Wallpapers</a></li>
+                                    <li><a href="wallpapers.html?q=mobile+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="smartphone" class="h-4 w-4"></i> Mobile Wallpapers</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Nature Wallpaper" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">Nature & Landscape</h6>
+                                            <p class="text-xs text-gray-500">1,200+ wallpapers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Tools Dropdown -->
+                <div class="nav-item">
+                    <a href="ai-tools.html" class="nav-link">
+                        <span>AI Tools</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">AI Tools</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">AI Tools</h5>
+                                <ul class="space-y-2">
+                                    <li><a href="ai-image-generator.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="sparkles" class="h-4 w-4"></i> AI Image Generator</a></li>
+                                    <li><a href="ai-background-remover.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="scissors" class="h-4 w-4"></i> Background Remover</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/ai-image-generator.webp?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="AI Image Generator" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">AI Image Generator</h6>
+                                            <p class="text-xs text-gray-500">Create AI art from text</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://github.com/danukaya123/bgtest/blob/main/bgremove-banner.PNG?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Background Remover" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">Background Remover</h6>
+                                            <p class="text-xs text-gray-500">Remove backgrounds instantly</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- YouTube Downloader (Active) -->
+                <a href="youtube-downloader.html" class="nav-link active">
+                    <i data-lucide="download" class="h-4 w-4 mr-2"></i>
+                    YouTube Downloader
+                </a>
                 
                 <button class="cta-button ml-2" onclick="window.location.href='#download-section'">
                     Download Now
@@ -947,234 +1104,131 @@
         </div>
     </section>
 
-    <!-- Main Downloader Section -->
+    <!-- Downloader Section -->
     <section id="download-section" class="section-spacing">
         <div class="content-container">
+            <!-- Video Info Card -->
+            <div id="metaCard" class="video-info-card">
+                <img id="videoThumbnail" src="" alt="Video thumbnail" class="video-thumbnail">
+                <div class="video-details">
+                    <h2 id="videoTitle" class="text-2xl font-bold text-gray-900 mb-2"></h2>
+                    <div class="flex flex-wrap gap-4 mb-4 text-sm text-gray-600">
+                        <span id="videoAuthor" class="flex items-center gap-2">
+                            <i data-lucide="user" class="h-4 w-4"></i>
+                            <span id="authorText"></span>
+                        </span>
+                        <span id="videoViews" class="flex items-center gap-2">
+                            <i data-lucide="eye" class="h-4 w-4"></i>
+                            <span id="viewsText"></span>
+                        </span>
+                        <span id="videoDuration" class="flex items-center gap-2">
+                            <i data-lucide="clock" class="h-4 w-4"></i>
+                            <span id="durationText"></span>
+                        </span>
+                    </div>
+                    <p id="videoDescription" class="text-gray-700 text-sm mb-4 line-clamp-3"></p>
+                </div>
+            </div>
+
             <!-- Error Messages -->
             <div id="errors" class="text-red-600 mb-4"></div>
 
             <!-- Results Section -->
             <div id="results" class="hidden">
-                <div class="download-layout">
-                    <!-- Left Column: Video Metadata -->
-                    <div class="metadata-column">
-                        <div id="metaCard" class="metadata-card">
-                            <div class="video-thumbnail-container">
-                                <img id="videoThumbnail" src="" alt="Video thumbnail" class="video-thumbnail">
-                                <div id="thumbnailPlaceholder" class="thumbnail-placeholder">
-                                    <i data-lucide="video" class="h-12 w-12 text-gray-400"></i>
-                                </div>
+                <!-- NEW: COMPACT MOBILE LAYOUT -->
+                <div id="compactDownloads" class="compact-download-container">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- MP4 Downloads -->
+                        <div class="compact-download-section">
+                            <div class="compact-download-header">
+                                <i data-lucide="video" class="h-5 w-5"></i>
+                                Video (MP4) Downloads
                             </div>
-                            <div class="video-details">
-                                <h2 id="videoTitle" class="video-title">Lelena (666600) - Nilan Hettiarachchi Official Music Video</h2>
-                                
-                                <div class="video-meta-grid">
-                                    <div class="meta-item">
-                                        <span class="meta-label">Author</span>
-                                        <span id="videoAuthor" class="meta-value">Unknown Author</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">Views</span>
-                                        <span id="videoViews" class="meta-value">4,100,235 views</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">Duration</span>
-                                        <span id="videoDuration" class="meta-value">Unknown duration</span>
-                                    </div>
-                                    <div class="meta-item">
-                                        <span class="meta-label">Quality</span>
-                                        <span id="videoQuality" class="meta-value">Up to 1080p</span>
-                                    </div>
-                                </div>
-                                
-                                <div class="video-description">
-                                    <h3 class="font-semibold text-gray-900 mb-2">Description</h3>
-                                    <p id="videoDescription" class="description-text">
-                                        Lelena (666600) - Nilan Hettiarachchi Official Music Video produced by Channah Sargentis Lynch. 
-                                        Directed by Sandesh Bandara. Production by ECM Tuner. 
-                                        Copyright & Distribution ECM Tuner 2021.
-                                    </p>
-                                </div>
+                            <div class="compact-quality-list" id="compactMp4List">
+                                <!-- MP4 items will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- MP3 Downloads -->
+                        <div class="compact-download-section">
+                            <div class="compact-download-header">
+                                <i data-lucide="music" class="h-5 w-5"></i>
+                                Audio (MP3) Downloads
+                            </div>
+                            <div class="compact-quality-list" id="compactMp3List">
+                                <!-- MP3 items will be populated here -->
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Right Column: Downloads Table -->
-                    <div class="downloads-column">
-                        <div class="downloads-container hover-lift">
-                            <div class="downloads-header">
-                                <i data-lucide="download" class="h-6 w-6 text-purple-600"></i>
-                                <h3 class="downloads-title">Download Options</h3>
-                            </div>
-                            
-                            <!-- Combined MP4 & MP3 Table -->
-                            <div class="overflow-x-auto">
-                                <table class="download-table-combined">
-                                    <thead>
-                                        <tr>
-                                            <th>Format</th>
-                                            <th>Quality</th>
-                                            <th>Size</th>
-                                            <th>Download</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="combinedDownloads">
-                                        <!-- MP4 rows will be inserted here -->
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="video" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP4 Video</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-1080p">1080p</span>
-                                            </td>
-                                            <td data-label="Size">33.81 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp4', '1080')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="video" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP4 Video</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-720p">720p</span>
-                                            </td>
-                                            <td data-label="Size">21.68 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp4', '720')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="video" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP4 Video</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-480p">480p</span>
-                                            </td>
-                                            <td data-label="Size">13.37 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp4', '480')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="video" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP4 Video</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-360p">360p</span>
-                                            </td>
-                                            <td data-label="Size">9.64 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp4', '360')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="music" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP3 Audio</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-audio">320kbps</span>
-                                            </td>
-                                            <td data-label="Size">2.96 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp3', '320')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="music" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP3 Audio</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-audio">256kbps</span>
-                                            </td>
-                                            <td data-label="Size">2.56 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp3', '256')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td data-label="Format">
-                                                <div class="flex items-center gap-2">
-                                                    <i data-lucide="music" class="h-4 w-4 text-purple-600"></i>
-                                                    <span class="font-medium">MP3 Audio</span>
-                                                </div>
-                                            </td>
-                                            <td data-label="Quality">
-                                                <span class="quality-badge quality-audio">128kbps</span>
-                                            </td>
-                                            <td data-label="Size">1.28 MB</td>
-                                            <td data-label="Download">
-                                                <button class="download-btn" onclick="startDownload('mp3', '128')">
-                                                    <i data-lucide="download" class="h-4 w-4"></i>
-                                                    Download
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                <!-- Desktop Table Layout (hidden on mobile) -->
+                <div class="desktop-download-layout">
+                    <!-- Video Downloads -->
+                    <div class="downloader-card hover-lift">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="video" class="h-6 w-6 text-purple-600"></i>
+                            Video (MP4) Downloads
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="download-table">
+                                <thead>
+                                    <tr>
+                                        <th data-label="Quality">Quality</th>
+                                        <th data-label="Size">File Size</th>
+                                        <th data-label="Format">Format</th>
+                                        <th data-label="Action">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mp4List"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Audio Downloads -->
+                    <div class="downloader-card hover-lift">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="music" class="h-6 w-6 text-purple-600"></i>
+                            Audio (MP3) Downloads
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="download-table">
+                                <thead>
+                                    <tr>
+                                        <th data-label="Quality">Quality</th>
+                                        <th data-label="Size">File Size</th>
+                                        <th data-label="Format">Format</th>
+                                        <th data-label="Action">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mp3List"></tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Features Section -->
-            <div class="features-grid">
-                <div class="feature-card hover-lift">
-                    <div class="feature-icon shield">
-                        <i data-lucide="shield" class="h-6 w-6"></i>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-white rounded-xl p-6 hover-lift text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="shield" class="h-6 w-6 text-blue-600"></i>
                     </div>
                     <h3 class="font-bold text-gray-900 mb-2">Safe & Secure</h3>
                     <p class="text-gray-600 text-sm">No registration required. Your privacy is protected.</p>
                 </div>
                 
-                <div class="feature-card hover-lift">
-                    <div class="feature-icon zap">
-                        <i data-lucide="zap" class="h-6 w-6"></i>
+                <div class="bg-white rounded-xl p-6 hover-lift text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="zap" class="h-6 w-6 text-green-600"></i>
                     </div>
                     <h3 class="font-bold text-gray-900 mb-2">Fast Downloads</h3>
                     <p class="text-gray-600 text-sm">High-speed downloads with multiple quality options.</p>
                 </div>
                 
-                <div class="feature-card hover-lift">
-                    <div class="feature-icon smartphone">
-                        <i data-lucide="smartphone" class="h-6 w-6"></i>
+                <div class="bg-white rounded-xl p-6 hover-lift text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="smartphone" class="h-6 w-6 text-purple-600"></i>
                     </div>
                     <h3 class="font-bold text-gray-900 mb-2">Mobile Friendly</h3>
                     <p class="text-gray-600 text-sm">Works perfectly on all devices and browsers.</p>
@@ -1294,14 +1348,17 @@
         const status = document.getElementById('status');
         const metaCard = document.getElementById('metaCard');
         const videoThumbnail = document.getElementById('videoThumbnail');
-        const thumbnailPlaceholder = document.getElementById('thumbnailPlaceholder');
         const videoTitle = document.getElementById('videoTitle');
-        const authorText = document.getElementById('videoAuthor');
-        const viewsText = document.getElementById('videoViews');
-        const durationText = document.getElementById('videoDuration');
+        const authorText = document.getElementById('authorText');
+        const viewsText = document.getElementById('viewsText');
+        const durationText = document.getElementById('durationText');
         const videoDescription = document.getElementById('videoDescription');
         const results = document.getElementById('results');
-        const combinedDownloads = document.getElementById('combinedDownloads');
+        const mp4List = document.getElementById('mp4List');
+        const mp3List = document.getElementById('mp3List');
+        const compactMp4List = document.getElementById('compactMp4List');
+        const compactMp3List = document.getElementById('compactMp3List');
+        const compactDownloads = document.getElementById('compactDownloads');
         const errors = document.getElementById('errors');
 
         // ========== HELPER FUNCTIONS ==========
@@ -1316,7 +1373,7 @@
             if (quality.includes('1080')) return 'quality-1080p';
             if (quality.includes('720')) return 'quality-720p';
             if (quality.includes('480')) return 'quality-480p';
-            if (quality.includes('360')) return 'quality-360p';
+            if (quality.includes('360')) return 'quality-480p';
             if (quality.includes('kbps')) return 'quality-audio';
             return 'quality-480p';
         }
@@ -1344,33 +1401,82 @@
             status.style.display = 'none';
         }
 
-        // ========== DOWNLOAD FUNCTION ==========
-        function startDownload(type, quality) {
-            const btn = event.currentTarget;
-            
-            // Show loading state on button
-            const originalText = btn.innerHTML;
-            btn.innerHTML = '<i data-lucide="loader" class="h-4 w-4 animate-spin"></i> Preparing...';
-            btn.classList.add('download-btn-loading');
-            btn.disabled = true;
-
-            // Simulate download process
-            setTimeout(() => {
-                // Show success message
-                showStatus(`${type.toUpperCase()} ${quality} download started!`, 'success');
-                
-                // Reset button
-                btn.innerHTML = originalText;
-                btn.classList.remove('download-btn-loading');
-                btn.disabled = false;
-                lucide.createIcons();
-                
-                // Auto-hide success message
-                setTimeout(hideStatus, 3000);
-            }, 1500);
+        // ========== CREATE COMPACT DOWNLOAD ITEM ==========
+        function createCompactItem(item, type, q) {
+            const div = document.createElement('div');
+            div.className = 'compact-quality-item';
+            div.innerHTML = `
+                <div class="compact-quality-info">
+                    <span class="compact-quality-name">${item.quality}</span>
+                    <span class="compact-quality-size">${humanFileSize(item.size)} • ${type === 'mp4' ? 'MP4' : 'MP3'}</span>
+                </div>
+                <button class="download-btn compact-download-btn" 
+                    data-type="${type}" 
+                    data-quality="${item.qualityNumber}" 
+                    data-q="${encodeURIComponent(q)}"
+                    data-filename="${encodeURIComponent(item.filename)}">
+                    <i data-lucide="download" class="h-4 w-4"></i>
+                    Download
+                </button>
+            `;
+            return div;
         }
 
-        // ========== FETCH VIDEO INFO ==========
+        // ========== ATTACH DOWNLOAD LISTENERS ==========
+        function attachDownloadListeners() {
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const type = this.dataset.type;
+                    const quality = this.dataset.quality;
+                    const qval = decodeURIComponent(this.dataset.q);
+                    const filename = decodeURIComponent(this.dataset.filename);
+
+                    // Show loading state on button
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i data-lucide="loader" class="h-4 w-4 animate-spin"></i> Preparing...';
+                    this.classList.add('download-btn-loading');
+                    this.disabled = true;
+
+                    try {
+                        // Get download URL from backend
+                        const resp = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
+                        if (!resp.ok) throw new Error('Failed to get download URL');
+
+                        const data = await resp.json();
+                        if (!data.ok || !data.url) throw new Error('No download URL returned');
+
+                        // Use proxy for branded download
+                        const proxyUrl = `/api/proxy?url=${encodeURIComponent(data.url)}&filename=${encodeURIComponent(filename)}`;
+                        
+                        // Create download link and trigger click
+                        const a = document.createElement('a');
+                        a.href = proxyUrl;
+                        a.download = filename;
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+
+                        // Show success message
+                        showStatus('Download started! Check your downloads folder.', 'success');
+                        setTimeout(hideStatus, 3000);
+
+                    } catch (err) {
+                        console.error('Download error:', err);
+                        showStatus(`Download failed: ${err.message}`, 'error');
+                        setTimeout(hideStatus, 5000);
+                    } finally {
+                        // Restore button state
+                        this.innerHTML = originalText;
+                        this.classList.remove('download-btn-loading');
+                        this.disabled = false;
+                        lucide.createIcons();
+                    }
+                });
+            });
+        }
+
+        // ========== MAIN FETCH FUNCTION ==========
         async function fetchInfo() {
             const q = urlInput.value.trim();
             if (!q) {
@@ -1382,7 +1488,10 @@
             errors.textContent = '';
             metaCard.classList.remove('active');
             results.classList.add('hidden');
-            combinedDownloads.innerHTML = '';
+            mp4List.innerHTML = '';
+            mp3List.innerHTML = '';
+            compactMp4List.innerHTML = '';
+            compactMp3List.innerHTML = '';
 
             // Show loading status
             showStatus('Fetching video information...', 'loading');
@@ -1391,112 +1500,131 @@
             lucide.createIcons();
 
             try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1500));
-
-                // Sample data for demonstration
-                const sampleData = {
-                    metadata: {
-                        title: "Lelena (666600) - Nilan Hettiarachchi Official Music Video",
-                        author: "Unknown Author",
-                        views: 41002358,
-                        duration: "3:45",
-                        thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg",
-                        description: "Lelena (666600) - Nilan Hettiarachchi Official Music Video produced by Channah Sargentis Lynch. Directed by Sandesh Bandara. Production by ECM Tuner. Copyright & Distribution ECM Tuner 2021."
-                    },
-                    downloads: {
-                        mp4: [
-                            { quality: "1080p", qualityNumber: 1080, size: 35481334, filename: "Lelena_Music_Video_1080p.mp4" },
-                            { quality: "720p", qualityNumber: 720, size: 22675456, filename: "Lelena_Music_Video_720p.mp4" },
-                            { quality: "480p", qualityNumber: 480, size: 14024704, filename: "Lelena_Music_Video_480p.mp4" },
-                            { quality: "360p", qualityNumber: 360, size: 10108928, filename: "Lelena_Music_Video_360p.mp4" }
-                        ],
-                        mp3: [
-                            { quality: "320 kbps", qualityNumber: 320, size: 3104768, filename: "Lelena_Music_Video_320kbps.mp3" },
-                            { quality: "256 kbps", qualityNumber: 256, size: 2686976, filename: "Lelena_Music_Video_256kbps.mp3" },
-                            { quality: "128 kbps", qualityNumber: 128, size: 1343488, filename: "Lelena_Music_Video_128kbps.mp3" }
-                        ]
-                    }
-                };
+                // Call your backend API
+                const resp = await fetch(`/api/info?q=${encodeURIComponent(q)}`);
+                const data = await resp.json();
+                
+                if (!data.ok) {
+                    throw new Error(data.message || data.error || "Failed to fetch video information");
+                }
 
                 // Update video metadata
-                const meta = sampleData.metadata;
+                const meta = data.metadata || {};
                 
-                // Set thumbnail with proper error handling
                 if (meta.thumbnail) {
-                    thumbnailPlaceholder.style.display = 'none';
                     videoThumbnail.src = meta.thumbnail;
-                    videoThumbnail.style.display = 'block';
                     videoThumbnail.onerror = () => {
-                        videoThumbnail.style.display = 'none';
-                        thumbnailPlaceholder.style.display = 'flex';
+                        videoThumbnail.src = 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
                     };
-                } else {
-                    videoThumbnail.style.display = 'none';
-                    thumbnailPlaceholder.style.display = 'flex';
                 }
                 
-                videoTitle.textContent = meta.title;
-                authorText.textContent = meta.author;
-                viewsText.textContent = meta.views.toLocaleString() + " views";
-                durationText.textContent = meta.duration;
-                videoDescription.textContent = meta.description;
+                videoTitle.textContent = meta.title || 'Unknown Title';
+                authorText.textContent = meta.author || 'Unknown Author';
+                viewsText.textContent = meta.views ? `${meta.views.toLocaleString()} views` : 'No views data';
+                durationText.textContent = meta.duration || 'Unknown duration';
+                videoDescription.textContent = meta.description || 'No description available';
                 
                 metaCard.classList.add('active');
                 showStatus('Video information loaded successfully!', 'success');
 
-                // Clear existing rows except header
-                combinedDownloads.innerHTML = '';
-
-                // Add MP4 downloads
-                sampleData.downloads.mp4.forEach(item => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td data-label="Format">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="video" class="h-4 w-4 text-purple-600"></i>
-                                <span class="font-medium">MP4 Video</span>
-                            </div>
-                        </td>
-                        <td data-label="Quality">
-                            <span class="quality-badge ${getQualityClass(item.quality)}">${item.quality}</span>
-                        </td>
-                        <td data-label="Size">${humanFileSize(item.size)}</td>
-                        <td data-label="Download">
-                            <button class="download-btn" onclick="startDownload('mp4', '${item.qualityNumber}')">
-                                <i data-lucide="download" class="h-4 w-4"></i>
-                                Download
-                            </button>
-                        </td>
+                // Populate MP4 downloads for desktop table
+                const mp4 = (data.downloads?.mp4 || []).sort((a, b) => (b.qualityNumber || 0) - (a.qualityNumber || 0));
+                if (mp4.length > 0) {
+                    mp4.forEach(item => {
+                        // Desktop table row
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td data-label="Quality">
+                                <span class="quality-badge ${getQualityClass(item.quality)}">${item.quality}</span>
+                            </td>
+                            <td data-label="Size">${humanFileSize(item.size)}</td>
+                            <td data-label="Format">MP4</td>
+                            <td data-label="Action">
+                                <button class="download-btn" 
+                                    data-type="mp4" 
+                                    data-quality="${item.qualityNumber}" 
+                                    data-q="${encodeURIComponent(q)}"
+                                    data-filename="${encodeURIComponent(item.filename)}">
+                                    <i data-lucide="download" class="h-4 w-4"></i>
+                                    Download
+                                </button>
+                            </td>
+                        `;
+                        mp4List.appendChild(tr);
+                        
+                        // Compact mobile item
+                        compactMp4List.appendChild(createCompactItem(item, 'mp4', q));
+                    });
+                } else {
+                    mp4List.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-gray-500">
+                                No video downloads available for this video.
+                            </td>
+                        </tr>
                     `;
-                    combinedDownloads.appendChild(tr);
-                });
-
-                // Add MP3 downloads
-                sampleData.downloads.mp3.forEach(item => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td data-label="Format">
-                            <div class="flex items-center gap-2">
-                                <i data-lucide="music" class="h-4 w-4 text-purple-600"></i>
-                                <span class="font-medium">MP3 Audio</span>
+                    compactMp4List.innerHTML = `
+                        <div class="compact-quality-item">
+                            <div class="compact-quality-info">
+                                <span class="compact-quality-name text-gray-500">No video downloads available</span>
                             </div>
-                        </td>
-                        <td data-label="Quality">
-                            <span class="quality-badge quality-audio">${item.quality}</span>
-                        </td>
-                        <td data-label="Size">${humanFileSize(item.size)}</td>
-                        <td data-label="Download">
-                            <button class="download-btn" onclick="startDownload('mp3', '${item.qualityNumber}')">
-                                <i data-lucide="download" class="h-4 w-4"></i>
-                                Download
-                            </button>
-                        </td>
+                        </div>
                     `;
-                    combinedDownloads.appendChild(tr);
-                });
+                }
 
+                // Populate MP3 downloads for desktop table
+                const mp3 = (data.downloads?.mp3 || []).sort((a, b) => (b.qualityNumber || 0) - (a.qualityNumber || 0));
+                if (mp3.length > 0) {
+                    mp3.forEach(item => {
+                        // Desktop table row
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td data-label="Quality">
+                                <span class="quality-badge quality-audio">${item.quality}</span>
+                            </td>
+                            <td data-label="Size">${humanFileSize(item.size)}</td>
+                            <td data-label="Format">MP3</td>
+                            <td data-label="Action">
+                                <button class="download-btn" 
+                                    data-type="mp3" 
+                                    data-quality="${item.qualityNumber}" 
+                                    data-q="${encodeURIComponent(q)}"
+                                    data-filename="${encodeURIComponent(item.filename)}">
+                                    <i data-lucide="download" class="h-4 w-4"></i>
+                                    Download
+                                </button>
+                            </td>
+                        `;
+                        mp3List.appendChild(tr);
+                        
+                        // Compact mobile item
+                        compactMp3List.appendChild(createCompactItem(item, 'mp3', q));
+                    });
+                } else {
+                    mp3List.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-gray-500">
+                                No audio downloads available for this video.
+                            </td>
+                        </tr>
+                    `;
+                    compactMp3List.innerHTML = `
+                        <div class="compact-quality-item">
+                            <div class="compact-quality-info">
+                                <span class="compact-quality-name text-gray-500">No audio downloads available</span>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Activate compact layout on mobile
+                compactDownloads.classList.add('active');
+                
+                // Attach download event listeners
+                attachDownloadListeners();
                 results.classList.remove('hidden');
+
+                // Update Lucide icons for new content
                 lucide.createIcons();
 
             } catch (err) {
@@ -1549,6 +1677,21 @@
                 }
             });
         }
+
+        // ========== DROPDOWN FIXES ==========
+        document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('mouseenter', () => {
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+            });
+            
+            dropdown.addEventListener('mouseleave', () => {
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(10px)';
+            });
+        });
 
         // Auto-focus input on page load
         window.addEventListener('load', () => {

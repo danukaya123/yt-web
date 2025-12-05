@@ -1,213 +1,1576 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>YouTube Downloader</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .thumb { width: 100%; max-width: 320px; height: auto; border-radius: 8px; }
-    .table-fixed { table-layout: fixed; width: 100%; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>YouTube Media Downloader - Quizontal | Free Audio & Video Downloads</title>
+    <meta name="description" content="Download YouTube videos and audio in high quality. Free MP4 and MP3 downloads with multiple quality options. No registration required.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.3.3"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ========== RESET & BASE STYLES ========== */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            overflow-x: hidden;
+        }
+        
+        /* ========== LAYOUT CONTAINERS ========== */
+        .content-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .content-container {
+                padding: 0 1.5rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .content-container {
+                padding: 0 2rem;
+            }
+        }
+        
+        /* ========== NAVIGATION - EXACT COPY FROM HOMEPAGE ========== */
+        header {
+            width: 100%;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        @media (min-width: 640px) {
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .nav-container {
+                padding: 0 2rem;
+            }
+        }
+        
+        /* Logo */
+        .nav-logo {
+            height: 40px;
+            width: auto;
+            max-width: 180px;
+            object-fit: contain;
+        }
+        
+        @media (max-width: 640px) {
+            .nav-logo {
+                height: 36px;
+                max-width: 150px;
+            }
+        }
+        
+        /* Desktop Navigation */
+        .desktop-nav {
+            display: none;
+        }
+        
+        @media (min-width: 1024px) {
+            .desktop-nav {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }
+        }
+        
+        /* Navigation Links */
+        .nav-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #374151;
+            text-decoration: none;
+            border-radius: 0.5rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            height: 44px;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            background-color: rgba(124, 58, 237, 0.05);
+            color: #7c3aed;
+        }
+        
+        .nav-link i {
+            margin-left: 0.25rem;
+            transition: transform 0.2s ease;
+        }
+        
+        .nav-link:hover i {
+            transform: rotate(180deg);
+        }
+        
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            min-width: 120px;
+        }
+        
+        @media (min-width: 640px) {
+            .search-container {
+                min-width: 200px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .search-container {
+                min-width: 240px;
+            }
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.625rem 1rem 0.625rem 2.5rem;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 0.75rem;
+            outline: none;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            background-color: #f9fafb;
+        }
+        
+        .search-input:focus {
+            border-color: #7c3aed;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+        }
+        
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            pointer-events: none;
+        }
+        
+        /* FIXED: Navigation Dropdown */
+        .nav-item {
+            position: relative;
+        }
+        
+        .nav-dropdown {
+            position: absolute;
+            top: calc(100% + 15px);
+            left: 0;
+            width: 800px;
+            max-width: 33vw;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            padding: 1.5rem;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid #f3f4f6;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-dropdown {
+                width: 600px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .nav-dropdown {
+                width: 400px;
+                left: -100%;
+            }
+        }
+        
+        /* Hover functionality fixed */
+        .nav-item:hover .nav-dropdown,
+        .nav-dropdown:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        /* Dropdown content grids */
+        .nav-image-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        @media (max-width: 1024px) {
+            .nav-image-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .nav-image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* CTA Button */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #7c3aed;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            height: 44px;
+            border: none;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        
+        .cta-button:hover {
+            background-color: #6d28d9;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
+        }
+        
+        /* Mobile Menu Button */
+        .mobile-menu-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 0.5rem;
+            background: transparent;
+            border: none;
+            color: #374151;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+        
+        .mobile-menu-btn:hover {
+            background-color: rgba(124, 58, 237, 0.05);
+        }
+        
+        @media (min-width: 1024px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+        
+        /* ========== HERO SECTION WITH YOUTUBE BACKGROUND ========== */
+        .hero-section {
+            position: relative;
+            color: white;
+            overflow: hidden;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #FF0000 0%, #CC0000 100%);
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, 
+                rgba(0, 0, 0, 0.8) 0%, 
+                rgba(0, 0, 0, 0.6) 50%,
+                rgba(0, 0, 0, 0.4) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 3rem 0;
+        }
+        
+        .youtube-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 64px;
+            height: 64px;
+            background: #FF0000;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* ========== DOWNLOADER SECTION ========== */
+        .section-spacing {
+            padding: 3rem 0;
+        }
+        
+        @media (min-width: 768px) {
+            .section-spacing {
+                padding: 4rem 0;
+            }
+        }
+        
+        .downloader-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .downloader-card {
+                padding: 2.5rem;
+            }
+        }
+        
+        /* Input Styling */
+        .url-input-container {
+            position: relative;
+            margin-bottom: 1rem;
+        }
+        
+        .url-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #f9fafb;
+        }
+        
+        .url-input:focus {
+            border-color: #7c3aed;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+            outline: none;
+        }
+        
+        .url-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+            pointer-events: none;
+        }
+        
+        /* Status Message */
+        .status-message {
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            font-size: 0.875rem;
+            display: none;
+        }
+        
+        .status-loading {
+            background-color: #e0f2fe;
+            color: #0369a1;
+            border-left: 4px solid #0ea5e9;
+        }
+        
+        .status-success {
+            background-color: #dcfce7;
+            color: #166534;
+            border-left: 4px solid #22c55e;
+        }
+        
+        .status-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        
+        /* Video Info Card */
+        .video-info-card {
+            display: none;
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .video-info-card.active {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        @media (min-width: 768px) {
+            .video-info-card {
+                flex-direction: row;
+            }
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        @media (min-width: 768px) {
+            .video-thumbnail {
+                width: 320px;
+                height: 180px;
+            }
+        }
+        
+        .video-details {
+            padding: 1.5rem;
+            flex: 1;
+        }
+        
+        /* Download Tables */
+        .download-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .download-table th {
+            background-color: #f9fafb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .download-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .download-table tr:hover {
+            background-color: #f9fafb;
+        }
+        
+        /* Quality Badges */
+        .quality-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .quality-1080p {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .quality-720p {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .quality-480p {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+        
+        .quality-audio {
+            background-color: #f3e8ff;
+            color: #6b21a8;
+        }
+        
+        /* Download Buttons */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background-color: #7c3aed;
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        
+        .download-btn:hover:not(:disabled) {
+            background-color: #6d28d9;
+            transform: translateY(-1px);
+        }
+        
+        .download-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        .download-btn-loading {
+            position: relative;
+            padding-right: 2.5rem;
+        }
+        
+        .download-btn-loading::after {
+            content: "";
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+        
+        /* ========== MOBILE MENU ========== */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            z-index: 9999;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            overflow-y: auto;
+            display: none;
+        }
+        
+        .mobile-menu.active {
+            transform: translateX(0);
+            display: block;
+        }
+        
+        .mobile-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .mobile-nav {
+            padding: 1rem;
+        }
+        
+        .mobile-nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            width: 100%;
+            background: transparent;
+            border: none;
+            color: #374151;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            transition: background-color 0.2s ease;
+            margin-bottom: 0.25rem;
+        }
+        
+        .mobile-nav-link:hover,
+        .mobile-nav-link.active {
+            background-color: #f9fafb;
+            color: #7c3aed;
+        }
+        
+        .mobile-cta {
+            padding: 1rem;
+            border-top: 1px solid #e5e7eb;
+            background: #f9fafb;
+            position: sticky;
+            bottom: 0;
+        }
+        
+        /* ========== UTILITY CLASSES ========== */
+        .gradient-text {
+            background: linear-gradient(135deg, #7c3aed, #FF0000);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Loading Spinner */
+        .loading-spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #7c3aed;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* ========== FOOTER STYLES ========== */
+        .footer-logo {
+            height: 40px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        
+        /* ========== RESPONSIVE TABLES ========== */
+        @media (max-width: 768px) {
+            .download-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .download-table thead {
+                display: none;
+            }
+            
+            .download-table tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #e5e7eb;
+                border-radius: 0.5rem;
+                padding: 1rem;
+            }
+            
+            .download-table td {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.5rem 0;
+                border-bottom: none;
+            }
+            
+            .download-table td::before {
+                content: attr(data-label);
+                font-weight: 600;
+                color: #374151;
+                margin-right: 1rem;
+            }
+            
+            .download-table td:last-child {
+                border-bottom: none;
+            }
+        }
+    </style>
 </head>
-<body class="bg-slate-100 text-slate-800">
-<div class="max-w-4xl mx-auto p-6">
-  <h1 class="text-3xl font-semibold mb-4">YouTube Downloader</h1>
+<body class="bg-gray-50">
 
-  <div class="bg-white shadow rounded p-4 mb-6">
-    <label class="block text-sm font-medium mb-2">YouTube URL or Video ID</label>
-    <div class="flex gap-2">
-      <input id="urlInput" class="flex-1 border rounded px-3 py-2" placeholder="https://www.youtube.com/watch?v=..." />
-      <button id="fetchBtn" class="px-4 py-2 bg-indigo-600 text-white rounded">Proceed</button>
+    <!-- Fixed Navigation - Exact Homepage Version -->
+    <header>
+        <div class="nav-container">
+            <!-- Logo -->
+            <a href="/" class="flex items-center">
+                <img 
+                    src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
+                    alt="Quizontal Logo" 
+                    class="nav-logo"
+                >
+            </a>
+
+            <!-- Desktop Search Bar -->
+            <div class="search-container hidden lg:block">
+                <form action="https://wall-rust.vercel.app/" method="GET" target="_blank">
+                    <i data-lucide="search" class="search-icon h-4 w-4"></i>
+                    <input 
+                        type="search" 
+                        name="q"
+                        placeholder="Search videos, stock footage..." 
+                        class="search-input"
+                        required
+                    >
+                </form>
+            </div>
+
+            <!-- Desktop Navigation with Dropdowns -->
+            <nav class="desktop-nav">
+                <!-- Images Dropdown -->
+                <div class="nav-item">
+                    <a href="copyright-free-images.html" class="nav-link">
+                        <span>Images</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Browse Images by Category</h4>
+                        <div class="nav-image-grid">
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                    alt="Nature" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Nature</h5>
+                                    <p class="text-xs text-gray-500">2,500+ images</p>
+                                </div>
+                            </div>
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/abstract-nav-bar.jpg?raw=true" 
+                                    alt="Abstract" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Abstract</h5>
+                                    <p class="text-xs text-gray-500">1,800+ images</p>
+                                </div>
+                            </div>
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
+                                    alt="Business" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Business</h5>
+                                    <p class="text-xs text-gray-500">3,200+ images</p>
+                                </div>
+                            </div>
+                            <div class="rounded-lg overflow-hidden hover-lift">
+                                <img 
+                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/technology-nav-bar.png?raw=true" 
+                                    alt="Technology" 
+                                    class="w-full h-32 object-cover"
+                                >
+                                <div class="p-3 bg-gray-50">
+                                    <h5 class="font-medium text-gray-900 text-sm">Technology</h5>
+                                    <p class="text-xs text-gray-500">2,100+ images</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <h5 class="font-medium text-gray-900 mb-2">Popular Searches</h5>
+                                    <div class="flex flex-wrap gap-2">
+                                        <a href="https://wall-rust.vercel.app/?q=wallpapers" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Wallpapers</a>
+                                        <a href="https://wall-rust.vercel.app/?q=stock+photos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Photos</a>
+                                        <a href="https://wall-rust.vercel.app/?q=ai+generated" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">AI Generated</a>
+                                        <a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Videos</a>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h5 class="font-medium text-gray-900 mb-2">Quick Links</h5>
+                                    <div class="space-y-1">
+                                        <a href="#trending-gallery" class="block text-sm text-gray-600 hover:text-purple-600">Trending Images</a>
+                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">New Arrivals</a>
+                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">Premium Collection</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Videos Dropdown -->
+                <div class="nav-item">
+                    <a href="videos.html" class="nav-link">
+                        <span>Videos</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Video Collections</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
+                                <ul class="space-y-2">
+                                    <li><a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="video" class="h-4 w-4"></i> Stock Videos</a></li>
+                                    <li><a href="https://wall-rust.vercel.app/?q=motion+graphics" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="film" class="h-4 w-4"></i> Motion Graphics</a></li>
+                                    <li><a href="https://wall-rust.vercel.app/?q=4k+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Videos</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Travel Video" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">Travel & Adventure</h6>
+                                            <p class="text-xs text-gray-500">850+ videos</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Wallpapers Dropdown -->
+                <div class="nav-item">
+                    <a href="wallpapers.html" class="nav-link">
+                        <span>Wallpapers</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Wallpaper Collections</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
+                                <ul class="space-y-2">
+                                    <li><a href="wallpapers.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="image" class="h-4 w-4"></i> HD Wallpapers</a></li>
+                                    <li><a href="wallpapers.html?q=4k+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Wallpapers</a></li>
+                                    <li><a href="wallpapers.html?q=mobile+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="smartphone" class="h-4 w-4"></i> Mobile Wallpapers</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Nature Wallpaper" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">Nature & Landscape</h6>
+                                            <p class="text-xs text-gray-500">1,200+ wallpapers</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Tools Dropdown -->
+                <div class="nav-item">
+                    <a href="ai-tools.html" class="nav-link">
+                        <span>AI Tools</span>
+                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                    </a>
+                    <div class="nav-dropdown">
+                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">AI Tools</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">AI Tools</h5>
+                                <ul class="space-y-2">
+                                    <li><a href="ai-image-generator.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="sparkles" class="h-4 w-4"></i> AI Image Generator</a></li>
+                                    <li><a href="ai-background-remover.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="scissors" class="h-4 w-4"></i> Background Remover</a></li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/ai-image-generator.webp?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="AI Image Generator" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">AI Image Generator</h6>
+                                            <p class="text-xs text-gray-500">Create AI art from text</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
+                                            <img src="https://github.com/danukaya123/bgtest/blob/main/bgremove-banner.PNG?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Background Remover" class="w-full h-full object-cover">
+                                        </div>
+                                        <div>
+                                            <h6 class="font-medium text-gray-900 text-sm">Background Remover</h6>
+                                            <p class="text-xs text-gray-500">Remove backgrounds instantly</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- YouTube Downloader (Active) -->
+                <a href="youtube-downloader.html" class="nav-link active">
+                    <i data-lucide="download" class="h-4 w-4 mr-2"></i>
+                    YouTube Downloader
+                </a>
+                
+                <button class="cta-button ml-2" onclick="window.location.href='#download-section'">
+                    Download Now
+                </button>
+            </nav>
+
+            <!-- Mobile Search and Menu -->
+            <div class="flex items-center gap-4 lg:hidden">
+                <div class="search-container">
+                    <form action="https://wall-rust.vercel.app/" method="GET" target="_blank">
+                        <i data-lucide="search" class="search-icon h-4 w-4"></i>
+                        <input 
+                            type="search" 
+                            name="q"
+                            placeholder="Search..." 
+                            class="search-input"
+                            required
+                        >
+                    </form>
+                </div>
+                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+                    <i data-lucide="menu" class="h-6 w-6"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-header">
+            <a href="/" class="flex items-center">
+                <img 
+                    src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
+                    alt="Quizontal Logo" 
+                    class="h-10 w-auto max-w-[160px]"
+                >
+            </a>
+            <button class="mobile-menu-btn" onclick="closeMobileMenu()">
+                <i data-lucide="x" class="h-6 w-6"></i>
+            </button>
+        </div>
+        
+        <div class="mobile-nav">
+            <a href="/" class="mobile-nav-link">
+                <i data-lucide="home" class="h-5 w-5 mr-3"></i>
+                Home
+            </a>
+            <a href="copyright-free-images.html" class="mobile-nav-link">
+                <i data-lucide="image" class="h-5 w-5 mr-3"></i>
+                Free Images
+            </a>
+            <a href="videos.html" class="mobile-nav-link">
+                <i data-lucide="video" class="h-5 w-5 mr-3"></i>
+                Videos
+            </a>
+            <a href="wallpapers.html" class="mobile-nav-link">
+                <i data-lucide="layout" class="h-5 w-5 mr-3"></i>
+                Wallpapers
+            </a>
+            <a href="ai-tools.html" class="mobile-nav-link">
+                <i data-lucide="zap" class="h-5 w-5 mr-3"></i>
+                AI Generator
+            </a>
+            <a href="youtube-downloader.html" class="mobile-nav-link active">
+                <i data-lucide="download" class="h-5 w-5 mr-3"></i>
+                YouTube Downloader
+            </a>
+        </div>
+        
+        <div class="mobile-cta">
+            <button class="cta-button w-full" onclick="closeMobileMenu()">
+                Download Now
+            </button>
+        </div>
     </div>
-    <p id="status" class="text-sm text-slate-500 mt-2"></p>
-  </div>
 
-  <div id="metaCard" class="hidden bg-white shadow rounded p-4 mb-6">
-    <div class="flex gap-4">
-      <img id="thumb" class="thumb" src="" alt="thumbnail" />
-      <div class="flex-1">
-        <h2 id="title" class="text-xl font-semibold"></h2>
-        <p id="author" class="text-sm text-slate-500"></p>
-        <p id="views" class="text-sm text-slate-500"></p>
-        <p id="duration" class="text-sm text-slate-500"></p>
-        <p id="desc" class="mt-3 text-sm text-slate-700"></p>
-      </div>
-    </div>
-  </div>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        
+        <div class="content-container">
+            <div class="hero-content text-center">
+                <div class="youtube-icon mx-auto">
+                    <i data-lucide="youtube" class="h-8 w-8 text-white"></i>
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+                    YouTube <span class="gradient-text">Media Downloader</span>
+                </h1>
+                <p class="text-xl mb-8 text-gray-100 max-w-3xl mx-auto">
+                    Download YouTube videos and audio in HD quality. Free MP4 & MP3 downloads with multiple quality options.
+                </p>
+                
+                <!-- URL Input in Hero -->
+                <div class="max-w-3xl mx-auto">
+                    <div class="bg-white rounded-xl p-4 shadow-lg">
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <div class="flex-1">
+                                <div class="url-input-container">
+                                    <i data-lucide="link" class="url-icon h-5 w-5"></i>
+                                    <input 
+                                        type="text" 
+                                        id="urlInput"
+                                        placeholder="Paste YouTube URL here (e.g., https://www.youtube.com/watch?v=...)"
+                                        class="url-input"
+                                    >
+                                </div>
+                            </div>
+                            <button id="fetchBtn" class="cta-button px-8 whitespace-nowrap">
+                                <i data-lucide="search" class="h-5 w-5 mr-2"></i>
+                                Get Download Links
+                            </button>
+                        </div>
+                        <div id="status" class="status-message"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  <div id="results" class="hidden">
-    <div class="bg-white shadow rounded p-4 mb-6">
-      <h3 class="font-semibold mb-3">Video (MP4) Downloads</h3>
-      <div class="overflow-x-auto">
-        <table class="table-fixed w-full text-sm">
-          <thead>
-            <tr class="text-left">
-              <th class="w-1/6 px-2">Quality</th>
-              <th class="w-1/6 px-2">Size</th>
-              <th class="w-1/6 px-2">File</th>
-              <th class="w-1/6 px-2">Action</th>
-            </tr>
-          </thead>
-          <tbody id="mp4List"></tbody>
-        </table>
-      </div>
-    </div>
+    <!-- Downloader Section -->
+    <section id="download-section" class="section-spacing">
+        <div class="content-container">
+            <!-- Video Info Card -->
+            <div id="metaCard" class="video-info-card">
+                <img id="videoThumbnail" src="" alt="Video thumbnail" class="video-thumbnail">
+                <div class="video-details">
+                    <h2 id="videoTitle" class="text-2xl font-bold text-gray-900 mb-2"></h2>
+                    <div class="flex flex-wrap gap-4 mb-4 text-sm text-gray-600">
+                        <span id="videoAuthor" class="flex items-center gap-2">
+                            <i data-lucide="user" class="h-4 w-4"></i>
+                            <span id="authorText"></span>
+                        </span>
+                        <span id="videoViews" class="flex items-center gap-2">
+                            <i data-lucide="eye" class="h-4 w-4"></i>
+                            <span id="viewsText"></span>
+                        </span>
+                        <span id="videoDuration" class="flex items-center gap-2">
+                            <i data-lucide="clock" class="h-4 w-4"></i>
+                            <span id="durationText"></span>
+                        </span>
+                    </div>
+                    <p id="videoDescription" class="text-gray-700 text-sm mb-4 line-clamp-3"></p>
+                </div>
+            </div>
 
-    <div class="bg-white shadow rounded p-4 mb-6">
-      <h3 class="font-semibold mb-3">Audio (MP3) Downloads</h3>
-      <div class="overflow-x-auto">
-        <table class="table-fixed w-full text-sm">
-          <thead>
-            <tr class="text-left">
-              <th class="w-1/6 px-2">Quality</th>
-              <th class="w-1/6 px-2">Size</th>
-              <th class="w-1/6 px-2">File</th>
-              <th class="w-1/6 px-2">Action</th>
-            </tr>
-          </thead>
-          <tbody id="mp3List"></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+            <!-- Error Messages -->
+            <div id="errors" class="text-red-600 mb-4"></div>
 
-  <div id="errors" class="text-red-600"></div>
-</div>
+            <!-- Results Section -->
+            <div id="results" class="hidden">
+                <!-- Video Downloads -->
+                <div class="downloader-card hover-lift">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i data-lucide="video" class="h-6 w-6 text-purple-600"></i>
+                        Video (MP4) Downloads
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="download-table">
+                            <thead>
+                                <tr>
+                                    <th data-label="Quality">Quality</th>
+                                    <th data-label="Size">File Size</th>
+                                    <th data-label="Format">Format</th>
+                                    <th data-label="Action">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mp4List"></tbody>
+                        </table>
+                    </div>
+                </div>
 
-<script>
-const fetchBtn = document.getElementById("fetchBtn");
-const urlInput = document.getElementById("urlInput");
-const status = document.getElementById("status");
-const metaCard = document.getElementById("metaCard");
-const thumb = document.getElementById("thumb");
-const titleEl = document.getElementById("title");
-const authorEl = document.getElementById("author");
-const viewsEl = document.getElementById("views");
-const durationEl = document.getElementById("duration");
-const descEl = document.getElementById("desc");
-const results = document.getElementById("results");
-const mp4List = document.getElementById("mp4List");
-const mp3List = document.getElementById("mp3List");
-const errors = document.getElementById("errors");
+                <!-- Audio Downloads -->
+                <div class="downloader-card hover-lift">
+                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                        <i data-lucide="music" class="h-6 w-6 text-purple-600"></i>
+                        Audio (MP3) Downloads
+                    </h3>
+                    <div class="overflow-x-auto">
+                        <table class="download-table">
+                            <thead>
+                                <tr>
+                                    <th data-label="Quality">Quality</th>
+                                    <th data-label="Size">File Size</th>
+                                    <th data-label="Format">Format</th>
+                                    <th data-label="Action">Download</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mp3List"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-function humanFileSize(bytes) {
-  if (!bytes) return "Unknown";
-  if (bytes === 0) return "0 B";
-  const i = Math.floor(Math.log(bytes)/Math.log(1024));
-  const sizes = ['B','KB','MB','GB','TB'];
-  return (bytes/Math.pow(1024,i)).toFixed(2) + ' ' + sizes[i];
-}
+            <!-- Features Section -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
+                <div class="bg-white rounded-xl p-6 hover-lift text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="shield" class="h-6 w-6 text-blue-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Safe & Secure</h3>
+                    <p class="text-gray-600 text-sm">No registration required. Your privacy is protected.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 hover-lift text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="zap" class="h-6 w-6 text-green-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Fast Downloads</h3>
+                    <p class="text-gray-600 text-sm">High-speed downloads with multiple quality options.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl p-6 hover-lift text-center">
+                    <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="smartphone" class="h-6 w-6 text-purple-600"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Mobile Friendly</h3>
+                    <p class="text-gray-600 text-sm">Works perfectly on all devices and browsers.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-async function fetchInfo() {
-  errors.textContent = "";
-  const q = urlInput.value.trim();
-  if (!q) { errors.textContent = "Enter a YouTube URL or ID."; return; }
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="content-container py-12">
+            <!-- Newsletter -->
+            <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 md:p-8 mb-8 md:mb-12">
+                <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+                    <div>
+                        <h3 class="text-xl md:text-2xl font-bold mb-3">Stay Updated with New Features</h3>
+                        <p class="text-blue-100 text-sm md:text-base">
+                            Subscribe to our newsletter for updates on new download formats and features.
+                        </p>
+                    </div>
+                    <div>
+                        <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 md:gap-4">
+                            <input 
+                                type="email" 
+                                placeholder="Enter your email address" 
+                                class="flex-1 px-4 md:px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-sm md:text-base"
+                                required
+                            >
+                            <button 
+                                type="submit" 
+                                class="bg-white text-purple-600 px-6 md:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap text-sm md:text-base"
+                            >
+                                Subscribe
+                            </button>
+                        </form>
+                        <p class="text-xs md:text-sm text-blue-200 mt-2 md:mt-3">By subscribing, you agree to our Privacy Policy.</p>
+                    </div>
+                </div>
+            </div>
 
-  status.textContent = "Fetching metadata...";
-  fetchBtn.disabled = true;
-  metaCard.classList.add("hidden");
-  results.classList.add("hidden");
-  mp4List.innerHTML = "";
-  mp3List.innerHTML = "";
+            <!-- Footer Links -->
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
+                <!-- Logo and Social -->
+                <div class="col-span-2 md:col-span-2">
+                    <a href="/" class="inline-block mb-4">
+                        <img 
+                            src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
+                            alt="Quizontal Logo" 
+                            class="footer-logo"
+                        >
+                    </a>
+                    <p class="mt-2 md:mt-4 text-gray-400 text-sm mb-4 md:mb-6">
+                        Quizontal provides free YouTube media downloads with high-quality MP4 and MP3 formats. Fast, secure, and easy to use.
+                    </p>
+                    <div class="flex space-x-3 md:space-x-4">
+                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
+                            <i data-lucide="facebook" class="h-4 w-4 md:h-5 md:w-5"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
+                            <i data-lucide="youtube" class="h-4 w-4 md:h-5 md:w-5"></i>
+                        </a>
+                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
+                            <i data-lucide="linkedin" class="h-4 w-4 md:h-5 md:w-5"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Product Column -->
+                <div>
+                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Services</h3>
+                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
+                        <li><a href="copyright-free-images.html" class="hover:text-white transition-colors block">Images</a></li>
+                        <li><a href="wallpapers.html" class="hover:text-white transition-colors block">Wallpapers</a></li>
+                        <li><a href="videos.html" class="hover:text-white transition-colors block">Videos</a></li>
+                        <li><a href="ai-tools.html" class="hover:text-white transition-colors block">AI Generator</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Company Column -->
+                <div>
+                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Company</h3>
+                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors block">About Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors block">Blog</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors block">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Support Column -->
+                <div>
+                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Support</h3>
+                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white transition-colors block">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors block">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors block">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Bar -->
+            <div class="border-t border-gray-800 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-xs md:text-sm text-center md:text-left mb-4 md:mb-0">
+                    © 2025 Quizontal. All rights reserved. This tool is for personal use only.
+                </p>
+            </div>
+        </div>
+    </footer>
 
-  try {
-    const resp = await fetch(`/api/info?q=${encodeURIComponent(q)}`);
-    const data = await resp.json();
-    if (!data.ok) { errors.textContent = data.message||data.error||"Failed"; status.textContent=""; fetchBtn.disabled=false; return; }
+    <!-- JavaScript -->
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
 
-    const meta = data.metadata || {};
-    thumb.src = meta.image || meta.thumbnail || "";
-    titleEl.textContent = meta.title || meta.videoTitle || "No title";
-    authorEl.textContent = meta.author?.name ? `By ${meta.author.name}` : "";
-    viewsEl.textContent = meta.views ? `${meta.views.toLocaleString()} views` : "";
-    durationEl.textContent = meta.duration?.timestamp ? `Duration: ${meta.duration.timestamp}` : "";
-    descEl.textContent = (meta.description||"").slice(0,500);
-    metaCard.classList.remove("hidden");
+        // ========== DOM ELEMENTS ==========
+        const urlInput = document.getElementById('urlInput');
+        const fetchBtn = document.getElementById('fetchBtn');
+        const status = document.getElementById('status');
+        const metaCard = document.getElementById('metaCard');
+        const videoThumbnail = document.getElementById('videoThumbnail');
+        const videoTitle = document.getElementById('videoTitle');
+        const authorText = document.getElementById('authorText');
+        const viewsText = document.getElementById('viewsText');
+        const durationText = document.getElementById('durationText');
+        const videoDescription = document.getElementById('videoDescription');
+        const results = document.getElementById('results');
+        const mp4List = document.getElementById('mp4List');
+        const mp3List = document.getElementById('mp3List');
+        const errors = document.getElementById('errors');
 
-    // MP4 table
-    const mp4 = (data.downloads?.mp4||[]).sort((a,b)=> (b.qualityNumber||0)-(a.qualityNumber||0));
-    mp4.forEach(item => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="px-2 py-2">${item.quality}</td>
-        <td class="px-2 py-2">${humanFileSize(item.size)}</td>
-        <td class="px-2 py-2">${item.filename||""}</td>
-        <td class="px-2 py-2">
-          <button class="downloadBtn px-3 py-1 bg-green-600 text-white rounded" 
-            data-type="mp4" data-quality="${item.qualityNumber}" data-q="${encodeURIComponent(q)}">
-            Download
-          </button>
-        </td>`;
-      mp4List.appendChild(tr);
-    });
+        // ========== HELPER FUNCTIONS ==========
+        function humanFileSize(bytes) {
+            if (!bytes || bytes === 0) return 'Unknown';
+            const i = Math.floor(Math.log(bytes) / Math.log(1024));
+            const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+            return (bytes / Math.pow(1024, i)).toFixed(2) + ' ' + sizes[i];
+        }
 
-    // MP3 table
-    const mp3 = (data.downloads?.mp3||[]).sort((a,b)=> (b.qualityNumber||0)-(a.qualityNumber||0));
-    mp3.forEach(item => {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td class="px-2 py-2">${item.quality}</td>
-        <td class="px-2 py-2">${humanFileSize(item.size)}</td>
-        <td class="px-2 py-2">${item.filename||""}</td>
-        <td class="px-2 py-2">
-          <button class="downloadBtn px-3 py-1 bg-green-600 text-white rounded"
-            data-type="mp3" data-quality="${item.qualityNumber}" data-q="${encodeURIComponent(q)}">
-            Download
-          </button>
-        </td>`;
-      mp3List.appendChild(tr);
-    });
+        function getQualityClass(quality) {
+            if (quality.includes('1080')) return 'quality-1080p';
+            if (quality.includes('720')) return 'quality-720p';
+            if (quality.includes('480')) return 'quality-480p';
+            if (quality.includes('360')) return 'quality-480p';
+            if (quality.includes('kbps')) return 'quality-audio';
+            return 'quality-480p';
+        }
 
-    // Attach download handlers
-document.querySelectorAll(".downloadBtn").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const type = btn.dataset.type;
-    const quality = btn.dataset.quality;
-    const qval = decodeURIComponent(btn.dataset.q);
+        function showStatus(message, type = 'loading') {
+            status.textContent = message;
+            status.className = 'status-message';
+            
+            switch(type) {
+                case 'loading':
+                    status.classList.add('status-loading');
+                    break;
+                case 'success':
+                    status.classList.add('status-success');
+                    break;
+                case 'error':
+                    status.classList.add('status-error');
+                    break;
+            }
+            
+            status.style.display = 'block';
+        }
 
-    btn.disabled = true;
-    btn.textContent = "Preparing...";
+        function hideStatus() {
+            status.style.display = 'none';
+        }
 
-    try {
-      // 1️⃣ Fetch JSON output from your backend
-      const resp = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
-      if (!resp.ok) throw new Error("Failed to fetch download info");
+        // ========== MAIN FETCH FUNCTION ==========
+        async function fetchInfo() {
+            const q = urlInput.value.trim();
+            if (!q) {
+                errors.textContent = "Please enter a YouTube URL or Video ID.";
+                return;
+            }
 
-      const data = await resp.json();
-      if (!data.ok || !data.url) throw new Error("No download URL returned");
+            // Clear previous results
+            errors.textContent = '';
+            metaCard.classList.remove('active');
+            results.classList.add('hidden');
+            mp4List.innerHTML = '';
+            mp3List.innerHTML = '';
 
-      // 2️⃣ Use backend proxy to download file with JSON filename
-      const proxyUrl = `/api/proxy?url=${encodeURIComponent(data.url)}&filename=${encodeURIComponent(data.filename)}`;
+            // Show loading status
+            showStatus('Fetching video information...', 'loading');
+            fetchBtn.disabled = true;
+            fetchBtn.innerHTML = '<i data-lucide="loader" class="h-5 w-5 mr-2 animate-spin"></i>Processing...';
+            lucide.createIcons();
 
-      const a = document.createElement("a");
-      a.href = proxyUrl;
-      a.click();
+            try {
+                // Call your backend API
+                const resp = await fetch(`/api/info?q=${encodeURIComponent(q)}`);
+                const data = await resp.json();
+                
+                if (!data.ok) {
+                    throw new Error(data.message || data.error || "Failed to fetch video information");
+                }
 
-    } catch (err) {
-      console.error(err);
-      alert("Download failed: " + err.message);
-    } finally {
-      btn.disabled = false;
-      btn.textContent = "Download";
-    }
-  });
-});
+                // Update video metadata
+                const meta = data.metadata || {};
+                
+                if (meta.thumbnail) {
+                    videoThumbnail.src = meta.thumbnail;
+                    videoThumbnail.onerror = () => {
+                        videoThumbnail.src = 'https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
+                    };
+                }
+                
+                videoTitle.textContent = meta.title || 'Unknown Title';
+                authorText.textContent = meta.author || 'Unknown Author';
+                viewsText.textContent = meta.views ? `${meta.views.toLocaleString()} views` : 'No views data';
+                durationText.textContent = meta.duration || 'Unknown duration';
+                videoDescription.textContent = meta.description || 'No description available';
+                
+                metaCard.classList.add('active');
+                showStatus('Video information loaded successfully!', 'success');
 
+                // Populate MP4 downloads
+                const mp4 = (data.downloads?.mp4 || []).sort((a, b) => (b.qualityNumber || 0) - (a.qualityNumber || 0));
+                if (mp4.length > 0) {
+                    mp4.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td data-label="Quality">
+                                <span class="quality-badge ${getQualityClass(item.quality)}">${item.quality}</span>
+                            </td>
+                            <td data-label="Size">${humanFileSize(item.size)}</td>
+                            <td data-label="Format">MP4</td>
+                            <td data-label="Action">
+                                <button class="download-btn" 
+                                    data-type="mp4" 
+                                    data-quality="${item.qualityNumber}" 
+                                    data-q="${encodeURIComponent(q)}"
+                                    data-filename="${encodeURIComponent(item.filename)}">
+                                    <i data-lucide="download" class="h-4 w-4"></i>
+                                    Download
+                                </button>
+                            </td>
+                        `;
+                        mp4List.appendChild(tr);
+                    });
+                } else {
+                    mp4List.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-gray-500">
+                                No video downloads available for this video.
+                            </td>
+                        </tr>
+                    `;
+                }
 
+                // Populate MP3 downloads
+                const mp3 = (data.downloads?.mp3 || []).sort((a, b) => (b.qualityNumber || 0) - (a.qualityNumber || 0));
+                if (mp3.length > 0) {
+                    mp3.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td data-label="Quality">
+                                <span class="quality-badge quality-audio">${item.quality}</span>
+                            </td>
+                            <td data-label="Size">${humanFileSize(item.size)}</td>
+                            <td data-label="Format">MP3</td>
+                            <td data-label="Action">
+                                <button class="download-btn" 
+                                    data-type="mp3" 
+                                    data-quality="${item.qualityNumber}" 
+                                    data-q="${encodeURIComponent(q)}"
+                                    data-filename="${encodeURIComponent(item.filename)}">
+                                    <i data-lucide="download" class="h-4 w-4"></i>
+                                    Download
+                                </button>
+                            </td>
+                        `;
+                        mp3List.appendChild(tr);
+                    });
+                } else {
+                    mp3List.innerHTML = `
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-gray-500">
+                                No audio downloads available for this video.
+                            </td>
+                        </tr>
+                    `;
+                }
 
+                // Attach download event listeners
+                attachDownloadListeners();
+                results.classList.remove('hidden');
 
-    results.classList.remove("hidden");
-    status.textContent="";
-  } catch(err) {
-    console.error(err);
-    errors.textContent="Error fetching info: " + (err?.message||err);
-    status.textContent="";
-  } finally { fetchBtn.disabled=false; }
-}
+                // Update Lucide icons for new content
+                lucide.createIcons();
 
-fetchBtn.addEventListener("click", fetchInfo);
-urlInput.addEventListener("keydown", e=>{ if(e.key==="Enter") fetchInfo(); });
-</script>
+            } catch (err) {
+                console.error('Error:', err);
+                errors.textContent = `Error: ${err.message}`;
+                showStatus('Failed to fetch video information', 'error');
+            } finally {
+                fetchBtn.disabled = false;
+                fetchBtn.innerHTML = '<i data-lucide="search" class="h-5 w-5 mr-2"></i>Get Download Links';
+                lucide.createIcons();
+                
+                // Auto-hide success message after 3 seconds
+                if (status.classList.contains('status-success')) {
+                    setTimeout(hideStatus, 3000);
+                }
+            }
+        }
+
+        // ========== DOWNLOAD FUNCTION ==========
+        function attachDownloadListeners() {
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', async () => {
+                    const type = btn.dataset.type;
+                    const quality = btn.dataset.quality;
+                    const qval = decodeURIComponent(btn.dataset.q);
+                    const filename = decodeURIComponent(btn.dataset.filename);
+
+                    // Show loading state on button
+                    const originalText = btn.innerHTML;
+                    btn.innerHTML = '<i data-lucide="loader" class="h-4 w-4 animate-spin"></i> Preparing...';
+                    btn.classList.add('download-btn-loading');
+                    btn.disabled = true;
+
+                    try {
+                        // Get download URL from backend
+                        const resp = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
+                        if (!resp.ok) throw new Error('Failed to get download URL');
+
+                        const data = await resp.json();
+                        if (!data.ok || !data.url) throw new Error('No download URL returned');
+
+                        // Use proxy for branded download
+                        const proxyUrl = `/api/proxy?url=${encodeURIComponent(data.url)}&filename=${encodeURIComponent(filename)}`;
+                        
+                        // Create download link and trigger click
+                        const a = document.createElement('a');
+                        a.href = proxyUrl;
+                        a.download = filename;
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+
+                        // Show success message
+                        showStatus('Download started! Check your downloads folder.', 'success');
+                        setTimeout(hideStatus, 3000);
+
+                    } catch (err) {
+                        console.error('Download error:', err);
+                        showStatus(`Download failed: ${err.message}`, 'error');
+                        setTimeout(hideStatus, 5000);
+                    } finally {
+                        // Restore button state
+                        btn.innerHTML = originalText;
+                        btn.classList.remove('download-btn-loading');
+                        btn.disabled = false;
+                        lucide.createIcons();
+                    }
+                });
+            });
+        }
+
+        // ========== EVENT LISTENERS ==========
+        fetchBtn.addEventListener('click', fetchInfo);
+        urlInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                fetchInfo();
+            }
+        });
+
+        // ========== MOBILE MENU FUNCTIONS ==========
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        function closeMobileMenu() {
+            document.getElementById('mobileMenu').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // ========== NEWSLETTER FORM ==========
+        const newsletterForm = document.getElementById('newsletterForm');
+        if (newsletterForm) {
+            newsletterForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const emailInput = newsletterForm.querySelector('input[type="email"]');
+                const email = emailInput.value.trim();
+                
+                if (email) {
+                    alert('Thank you for subscribing! You will receive updates on new features.');
+                    emailInput.value = '';
+                }
+            });
+        }
+
+        // ========== DROPDOWN FIXES ==========
+        document.querySelectorAll('.nav-dropdown').forEach(dropdown => {
+            dropdown.addEventListener('mouseenter', () => {
+                dropdown.style.opacity = '1';
+                dropdown.style.visibility = 'visible';
+                dropdown.style.transform = 'translateY(0)';
+            });
+            
+            dropdown.addEventListener('mouseleave', () => {
+                dropdown.style.opacity = '0';
+                dropdown.style.visibility = 'hidden';
+                dropdown.style.transform = 'translateY(10px)';
+            });
+        });
+
+        // Auto-focus input on page load
+        window.addEventListener('load', () => {
+            urlInput.focus();
+        });
+    </script>
 </body>
 </html>

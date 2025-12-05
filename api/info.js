@@ -79,15 +79,15 @@ module.exports = async (req, res) => {
       (meta && (meta.thumbnail || meta.image || meta.thumbnails?.[0]?.url)) ||
       (meta && meta.id ? `https://i.ytimg.com/vi/${meta.id}/hqdefault.jpg` : null);
 
-    const safeMeta = {
-      id: meta?.id || null,
-      title: he.decode(meta?.title || meta?.videoTitle || "Unknown Title"),
-      description: meta?.description || meta?.short_description || "",
-      author: meta?.author || meta?.channel || null,
-      views: meta?.views || meta?.statistics?.view || null,
-      duration: meta?.duration || meta?.timestamp || null,
-      thumbnail
-    };
+const safeMeta = {
+  title: meta.title || meta.videoTitle || "Unknown Title",
+  description: meta.description || "",
+  thumbnail: meta.image || meta.thumbnail || (meta.thumbnails?.[meta.thumbnails.length-1]?.url) || "",
+  author: meta.author?.name || meta.channel_title || "Unknown Author",
+  views: meta.views || meta.statistics?.view || 0,
+  duration: meta.duration?.timestamp || meta.timestamp || "Unknown duration",
+  videoId: meta.videoId || meta.id
+};
 
     // Probe qualities concurrently but bounded (Promise.all with map)
     // We'll probe MP4 then MP3. Each probe has its own timeout and failures are ignored.

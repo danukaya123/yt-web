@@ -468,29 +468,67 @@
             flex: 1;
         }
         
-        /* Download Tables */
-        .download-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 1rem 0;
+        /* NEW: COMPACT DOWNLOAD LAYOUT */
+        .compact-download-container {
+            display: none;
         }
         
-        .download-table th {
+        .compact-download-container.active {
+            display: block;
+        }
+        
+        .compact-download-header {
+            background: #7c3aed;
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .compact-quality-list {
+            background: white;
+            border-radius: 0 0 0.75rem 0.75rem;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .compact-quality-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+            transition: background-color 0.2s ease;
+        }
+        
+        .compact-quality-item:last-child {
+            border-bottom: none;
+        }
+        
+        .compact-quality-item:hover {
             background-color: #f9fafb;
-            padding: 0.75rem 1rem;
-            text-align: left;
+        }
+        
+        .compact-quality-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .compact-quality-name {
             font-weight: 600;
             color: #374151;
-            border-bottom: 2px solid #e5e7eb;
+            font-size: 0.95rem;
         }
         
-        .download-table td {
-            padding: 0.75rem 1rem;
-            border-bottom: 1px solid #e5e7eb;
-        }
-        
-        .download-table tr:hover {
-            background-color: #f9fafb;
+        .compact-quality-size {
+            font-size: 0.875rem;
+            color: #6b7280;
         }
         
         /* Quality Badges */
@@ -676,41 +714,48 @@
         /* ========== RESPONSIVE TABLES ========== */
         @media (max-width: 768px) {
             .download-table {
-                display: block;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
-            
-            .download-table thead {
                 display: none;
             }
             
-            .download-table tr {
+            /* Show compact layout on mobile */
+            .compact-download-container.active {
                 display: block;
-                margin-bottom: 1rem;
-                border: 1px solid #e5e7eb;
-                border-radius: 0.5rem;
-                padding: 1rem;
+            }
+        }
+        
+        @media (min-width: 769px) {
+            .compact-download-container {
+                display: none !important;
             }
             
-            .download-table td {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 0.5rem 0;
-                border-bottom: none;
+            .download-table {
+                display: table;
             }
-            
-            .download-table td::before {
-                content: attr(data-label);
-                font-weight: 600;
-                color: #374151;
-                margin-right: 1rem;
-            }
-            
-            .download-table td:last-child {
-                border-bottom: none;
-            }
+        }
+        
+        /* Desktop table styles */
+        .download-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+        
+        .download-table th {
+            background-color: #f9fafb;
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .download-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .download-table tr:hover {
+            background-color: #f9fafb;
         }
     </style>
 </head>
@@ -1090,45 +1135,75 @@
 
             <!-- Results Section -->
             <div id="results" class="hidden">
-                <!-- Video Downloads -->
-                <div class="downloader-card hover-lift">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <i data-lucide="video" class="h-6 w-6 text-purple-600"></i>
-                        Video (MP4) Downloads
-                    </h3>
-                    <div class="overflow-x-auto">
-                        <table class="download-table">
-                            <thead>
-                                <tr>
-                                    <th data-label="Quality">Quality</th>
-                                    <th data-label="Size">File Size</th>
-                                    <th data-label="Format">Format</th>
-                                    <th data-label="Action">Download</th>
-                                </tr>
-                            </thead>
-                            <tbody id="mp4List"></tbody>
-                        </table>
+                <!-- NEW: COMPACT MOBILE LAYOUT -->
+                <div id="compactDownloads" class="compact-download-container">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- MP4 Downloads -->
+                        <div class="compact-download-section">
+                            <div class="compact-download-header">
+                                <i data-lucide="video" class="h-5 w-5"></i>
+                                Video (MP4) Downloads
+                            </div>
+                            <div class="compact-quality-list" id="compactMp4List">
+                                <!-- MP4 items will be populated here -->
+                            </div>
+                        </div>
+                        
+                        <!-- MP3 Downloads -->
+                        <div class="compact-download-section">
+                            <div class="compact-download-header">
+                                <i data-lucide="music" class="h-5 w-5"></i>
+                                Audio (MP3) Downloads
+                            </div>
+                            <div class="compact-quality-list" id="compactMp3List">
+                                <!-- MP3 items will be populated here -->
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Audio Downloads -->
-                <div class="downloader-card hover-lift">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <i data-lucide="music" class="h-6 w-6 text-purple-600"></i>
-                        Audio (MP3) Downloads
-                    </h3>
-                    <div class="overflow-x-auto">
-                        <table class="download-table">
-                            <thead>
-                                <tr>
-                                    <th data-label="Quality">Quality</th>
-                                    <th data-label="Size">File Size</th>
-                                    <th data-label="Format">Format</th>
-                                    <th data-label="Action">Download</th>
-                                </tr>
-                            </thead>
-                            <tbody id="mp3List"></tbody>
-                        </table>
+                <!-- Desktop Table Layout (hidden on mobile) -->
+                <div class="desktop-download-layout">
+                    <!-- Video Downloads -->
+                    <div class="downloader-card hover-lift">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="video" class="h-6 w-6 text-purple-600"></i>
+                            Video (MP4) Downloads
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="download-table">
+                                <thead>
+                                    <tr>
+                                        <th data-label="Quality">Quality</th>
+                                        <th data-label="Size">File Size</th>
+                                        <th data-label="Format">Format</th>
+                                        <th data-label="Action">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mp4List"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Audio Downloads -->
+                    <div class="downloader-card hover-lift">
+                        <h3 class="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                            <i data-lucide="music" class="h-6 w-6 text-purple-600"></i>
+                            Audio (MP3) Downloads
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="download-table">
+                                <thead>
+                                    <tr>
+                                        <th data-label="Quality">Quality</th>
+                                        <th data-label="Size">File Size</th>
+                                        <th data-label="Format">Format</th>
+                                        <th data-label="Action">Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="mp3List"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1281,6 +1356,9 @@
         const results = document.getElementById('results');
         const mp4List = document.getElementById('mp4List');
         const mp3List = document.getElementById('mp3List');
+        const compactMp4List = document.getElementById('compactMp4List');
+        const compactMp3List = document.getElementById('compactMp3List');
+        const compactDownloads = document.getElementById('compactDownloads');
         const errors = document.getElementById('errors');
 
         // ========== HELPER FUNCTIONS ==========
@@ -1323,6 +1401,81 @@
             status.style.display = 'none';
         }
 
+        // ========== CREATE COMPACT DOWNLOAD ITEM ==========
+        function createCompactItem(item, type, q) {
+            const div = document.createElement('div');
+            div.className = 'compact-quality-item';
+            div.innerHTML = `
+                <div class="compact-quality-info">
+                    <span class="compact-quality-name">${item.quality}</span>
+                    <span class="compact-quality-size">${humanFileSize(item.size)} • ${type === 'mp4' ? 'MP4' : 'MP3'}</span>
+                </div>
+                <button class="download-btn compact-download-btn" 
+                    data-type="${type}" 
+                    data-quality="${item.qualityNumber}" 
+                    data-q="${encodeURIComponent(q)}"
+                    data-filename="${encodeURIComponent(item.filename)}">
+                    <i data-lucide="download" class="h-4 w-4"></i>
+                    Download
+                </button>
+            `;
+            return div;
+        }
+
+        // ========== ATTACH DOWNLOAD LISTENERS ==========
+        function attachDownloadListeners() {
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const type = this.dataset.type;
+                    const quality = this.dataset.quality;
+                    const qval = decodeURIComponent(this.dataset.q);
+                    const filename = decodeURIComponent(this.dataset.filename);
+
+                    // Show loading state on button
+                    const originalText = this.innerHTML;
+                    this.innerHTML = '<i data-lucide="loader" class="h-4 w-4 animate-spin"></i> Preparing...';
+                    this.classList.add('download-btn-loading');
+                    this.disabled = true;
+
+                    try {
+                        // Get download URL from backend
+                        const resp = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
+                        if (!resp.ok) throw new Error('Failed to get download URL');
+
+                        const data = await resp.json();
+                        if (!data.ok || !data.url) throw new Error('No download URL returned');
+
+                        // Use proxy for branded download
+                        const proxyUrl = `/api/proxy?url=${encodeURIComponent(data.url)}&filename=${encodeURIComponent(filename)}`;
+                        
+                        // Create download link and trigger click
+                        const a = document.createElement('a');
+                        a.href = proxyUrl;
+                        a.download = filename;
+                        a.style.display = 'none';
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+
+                        // Show success message
+                        showStatus('Download started! Check your downloads folder.', 'success');
+                        setTimeout(hideStatus, 3000);
+
+                    } catch (err) {
+                        console.error('Download error:', err);
+                        showStatus(`Download failed: ${err.message}`, 'error');
+                        setTimeout(hideStatus, 5000);
+                    } finally {
+                        // Restore button state
+                        this.innerHTML = originalText;
+                        this.classList.remove('download-btn-loading');
+                        this.disabled = false;
+                        lucide.createIcons();
+                    }
+                });
+            });
+        }
+
         // ========== MAIN FETCH FUNCTION ==========
         async function fetchInfo() {
             const q = urlInput.value.trim();
@@ -1337,6 +1490,8 @@
             results.classList.add('hidden');
             mp4List.innerHTML = '';
             mp3List.innerHTML = '';
+            compactMp4List.innerHTML = '';
+            compactMp3List.innerHTML = '';
 
             // Show loading status
             showStatus('Fetching video information...', 'loading');
@@ -1372,10 +1527,11 @@
                 metaCard.classList.add('active');
                 showStatus('Video information loaded successfully!', 'success');
 
-                // Populate MP4 downloads
+                // Populate MP4 downloads for desktop table
                 const mp4 = (data.downloads?.mp4 || []).sort((a, b) => (b.qualityNumber || 0) - (a.qualityNumber || 0));
                 if (mp4.length > 0) {
                     mp4.forEach(item => {
+                        // Desktop table row
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td data-label="Quality">
@@ -1395,6 +1551,9 @@
                             </td>
                         `;
                         mp4List.appendChild(tr);
+                        
+                        // Compact mobile item
+                        compactMp4List.appendChild(createCompactItem(item, 'mp4', q));
                     });
                 } else {
                     mp4List.innerHTML = `
@@ -1404,12 +1563,20 @@
                             </td>
                         </tr>
                     `;
+                    compactMp4List.innerHTML = `
+                        <div class="compact-quality-item">
+                            <div class="compact-quality-info">
+                                <span class="compact-quality-name text-gray-500">No video downloads available</span>
+                            </div>
+                        </div>
+                    `;
                 }
 
-                // Populate MP3 downloads
+                // Populate MP3 downloads for desktop table
                 const mp3 = (data.downloads?.mp3 || []).sort((a, b) => (b.qualityNumber || 0) - (a.qualityNumber || 0));
                 if (mp3.length > 0) {
                     mp3.forEach(item => {
+                        // Desktop table row
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td data-label="Quality">
@@ -1429,6 +1596,9 @@
                             </td>
                         `;
                         mp3List.appendChild(tr);
+                        
+                        // Compact mobile item
+                        compactMp3List.appendChild(createCompactItem(item, 'mp3', q));
                     });
                 } else {
                     mp3List.innerHTML = `
@@ -1438,8 +1608,18 @@
                             </td>
                         </tr>
                     `;
+                    compactMp3List.innerHTML = `
+                        <div class="compact-quality-item">
+                            <div class="compact-quality-info">
+                                <span class="compact-quality-name text-gray-500">No audio downloads available</span>
+                            </div>
+                        </div>
+                    `;
                 }
 
+                // Activate compact layout on mobile
+                compactDownloads.classList.add('active');
+                
                 // Attach download event listeners
                 attachDownloadListeners();
                 results.classList.remove('hidden');
@@ -1461,60 +1641,6 @@
                     setTimeout(hideStatus, 3000);
                 }
             }
-        }
-
-        // ========== DOWNLOAD FUNCTION ==========
-        function attachDownloadListeners() {
-            document.querySelectorAll('.download-btn').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const type = btn.dataset.type;
-                    const quality = btn.dataset.quality;
-                    const qval = decodeURIComponent(btn.dataset.q);
-                    const filename = decodeURIComponent(btn.dataset.filename);
-
-                    // Show loading state on button
-                    const originalText = btn.innerHTML;
-                    btn.innerHTML = '<i data-lucide="loader" class="h-4 w-4 animate-spin"></i> Preparing...';
-                    btn.classList.add('download-btn-loading');
-                    btn.disabled = true;
-
-                    try {
-                        // Get download URL from backend
-                        const resp = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
-                        if (!resp.ok) throw new Error('Failed to get download URL');
-
-                        const data = await resp.json();
-                        if (!data.ok || !data.url) throw new Error('No download URL returned');
-
-                        // Use proxy for branded download
-                        const proxyUrl = `/api/proxy?url=${encodeURIComponent(data.url)}&filename=${encodeURIComponent(filename)}`;
-                        
-                        // Create download link and trigger click
-                        const a = document.createElement('a');
-                        a.href = proxyUrl;
-                        a.download = filename;
-                        a.style.display = 'none';
-                        document.body.appendChild(a);
-                        a.click();
-                        document.body.removeChild(a);
-
-                        // Show success message
-                        showStatus('Download started! Check your downloads folder.', 'success');
-                        setTimeout(hideStatus, 3000);
-
-                    } catch (err) {
-                        console.error('Download error:', err);
-                        showStatus(`Download failed: ${err.message}`, 'error');
-                        setTimeout(hideStatus, 5000);
-                    } finally {
-                        // Restore button state
-                        btn.innerHTML = originalText;
-                        btn.classList.remove('download-btn-loading');
-                        btn.disabled = false;
-                        lucide.createIcons();
-                    }
-                });
-            });
         }
 
         // ========== EVENT LISTENERS ==========

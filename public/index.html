@@ -172,10 +172,11 @@
         // attach download handlers
 // attach download handlers
 document.querySelectorAll(".downloadBtn").forEach(btn => {
-  btn.addEventListener("click", async (e) => {
+  btn.addEventListener("click", async () => {
     const type = btn.dataset.type;
     const quality = btn.dataset.quality;
     const qval = decodeURIComponent(btn.dataset.q);
+
     btn.disabled = true;
     btn.textContent = "Preparing...";
 
@@ -185,32 +186,24 @@ document.querySelectorAll(".downloadBtn").forEach(btn => {
 
       if (!j.ok) {
         alert(j.message || j.error || "Download failed");
-        btn.textContent = "Download";
         btn.disabled = false;
+        btn.textContent = "Download";
         return;
       }
 
-      // Fetch the file as a blob so we can save with correct filename
-      const fileResp = await fetch(j.url);
-      const blob = await fileResp.blob();
-
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = j.filename || "file";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(a.href);
+      // SAFE download – no CORS issues
+      window.location.href = j.url;
 
     } catch (err) {
-      alert("Download failed: " + err?.message);
       console.error(err);
+      alert("Download failed: " + err.message);
     } finally {
-      btn.textContent = "Download";
       btn.disabled = false;
+      btn.textContent = "Download";
     }
   });
 });
+
 
 
         results.classList.remove("hidden");

@@ -31,6 +31,13 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
             overflow-x: hidden;
         }
+
+        .flex-wrap {
+    flex-wrap: wrap;
+    text-align: center;
+    flex-direction: center;
+    display: inline-flex;
+}
         
         /* ========== LAYOUT CONTAINERS ========== */
         .content-container {
@@ -157,10 +164,6 @@
         }
         
         @media (min-width: 768px) {
-            .flex-wrap {
-    flex-wrap: wrap;
-    display: inline-flex;
-}
             .search-container {
                 min-width: 240px;
             }
@@ -450,6 +453,8 @@
         .video-info-card.active {
             display: flex;
             flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
         
 /* Mobile / default */

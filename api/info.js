@@ -86,12 +86,10 @@ module.exports = async (req, res) => {
     };
 
     // --- PROBE QUALITY LIST (NO TIMEOUT) ---
-    const mp4Results = [];
 const mp4Results = await Promise.all(
   MP4_QUALITIES.map(qty => probeDownload("mp4", q, qty))
 );
 
-    const mp3Results = [];
 const mp3Results = await Promise.all(
   MP3_QUALITIES.map(qty => probeDownload("mp3", q, qty))
 );

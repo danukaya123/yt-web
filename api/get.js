@@ -1,8 +1,13 @@
 // api/get.js
-// Redirects user to actual download URL with a forced filename
-// Params: ?type=mp4|mp3&quality=360|128&q=<youtube url or id>
-
 const yt = require("@vreden/youtube_scraper");
+
+function sanitizeFilename(name) {
+  // Replace invalid characters for headers
+  return name
+    .replace(/[\x00-\x1F\x7F"]/g, "") // remove control chars and quotes
+    .replace(/[<>:\\\/|?*]/g, "")      // remove filesystem unsafe chars
+    .trim();
+}
 
 module.exports = async (req, res) => {
   try {
@@ -17,7 +22,6 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Validate type
     if (!["mp3", "mp4"].includes(type)) {
       return res.status(400).json({
         ok: false,
@@ -25,14 +29,11 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Fetch conversion
     let result;
     try {
-      if (type === "mp3") {
-        result = await yt.ytmp3(q, quality);
-      } else {
-        result = await yt.ytmp4(q, quality);
-      }
+      result = type === "mp3"
+        ? await yt.ytmp3(q, quality)
+        : await yt.ytmp4(q, quality);
     } catch (err) {
       console.error("Conversion error:", err);
       return res.status(500).json({
@@ -42,7 +43,6 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Validate result
     const downloadUrl = result?.download?.url;
     if (!downloadUrl) {
       return res.status(500).json({
@@ -51,21 +51,16 @@ module.exports = async (req, res) => {
       });
     }
 
-    // Generate safe filename
-    let filename = result.download.filename || "";
-    if (!filename || filename.trim() === "") {
-      const title = result?.metadata?.title || "video";
-      const safeTitle = title.replace(/[^\w\d\- ]/g, "");
-      filename = type === "mp3"
-        ? `${safeTitle} (${quality}kbps).mp3`
-        : `${safeTitle} (${quality}p).mp4`;
-    }
+    // Safe filename
+    let filename = result.download.filename || result?.metadata?.title || "video";
+    filename = sanitizeFilename(filename);
+    filename = type === "mp3" ? `${filename} (${quality}kbps).mp3` : `${filename} (${quality}p).mp4`;
 
-    // Set headers to force download
+    // Set headers safely
     res.setHeader("Content-Disposition", `attachment; filename="${filename}"`);
     res.setHeader("Content-Type", "application/octet-stream");
 
-    // Redirect to actual download URL
+    // Redirect
     res.writeHead(302, { Location: downloadUrl });
     return res.end();
 

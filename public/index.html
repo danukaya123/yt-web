@@ -170,36 +170,48 @@
         });
 
         // attach download handlers
-        document.querySelectorAll(".downloadBtn").forEach(btn => {
-          btn.addEventListener("click", async (e) => {
-            const type = btn.dataset.type;
-            const quality = btn.dataset.quality;
-            const qval = decodeURIComponent(btn.dataset.q);
-            btn.disabled = true;
-            btn.textContent = "Preparing...";
+// attach download handlers
+document.querySelectorAll(".downloadBtn").forEach(btn => {
+  btn.addEventListener("click", async (e) => {
+    const type = btn.dataset.type;
+    const quality = btn.dataset.quality;
+    const qval = decodeURIComponent(btn.dataset.q);
+    btn.disabled = true;
+    btn.textContent = "Preparing...";
 
-            try {
-              const r = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
-              const j = await r.json();
-              if (!j.ok) {
-                alert(j.message || j.error || "Download failed");
-                btn.textContent = "Download";
-                btn.disabled = false;
-                return;
-              }
+    try {
+      const r = await fetch(`/api/get?type=${type}&quality=${quality}&q=${encodeURIComponent(qval)}`);
+      const j = await r.json();
 
-              // Start download using the direct URL
-              // We use window.location to let browser handle file download
-              window.location.href = j.url;
-            } catch (err) {
-              alert("Download failed: " + err?.message);
-              console.error(err);
-            } finally {
-              btn.textContent = "Download";
-              btn.disabled = false;
-            }
-          });
-        });
+      if (!j.ok) {
+        alert(j.message || j.error || "Download failed");
+        btn.textContent = "Download";
+        btn.disabled = false;
+        return;
+      }
+
+      // Fetch the file as a blob so we can save with correct filename
+      const fileResp = await fetch(j.url);
+      const blob = await fileResp.blob();
+
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = j.filename || "file";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(a.href);
+
+    } catch (err) {
+      alert("Download failed: " + err?.message);
+      console.error(err);
+    } finally {
+      btn.textContent = "Download";
+      btn.disabled = false;
+    }
+  });
+});
+
 
         results.classList.remove("hidden");
         status.textContent = "";

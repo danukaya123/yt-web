@@ -60,259 +60,430 @@
         }
         
         /* ========== NAVIGATION - EXACT COPY FROM HOMEPAGE ========== */
-        header {
-            width: 100%;
-            background: white;
-            border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-        
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 70px;
-            width: 100%;
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1rem;
-        }
-        
-        @media (min-width: 640px) {
-            .nav-container {
-                padding: 0 1.5rem;
-            }
-        }
-        
-        @media (min-width: 1024px) {
-            .nav-container {
-                padding: 0 2rem;
-            }
-        }
-        
-        /* Logo */
-        .nav-logo {
-            height: 40px;
-            width: auto;
-            max-width: 180px;
-            object-fit: contain;
-        }
-        
-        @media (max-width: 640px) {
-            .nav-logo {
-                height: 36px;
-                max-width: 150px;
-            }
-        }
-        
-        /* Desktop Navigation */
-        .desktop-nav {
-            display: none;
-        }
-        
-        @media (min-width: 1024px) {
-            .desktop-nav {
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-        }
-        
-        /* Navigation Links */
-        .nav-link {
-            display: inline-flex;
-            align-items: center;
-            padding: 0.75rem 1rem;
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: #374151;
-            text-decoration: none;
-            border-radius: 0.5rem;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-            height: 44px;
-            position: relative;
-        }
-        
-        .nav-link:hover {
-            background-color: rgba(124, 58, 237, 0.05);
-            color: #7c3aed;
-        }
-        
-        .nav-link i {
-            margin-left: 0.25rem;
-            transition: transform 0.2s ease;
-        }
-        
-        .nav-link:hover i {
-            transform: rotate(180deg);
-        }
-        
-        /* Search Bar */
-        .search-container {
-            position: relative;
-            min-width: 120px;
-        }
-        
-        @media (min-width: 640px) {
-            .search-container {
-                min-width: 200px;
-            }
-        }
-        
-        @media (min-width: 768px) {
-            .search-container {
-                min-width: 240px;
-            }
-        }
-        
-        .search-input {
-            width: 100%;
-            padding: 0.625rem 1rem 0.625rem 2.5rem;
-            border: 1.5px solid #e5e7eb;
-            border-radius: 0.75rem;
-            outline: none;
-            font-size: 0.875rem;
-            transition: all 0.3s ease;
-            background-color: #f9fafb;
-        }
-        
-        .search-input:focus {
-            border-color: #7c3aed;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
-        }
-        
-        .search-icon {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6b7280;
-            pointer-events: none;
-        }
-        
-        /* FIXED: Navigation Dropdown */
-        .nav-item {
-            position: relative;
-        }
-        
-        .nav-dropdown {
-            position: absolute;
-            top: calc(100% + 15px);
-            left: 0;
-            width: 800px;
-            max-width: 33vw;
-            background: white;
-            border-radius: 1rem;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-            padding: 1.5rem;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid #f3f4f6;
-            margin-top: 10px;
-        }
-        
-        @media (max-width: 1024px) {
-            .nav-dropdown {
-                width: 600px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-                .thumbnail-container {
-                      display: flex;
-                      justify-content: center; /* Horizontal center */
+    header {
+      width: 100%;
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
-            .nav-dropdown {
-                width: 400px;
-                left: -100%;
-            }
-        }
-        
-        /* Hover functionality fixed */
-        .nav-item:hover .nav-dropdown,
-        .nav-dropdown:hover {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-        
-        /* Dropdown content grids */
-        .nav-image-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        @media (max-width: 1024px) {
-            .nav-image-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 640px) {
-            .nav-image-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* CTA Button */
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #7c3aed;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            height: 44px;
-            border: none;
-            cursor: pointer;
-            white-space: nowrap;
-        }
-        
-        .cta-button:hover {
-            background-color: #6d28d9;
-            transform: translateY(-1px);
-            box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
-        }
-        
-        /* Mobile Menu Button */
-        .mobile-menu-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 44px;
-            height: 44px;
-            border-radius: 0.5rem;
-            background: transparent;
-            border: none;
-            color: #374151;
-            cursor: pointer;
-            transition: background-color 0.2s ease;
-        }
-        
-        .mobile-menu-btn:hover {
-            background-color: rgba(124, 58, 237, 0.05);
-        }
-        
-        @media (min-width: 1024px) {
-            .mobile-menu-btn {
-                display: none;
-            }
-        }
+    
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 70px;
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+    
+    @media (min-width: 640px) {
+      .nav-container {
+        padding: 0 1.5rem;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      .nav-container {
+        padding: 0 2rem;
+      }
+    }
+    
+    /* Logo */
+    .nav-logo {
+      height: 40px;
+      width: auto;
+      max-width: 180px;
+      object-fit: contain;
+    }
+    
+    @media (max-width: 640px) {
+      .nav-logo {
+        height: 36px;
+        max-width: 150px;
+      }
+    }
+    
+    /* Desktop Navigation */
+    .desktop-nav {
+      display: none;
+    }
+    
+    @media (min-width: 1024px) {
+      .desktop-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+    }
+    
+    /* Navigation Links */
+    .nav-link {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #374151;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      height: 44px;
+      position: relative;
+    }
+    
+    .nav-link:hover {
+      background-color: rgba(124, 58, 237, 0.05);
+      color: #7c3aed;
+    }
+    
+    .nav-link i {
+      margin-left: 0.25rem;
+      transition: transform 0.2s ease;
+    }
+    
+    .nav-link:hover i {
+      transform: rotate(180deg);
+    }
+    
+    /* Search Bar */
+    .search-container {
+      position: relative;
+      min-width: 120px;
+    }
+    
+    @media (min-width: 640px) {
+      .search-container {
+        min-width: 200px;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      .search-container {
+        min-width: 240px;
+      }
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 0.625rem 1rem 0.625rem 2.5rem;
+      border: 1.5px solid #e5e7eb;
+      border-radius: 0.75rem;
+      outline: none;
+      font-size: 0.875rem;
+      transition: all 0.3s ease;
+      background-color: #f9fafb;
+    }
+    
+    .search-input:focus {
+      border-color: #7c3aed;
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7280;
+      pointer-events: none;
+    }
+    
+    /* FIXED: Navigation Dropdown */
+    .nav-item {
+      position: relative;
+    }
+    
+.nav-dropdown {
+    position: absolute;
+    top: calc(100% + 15px); /* ADDED: More space between nav and dropdown */
+    left: 0;
+    width: 800px;
+    max-width: 33vw;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    padding: 1.5rem;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid #f3f4f6;
+    
+    /* ADDED: Creates a gap/arrow effect */
+    margin-top: 10px;
+}
+    
+    @media (max-width: 1024px) {
+      .nav-dropdown {
+        width: 600px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .nav-dropdown {
+        width: 400px;
+        left: -100%;
+      }
+    }
+    
+    /* Hover functionality fixed */
+    .nav-item:hover .nav-dropdown,
+    .nav-dropdown:hover {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    /* Dropdown content grids */
+    .nav-image-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    
+    @media (max-width: 1024px) {
+      .nav-image-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 640px) {
+      .nav-image-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    /* CTA Button */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #7c3aed;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.75rem;
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      height: 44px;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    
+    .cta-button:hover {
+      background-color: #6d28d9;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 20px rgba(124, 58, 237, 0.2);
+    }
+    
+    /* Mobile Menu Button */
+    .mobile-menu-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 0.5rem;
+      background: transparent;
+      border: none;
+      color: #374151;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+    
+    .mobile-menu-btn:hover {
+      background-color: rgba(124, 58, 237, 0.05);
+    }
+    
+    @media (min-width: 1024px) {
+      .mobile-menu-btn {
+        display: none;
+      }
+    }
+    
+    /* ========== MOBILE MENU - IMPROVED ========== */
+    .mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: white;
+      z-index: 9999;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      overflow-y: auto;
+      display: none;
+    }
+    
+    .mobile-menu.active {
+      transform: translateX(0);
+      display: block;
+    }
+    
+    .mobile-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      background: white;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    .mobile-nav {
+      padding: 1.5rem;
+    }
+    
+    .mobile-nav-item {
+      margin-bottom: 0.5rem;
+    }
+    
+    .mobile-nav-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      width: 100%;
+      background: transparent;
+      border: none;
+      color: #374151;
+      font-size: 1rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s ease;
+    }
+    
+    .mobile-nav-link:hover,
+    .mobile-nav-link.active {
+      background-color: #f9fafb;
+    }
+    
+    .mobile-nav-link i {
+      transition: transform 0.3s ease;
+    }
+    
+    .mobile-nav-link.active i {
+      transform: rotate(180deg);
+    }
+    
+    .mobile-dropdown {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      padding-left: 1rem;
+      background: #f9fafb;
+      border-radius: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    
+    .mobile-dropdown.active {
+      max-height: 2000px;
+    }
+    
+    .mobile-dropdown-content {
+      padding: 1rem;
+    }
+    
+    .mobile-image-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    
+    @media (max-width: 480px) {
+      .mobile-image-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .mobile-image-item {
+      background: white;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+    
+    .mobile-image-item img {
+      width: 100%;
+      height: 80px;
+      object-fit: cover;
+    }
+    
+    .mobile-image-item p {
+      padding: 0.5rem;
+      font-size: 0.75rem;
+      text-align: center;
+      color: #374151;
+    }
+    
+    .mobile-dropdown-link {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: #6b7280;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+    
+    .mobile-dropdown-link:hover {
+      color: #7c3aed;
+      background-color: #f3f4f6;
+    }
+    
+    .mobile-video-categories {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    
+    .mobile-video-category {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem;
+      background: white;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+      text-decoration: none;
+      color: #374151;
+      transition: all 0.2s ease;
+    }
+    
+    .mobile-video-category:hover {
+      border-color: #7c3aed;
+      background: #f9fafb;
+    }
+    
+    .mobile-video-category i {
+      color: #7c3aed;
+    }
+    
+    .mobile-cta {
+      padding: 1.5rem;
+      border-top: 1px solid #e5e7eb;
+      background: #f9fafb;
+      position: sticky;
+      bottom: 0;
+    }
         
         /* ========== HERO SECTION WITH YOUTUBE BACKGROUND ========== */
         .hero-section {
@@ -799,304 +970,456 @@
 <body class="bg-gray-50">
 
     <!-- Fixed Navigation - Exact Homepage Version -->
-    <header>
-        <div class="nav-container">
-            <!-- Logo -->
-            <a href="/" class="flex items-center">
-                <img 
-                    src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
-                    alt="Quizontal Logo" 
-                    class="nav-logo"
-                >
-            </a>
+  <header>
+    <div class="nav-container">
+      <!-- Logo -->
+      <a href="/" class="flex items-center">
+        <img 
+          src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
+          alt="Quizontal Logo" 
+          class="nav-logo"
+          loading="eager"
+        >
+      </a>
 
-            <!-- Desktop Search Bar -->
-            <div class="search-container hidden lg:block">
-                <form action="https://wall-rust.vercel.app/" method="GET" target="_blank">
-                    <i data-lucide="search" class="search-icon h-4 w-4"></i>
-                    <input 
-                        type="search" 
-                        name="q"
-                        placeholder="Search videos, stock footage..." 
-                        class="search-input"
-                        required
-                    >
-                </form>
-            </div>
+      <!-- Desktop Search Bar -->
+      <div class="search-container hidden lg:block">
+        <form action="https://quizontal.vercel.app/" method="GET" target="_blank">
+          <i data-lucide="search" class="search-icon h-4 w-4"></i>
+          <input 
+            type="search" 
+            name="q"
+            placeholder="Search images, wallpapers, videos..." 
+            class="search-input"
+            required
+          >
+        </form>
+      </div>
 
-            <!-- Desktop Navigation with Dropdowns -->
-            <nav class="desktop-nav">
-                <!-- Images Dropdown -->
-                <div class="nav-item">
-                    <a href="copyright-free-images.html" class="nav-link">
-                        <span>Images</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                    </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Browse Images by Category</h4>
-                        <div class="nav-image-grid">
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                    alt="Nature" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Nature</h5>
-                                    <p class="text-xs text-gray-500">2,500+ images</p>
-                                </div>
-                            </div>
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/abstract-nav-bar.jpg?raw=true" 
-                                    alt="Abstract" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Abstract</h5>
-                                    <p class="text-xs text-gray-500">1,800+ images</p>
-                                </div>
-                            </div>
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" 
-                                    alt="Business" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Business</h5>
-                                    <p class="text-xs text-gray-500">3,200+ images</p>
-                                </div>
-                            </div>
-                            <div class="rounded-lg overflow-hidden hover-lift">
-                                <img 
-                                    src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/technology-nav-bar.png?raw=true" 
-                                    alt="Technology" 
-                                    class="w-full h-32 object-cover"
-                                >
-                                <div class="p-3 bg-gray-50">
-                                    <h5 class="font-medium text-gray-900 text-sm">Technology</h5>
-                                    <p class="text-xs text-gray-500">2,100+ images</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-4 pt-4 border-t border-gray-200">
-                            <div class="grid grid-cols-2 gap-4">
-                                <div>
-                                    <h5 class="font-medium text-gray-900 mb-2">Popular Searches</h5>
-                                    <div class="flex flex-wrap gap-2">
-                                        <a href="https://wall-rust.vercel.app/?q=wallpapers" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Wallpapers</a>
-                                        <a href="https://wall-rust.vercel.app/?q=stock+photos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Photos</a>
-                                        <a href="https://wall-rust.vercel.app/?q=ai+generated" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">AI Generated</a>
-                                        <a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-sm text-purple-600 hover:text-purple-800">Stock Videos</a>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h5 class="font-medium text-gray-900 mb-2">Quick Links</h5>
-                                    <div class="space-y-1">
-                                        <a href="#trending-gallery" class="block text-sm text-gray-600 hover:text-purple-600">Trending Images</a>
-                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">New Arrivals</a>
-                                        <a href="#" class="block text-sm text-gray-600 hover:text-purple-600">Premium Collection</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Videos Dropdown -->
-                <div class="nav-item">
-                    <a href="videos.html" class="nav-link">
-                        <span>Videos</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                    </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Video Collections</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="https://wall-rust.vercel.app/?q=stock+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="video" class="h-4 w-4"></i> Stock Videos</a></li>
-                                    <li><a href="https://wall-rust.vercel.app/?q=motion+graphics" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="film" class="h-4 w-4"></i> Motion Graphics</a></li>
-                                    <li><a href="https://wall-rust.vercel.app/?q=4k+videos" target="_blank" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Videos</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Travel Video" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">Travel & Adventure</h6>
-                                            <p class="text-xs text-gray-500">850+ videos</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Wallpapers Dropdown -->
-                <div class="nav-item">
-                    <a href="wallpapers.html" class="nav-link">
-                        <span>Wallpapers</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                    </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">Wallpaper Collections</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Categories</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="wallpapers.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="image" class="h-4 w-4"></i> HD Wallpapers</a></li>
-                                    <li><a href="wallpapers.html?q=4k+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="tv" class="h-4 w-4"></i> 4K Wallpapers</a></li>
-                                    <li><a href="wallpapers.html?q=mobile+wallpapers" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="smartphone" class="h-4 w-4"></i> Mobile Wallpapers</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Nature Wallpaper" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">Nature & Landscape</h6>
-                                            <p class="text-xs text-gray-500">1,200+ wallpapers</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- AI Tools Dropdown -->
-                <div class="nav-item">
-                    <a href="ai-tools.html" class="nav-link">
-                        <span>AI Tools</span>
-                        <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                    </a>
-                    <div class="nav-dropdown">
-                        <h4 class="font-semibold text-gray-900 mb-4 text-lg">AI Tools</h4>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">AI Tools</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="ai-image-generator.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="sparkles" class="h-4 w-4"></i> AI Image Generator</a></li>
-                                    <li><a href="ai-background-remover.html" class="text-gray-600 hover:text-purple-600 text-sm flex items-center gap-2"><i data-lucide="scissors" class="h-4 w-4"></i> Background Remover</a></li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h5 class="font-medium text-gray-900 mb-3">Featured</h5>
-                                <div class="space-y-3">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/ai-image-generator.webp?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="AI Image Generator" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">AI Image Generator</h6>
-                                            <p class="text-xs text-gray-500">Create AI art from text</p>
-                                        </div>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                            <img src="https://github.com/danukaya123/bgtest/blob/main/bgremove-banner.PNG?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Background Remover" class="w-full h-full object-cover">
-                                        </div>
-                                        <div>
-                                            <h6 class="font-medium text-gray-900 text-sm">Background Remover</h6>
-                                            <p class="text-xs text-gray-500">Remove backgrounds instantly</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- YouTube Downloader (Active) -->
-                <a href="youtube-downloader.html" class="nav-link active">
-                    <i data-lucide="download" class="h-4 w-4 mr-2"></i>
-                    YouTube Downloader
-                </a>
-                
-                <button class="cta-button ml-2" onclick="window.location.href='#download-section'">
-                    Download Now
-                </button>
-            </nav>
-
-            <!-- Mobile Search and Menu -->
-            <div class="flex items-center gap-4 lg:hidden">
-                <div class="search-container">
-                    <form action="https://wall-rust.vercel.app/" method="GET" target="_blank">
-                        <i data-lucide="search" class="search-icon h-4 w-4"></i>
-                        <input 
-                            type="search" 
-                            name="q"
-                            placeholder="Search..." 
-                            class="search-input"
-                            required
-                        >
-                    </form>
-                </div>
-                <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
-                    <i data-lucide="menu" class="h-6 w-6"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu">
-        <div class="mobile-header">
-            <a href="/" class="flex items-center">
-                <img 
-                    src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
-                    alt="Quizontal Logo" 
-                    class="h-10 w-auto max-w-[160px]"
-                >
-            </a>
-            <button class="mobile-menu-btn" onclick="closeMobileMenu()">
-                <i data-lucide="x" class="h-6 w-6"></i>
-            </button>
+      <!-- Desktop Navigation -->
+<!-- Updated Desktop Navigation -->
+<nav class="desktop-nav">
+  <!-- Stock Media Dropdown -->
+  <div class="nav-item">
+    <a href="#" class="nav-link">
+      <span>Stock Media</span>
+      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+    </a>
+    <div class="nav-dropdown">
+      <h4 class="font-semibold text-gray-900 mb-4 text-lg">Stock Media Library</h4>
+      
+      <div class="grid grid-cols-2 gap-6 mb-6">
+        <!-- Images -->
+        <div>
+          <h5 class="font-medium text-gray-900 mb-3 flex items-center gap-2">
+            <i data-lucide="image" class="h-4 w-4 text-purple-600"></i>
+            Images
+          </h5>
+          <div class="space-y-2">
+            <a href="https://quizontal.vercel.app/image-gallery/?q=nature" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Nature & Landscape</a>
+            <a href="https://quizontal.vercel.app/image-gallery/?q=abstract" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Abstract Art</a>
+            <a href="https://quizontal.vercel.app/image-gallery/?q=business" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Business & Technology</a>
+            <a href="https://quizontal.vercel.app/image-gallery/?q=wallpapers" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Wallpapers</a>
+          </div>
         </div>
         
-        <div class="mobile-nav">
-            <a href="/" class="mobile-nav-link">
-                <i data-lucide="home" class="h-5 w-5 mr-3"></i>
-                Home
-            </a>
-            <a href="copyright-free-images.html" class="mobile-nav-link">
-                <i data-lucide="image" class="h-5 w-5 mr-3"></i>
-                Free Images
-            </a>
-            <a href="videos.html" class="mobile-nav-link">
-                <i data-lucide="video" class="h-5 w-5 mr-3"></i>
-                Videos
-            </a>
-            <a href="wallpapers.html" class="mobile-nav-link">
-                <i data-lucide="layout" class="h-5 w-5 mr-3"></i>
-                Wallpapers
-            </a>
-            <a href="ai-tools.html" class="mobile-nav-link">
-                <i data-lucide="zap" class="h-5 w-5 mr-3"></i>
-                AI Generator
-            </a>
-            <a href="youtube-downloader.html" class="mobile-nav-link active">
-                <i data-lucide="download" class="h-5 w-5 mr-3"></i>
-                YouTube Downloader
-            </a>
+        <!-- Videos -->
+        <div>
+          <h5 class="font-medium text-gray-900 mb-3 flex items-center gap-2">
+            <i data-lucide="video" class="h-4 w-4 text-blue-600"></i>
+            Videos
+          </h5>
+          <div class="space-y-2">
+            <a href="https://quizontal.vercel.app/video-gallery/?q=stock+videos" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Stock Videos</a>
+            <a href="https://quizontal.vercel.app/video-gallery/?q=4k+videos" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">4K Videos</a>
+            <a href="https://quizontal.vercel.app/video-gallery/?q=background+videos" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Background Videos</a>
+            <a href="https://quizontal.vercel.app/video-gallery/?q=motion+graphics" target="_blank" class="block text-sm text-gray-600 hover:text-purple-600 hover:bg-gray-50 p-2 rounded">Motion Graphics</a>
+          </div>
         </div>
-        
-        <div class="mobile-cta">
-            <button class="cta-button w-full" onclick="closeMobileMenu()">
-                Download Now
-            </button>
+      </div>
+      
+      <!-- Quick Stats -->
+      <div class="bg-gray-50 rounded-lg p-4">
+        <div class="grid grid-cols-3 gap-4 text-center">
+          <div>
+            <div class="text-lg font-bold text-gray-900">10M+</div>
+            <div class="text-xs text-gray-600">Assets</div>
+          </div>
+          <div>
+            <div class="text-lg font-bold text-gray-900">100%</div>
+            <div class="text-xs text-gray-600">Copyright Free</div>
+          </div>
+          <div>
+            <div class="text-lg font-bold text-gray-900">4K</div>
+            <div class="text-xs text-gray-600">Quality</div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+  
+  <!-- AI Tools Dropdown -->
+  <div class="nav-item">
+    <a href="#" class="nav-link">
+      <span>AI Tools</span>
+      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+    </a>
+    <div class="nav-dropdown">
+      <h4 class="font-semibold text-gray-900 mb-4 text-lg">AI-Powered Tools</h4>
+      
+      <div class="grid grid-cols-2 gap-6">
+        <!-- Visual AI Tools -->
+        <div>
+          <h5 class="font-medium text-gray-900 mb-3 flex items-center gap-2">
+            <i data-lucide="palette" class="h-4 w-4 text-purple-600"></i>
+            Visual AI Tools
+          </h5>
+          <div class="space-y-3">
+            <a href="/ai-tools/ai-image-generator/index.html" class="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-purple-400 hover:shadow-sm transition-all">
+              <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="sparkles" class="h-5 w-5 text-purple-600"></i>
+              </div>
+              <div>
+                <h6 class="font-medium text-gray-900 text-sm">AI Image Generator</h6>
+                <p class="text-xs text-gray-500">Create images from text</p>
+              </div>
+            </a>
+            <a href="https://quizontal.vercel.app/ai-tools/removebg" aria-disabled="true" class="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-green-400 hover:shadow-sm transition-all">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="scissors" class="h-5 w-5 text-green-600"></i>
+              </div>
+              <div>
+                <h6 class="font-medium text-gray-900 text-sm">Background Remover</h6>
+                <p class="text-xs text-gray-500">Remove backgrounds instantly</p>
+              </div>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Text AI Tools -->
+        <div>
+          <h5 class="font-medium text-gray-900 mb-3 flex items-center gap-2">
+            <i data-lucide="type" class="h-4 w-4 text-blue-600"></i>
+            Text AI Tools
+          </h5>
+          <div class="space-y-3">
+            <a href="https://quizontal.vercel.app/ai-tools/paraphrase" class="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-400 hover:shadow-sm transition-all">
+              <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="edit-3" class="h-5 w-5 text-blue-600"></i>
+              </div>
+              <div>
+                <h6 class="font-medium text-gray-900 text-sm">AI Text Paraphraser</h6>
+                <p class="text-xs text-gray-500">Refine your text with AI</p>
+              </div>
+            </a>
+            <a href="https://quizontal.vercel.app/ai-tools/humanize" class="flex items-center gap-3 p-3 bg-white rounded-lg border border-gray-200 hover:border-green-400 hover:shadow-sm transition-all">
+              <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                <i data-lucide="user" class="h-5 w-5 text-green-600"></i>
+              </div>
+              <div>
+                <h6 class="font-medium text-gray-900 text-sm">AI Text Humanizer</h6>
+                <p class="text-xs text-gray-500">Make AI text sound human</p>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Downloaders Dropdown -->
+  <div class="nav-item">
+    <a href="#" class="nav-link">
+      <span>Downloaders</span>
+      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+    </a>
+    <div class="nav-dropdown">
+      <h4 class="font-semibold text-gray-900 mb-4 text-lg">Video & Audio Downloaders</h4>
+      
+      <div class="space-y-4">
+        <!-- YouTube Downloader -->
+        <a href="https://quizontal.vercel.app/downloaders/youtube" class="flex items-center gap-4 p-4 bg-red-50 rounded-xl hover:bg-red-100 transition-colors group">
+          <div class="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="youtube" class="h-6 w-6 text-white"></i>
+          </div>
+          <div class="flex-1">
+            <h5 class="font-semibold text-gray-900">YouTube Downloader</h5>
+            <p class="text-sm text-gray-600">Download videos & audio in HD/MP3</p>
+          </div>
+          <i data-lucide="arrow-right" class="h-5 w-5 text-gray-400 group-hover:text-red-600"></i>
+        </a>
+        
+        <!-- Facebook Downloader -->
+        <a href="https://quizontal.vercel.app/downloaders/facebook" class="flex items-center gap-4 p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors group">
+          <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="facebook" class="h-6 w-6 text-white"></i>
+          </div>
+          <div class="flex-1">
+            <h5 class="font-semibold text-gray-900">Facebook Downloader</h5>
+            <p class="text-sm text-gray-600">Download videos, reels & stories</p>
+          </div>
+          <i data-lucide="arrow-right" class="h-5 w-5 text-gray-400 group-hover:text-blue-600"></i>
+        </a>
+        
+        <!-- TikTok Downloader -->
+        <a href="https://quizontal.vercel.app/downloaders/tiktok" class="flex items-center gap-4 p-4 bg-pink-50 rounded-xl hover:bg-pink-100 transition-colors group">
+          <div class="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center">
+            <i data-lucide="music" class="h-6 w-6 text-white"></i>
+          </div>
+          <div class="flex-1">
+            <h5 class="font-semibold text-gray-900">TikTok Downloader</h5>
+            <p class="text-sm text-gray-600">Download TikTok videos without watermark</p>
+          </div>
+          <i data-lucide="arrow-right" class="h-5 w-5 text-gray-400 group-hover:text-pink-600"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Utility Tools Dropdown -->
+  <div class="nav-item">
+    <a href="#" class="nav-link">
+      <span>Utility Tools</span>
+      <i data-lucide="chevron-down" class="h-4 w-4"></i>
+    </a>
+    <div class="nav-dropdown">
+      <h4 class="font-semibold text-gray-900 mb-4 text-lg">Developer & Creator Tools</h4>
+      
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Calculator Tools -->
+        <a href="/tools/calculator/index.html" class="p-3 bg-purple-50 rounded-lg hover:bg-purple-100 transition-colors group">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="calculator" class="h-4 w-4 text-purple-600"></i>
+            <h5 class="font-medium text-gray-900">Calculator Tools</h5>
+          </div>
+          <p class="text-xs text-gray-600">Unit converters, color contrast, image size</p>
+        </a>
+        
+        <!-- SEO Tools -->
+        <a href="/tools/seo-tools/index.html" class="p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors group">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="search" class="h-4 w-4 text-blue-600"></i>
+            <h5 class="font-medium text-gray-900">SEO Tools</h5>
+          </div>
+          <p class="text-xs text-gray-600">Keyword checker, meta tag analyzer</p>
+        </a>
+        
+        <!-- JS Obfuscator -->
+        <a href="/tools/js-obfuscator/index.html" class="p-3 bg-yellow-50 rounded-lg hover:bg-yellow-100 transition-colors group">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="shield-off" class="h-4 w-4 text-yellow-600"></i>
+            <h5 class="font-medium text-gray-900">JS Obfuscator</h5>
+          </div>
+          <p class="text-xs text-gray-600">Protect your JavaScript code</p>
+        </a>
+        
+        <!-- Text Tools -->
+        <a href="/tools/text-and-utility-tools/index.html" class="p-3 bg-green-50 rounded-lg hover:bg-green-100 transition-colors group">
+          <div class="flex items-center gap-2 mb-2">
+            <i data-lucide="file-text" class="h-4 w-4 text-green-600"></i>
+            <h5 class="font-medium text-gray-900">Text Tools</h5>
+          </div>
+          <p class="text-xs text-gray-600">Word counter, case converter, more</p>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Blog Link -->
+  <a href="/blog" class="nav-link">Blog</a>
+  
+  <!-- CTA Button -->
+  <button class="cta-button ml-2">
+    Get Started Free
+  </button>
+</nav>
+
+      <!-- Mobile Search and Menu -->
+      <div class="flex items-center gap-4 lg:hidden">
+        <div class="search-container">
+          <form action="https://quizontal.vercel.app/" method="GET" target="_blank">
+            <i data-lucide="search" class="search-icon h-4 w-4"></i>
+            <input 
+              type="search" 
+              name="q"
+              placeholder="Search..." 
+              class="search-input"
+              required
+            >
+          </form>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i data-lucide="menu" class="h-6 w-6"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-header">
+    <a href="/" class="flex items-center">
+      <img 
+        src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
+        alt="Quizontal Logo" 
+        class="h-10 w-auto max-w-[160px]"
+        loading="eager"
+      >
+    </a>
+    <button class="mobile-menu-btn" id="closeMobileMenu">
+      <i data-lucide="x" class="h-6 w-6"></i>
+    </button>
+  </div>
+  
+  <div class="mobile-nav">
+    <!-- Stock Media Dropdown -->
+    <div class="mobile-nav-item">
+      <button class="mobile-nav-link" data-dropdown="stock-media">
+        <span>Stock Media</span>
+        <i data-lucide="chevron-down" class="h-5 w-5"></i>
+      </button>
+      <div class="mobile-dropdown" id="stock-media-dropdown">
+        <div class="mobile-dropdown-content">
+          <h5 class="font-medium text-gray-900 mb-3 text-sm">Images</h5>
+          <div class="mobile-image-grid">
+            <a href="https://quizontal.vercel.app/image-gallery/?q=nature" target="_blank" class="mobile-image-item">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Nature">
+              <p>Nature</p>
+            </a>
+            <a href="https://quizontal.vercel.app/image-gallery/?q=abstract" target="_blank" class="mobile-image-item">
+              <img src="https://github.com/danukaya123/quizontal-pro/blob/main/assets/abstract-nav-bar.jpg?raw=true?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Abstract">
+              <p>Abstract</p>
+            </a>
+            <a href="https://quizontal.vercel.app/image-gallery/?q=business" target="_blank" class="mobile-image-item">
+              <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Business">
+              <p>Business</p>
+            </a>
+            <a href="https://quizontal.vercel.app/image-gallery/?q=wallpapers" target="_blank" class="mobile-image-item">
+              <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Wallpapers">
+              <p>Wallpapers</p>
+            </a>
+          </div>
+          
+          <h5 class="font-medium text-gray-900 mb-2 text-sm mt-4">Videos</h5>
+          <div class="mobile-video-categories">
+            <a href="https://quizontal.vercel.app/video-gallery/?q=stock+videos" target="_blank" class="mobile-video-category">
+              <i data-lucide="video" class="h-4 w-4"></i>
+              <span class="text-sm">Stock Videos</span>
+            </a>
+            <a href="https://quizontal.vercel.app/video-gallery/?q=4k+videos" target="_blank" class="mobile-video-category">
+              <i data-lucide="tv" class="h-4 w-4"></i>
+              <span class="text-sm">4K Videos</span>
+            </a>
+            <a href="https://quizontal.vercel.app/video-gallery/?q=background+videos" target="_blank" class="mobile-video-category">
+              <i data-lucide="play-circle" class="h-4 w-4"></i>
+              <span class="text-sm">Background Videos</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- AI Tools Dropdown -->
+    <div class="mobile-nav-item">
+      <button class="mobile-nav-link" data-dropdown="ai-tools">
+        <span>AI Tools</span>
+        <i data-lucide="chevron-down" class="h-5 w-5"></i>
+      </button>
+      <div class="mobile-dropdown" id="ai-tools-dropdown">
+        <div class="mobile-dropdown-content">
+          <h5 class="font-medium text-gray-900 mb-3 text-sm">Visual AI Tools</h5>
+          <div class="space-y-2 mb-4">
+            <a href="/ai-tools/ai-image-generator/index.html" class="mobile-dropdown-link flex items-center gap-2">
+              <i data-lucide="sparkles" class="h-4 w-4 text-purple-600"></i>
+              AI Image Generator
+            </a>
+            <a href="https://quizontal.vercel.app/ai-tools/removebg" aria-disabled="true" class="mobile-dropdown-link flex items-center gap-2">
+              <i data-lucide="scissors" class="h-4 w-4 text-green-600"></i>
+              Background Remover
+            </a>
+          </div>
+          
+          <h5 class="font-medium text-gray-900 mb-2 text-sm">Text AI Tools</h5>
+          <div class="space-y-2">
+            <a href="https://quizontal.vercel.app/ai-tools/paraphrase" class="mobile-dropdown-link flex items-center gap-2">
+              <i data-lucide="edit-3" class="h-4 w-4 text-blue-600"></i>
+              Text Paraphraser
+            </a>
+            <a href="https://quizontal.vercel.app/ai-tools/humanize" class="mobile-dropdown-link flex items-center gap-2">
+              <i data-lucide="user" class="h-4 w-4 text-green-600"></i>
+              Text Humanizer
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Downloaders Dropdown -->
+    <div class="mobile-nav-item">
+      <button class="mobile-nav-link" data-dropdown="downloaders">
+        <span>Downloaders</span>
+        <i data-lucide="chevron-down" class="h-5 w-5"></i>
+      </button>
+      <div class="mobile-dropdown" id="downloaders-dropdown">
+        <div class="mobile-dropdown-content">
+          <div class="space-y-3">
+            <a href="https://quizontal.vercel.app/downloaders/youtube" class="mobile-video-category bg-red-50 border-red-200">
+              <i data-lucide="youtube" class="h-4 w-4 text-red-600"></i>
+              <span class="text-sm">YouTube Downloader</span>
+            </a>
+            <a href="https://quizontal.vercel.app/downloaders/facebook" class="mobile-video-category bg-blue-50 border-blue-200">
+              <i data-lucide="facebook" class="h-4 w-4 text-blue-600"></i>
+              <span class="text-sm">Facebook Downloader</span>
+            </a>
+            <a href="https://quizontal.vercel.app/downloaders/tiktok" class="mobile-video-category bg-pink-50 border-pink-200">
+              <i data-lucide="music" class="h-4 w-4 text-pink-600"></i>
+              <span class="text-sm">TikTok Downloader</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Utility Tools Dropdown -->
+    <div class="mobile-nav-item">
+      <button class="mobile-nav-link" data-dropdown="utility">
+        <span>Utility Tools</span>
+        <i data-lucide="chevron-down" class="h-5 w-5"></i>
+      </button>
+      <div class="mobile-dropdown" id="utility-dropdown">
+        <div class="mobile-dropdown-content">
+          <div class="grid grid-cols-2 gap-2 mb-4">
+            <a href="/tools/calculator/index.html" class="bg-purple-50 border border-purple-200 rounded-lg p-3 text-center hover:bg-purple-100">
+              <i data-lucide="calculator" class="h-5 w-5 text-purple-600 mx-auto mb-1"></i>
+              <span class="text-xs font-medium">Calculators</span>
+            </a>
+            <a href="/tools/seo-tools/index.html" class="bg-blue-50 border border-blue-200 rounded-lg p-3 text-center hover:bg-blue-100">
+              <i data-lucide="search" class="h-5 w-5 text-blue-600 mx-auto mb-1"></i>
+              <span class="text-xs font-medium">SEO Tools</span>
+            </a>
+            <a href="/tools/js-obfuscator/index.html" class="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-center hover:bg-yellow-100">
+              <i data-lucide="shield-off" class="h-5 w-5 text-yellow-600 mx-auto mb-1"></i>
+              <span class="text-xs font-medium">JS Obfuscator</span>
+            </a>
+            <a href="/tools/text-and-utility-tools/index.html" class="bg-green-50 border border-green-200 rounded-lg p-3 text-center hover:bg-green-100">
+              <i data-lucide="file-text" class="h-5 w-5 text-green-600 mx-auto mb-1"></i>
+              <span class="text-xs font-medium">Text Tools</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Other Links -->
+    <a href="/blog" class="mobile-nav-link w-full justify-start">Blog</a>
+  </div>
+  
+  <div class="mobile-cta">
+    <button class="cta-button w-full" onclick="closeMobileMenu()">
+      Get Started Free
+    </button>
+  </div>
+</div>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -1275,104 +1598,121 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white">
-        <div class="content-container py-12">
-            <!-- Newsletter -->
-            <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 md:p-8 mb-8 md:mb-12">
-                <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
-                    <div>
-                        <h3 class="text-xl md:text-2xl font-bold mb-3">Stay Updated with New Features</h3>
-                        <p class="text-blue-100 text-sm md:text-base">
-                            Subscribe to our newsletter for updates on new download formats and features.
-                        </p>
-                    </div>
-                    <div>
-                        <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 md:gap-4">
-                            <input 
-                                type="email" 
-                                placeholder="Enter your email address" 
-                                class="flex-1 px-4 md:px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-sm md:text-base"
-                                required
-                            >
-                            <button 
-                                type="submit" 
-                                class="bg-white text-purple-600 px-6 md:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap text-sm md:text-base"
-                            >
-                                Subscribe
-                            </button>
-                        </form>
-                        <p class="text-xs md:text-sm text-blue-200 mt-2 md:mt-3">By subscribing, you agree to our Privacy Policy.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Links -->
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
-                <!-- Logo and Social -->
-                <div class="col-span-2 md:col-span-2">
-                    <a href="/" class="inline-block mb-4">
-                        <img 
-                            src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
-                            alt="Quizontal Logo" 
-                            class="footer-logo"
-                        >
-                    </a>
-                    <p class="mt-2 md:mt-4 text-gray-400 text-sm mb-4 md:mb-6">
-                        Quizontal provides free YouTube media downloads with high-quality MP4 and MP3 formats. Fast, secure, and easy to use.
-                    </p>
-                    <div class="flex space-x-3 md:space-x-4">
-                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
-                            <i data-lucide="facebook" class="h-4 w-4 md:h-5 md:w-5"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
-                            <i data-lucide="youtube" class="h-4 w-4 md:h-5 md:w-5"></i>
-                        </a>
-                        <a href="#" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
-                            <i data-lucide="linkedin" class="h-4 w-4 md:h-5 md:w-5"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Product Column -->
-                <div>
-                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Services</h3>
-                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
-                        <li><a href="copyright-free-images.html" class="hover:text-white transition-colors block">Images</a></li>
-                        <li><a href="wallpapers.html" class="hover:text-white transition-colors block">Wallpapers</a></li>
-                        <li><a href="videos.html" class="hover:text-white transition-colors block">Videos</a></li>
-                        <li><a href="ai-tools.html" class="hover:text-white transition-colors block">AI Generator</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Company Column -->
-                <div>
-                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Company</h3>
-                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors block">About Us</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors block">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors block">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <!-- Support Column -->
-                <div>
-                    <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Support</h3>
-                    <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors block">Help Center</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors block">Terms of Service</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors block">Privacy Policy</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <!-- Bottom Bar -->
-            <div class="border-t border-gray-800 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-xs md:text-sm text-center md:text-left mb-4 md:mb-0">
-                    © 2025 Quizontal. All rights reserved. This tool is for personal use only.
-                </p>
-            </div>
+  <footer class="bg-gray-900 text-white">
+    <div class="content-container py-12">
+      <!-- Newsletter -->
+      <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-6 md:p-8 mb-8 md:mb-12 fade-in-up">
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+          <div>
+            <h3 class="text-xl md:text-2xl font-bold mb-3">Stay Updated with Creative Insights</h3>
+            <p class="text-blue-100 text-sm md:text-base">
+              Subscribe to our newsletter for the latest design trends and AI tips.
+            </p>
+          </div>
+          <div>
+            <form id="newsletterForm" class="flex flex-col sm:flex-row gap-3 md:gap-4">
+              <input 
+                type="email" 
+                placeholder="Enter your email address" 
+                class="flex-1 px-4 md:px-6 py-3 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white placeholder-blue-200 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent text-sm md:text-base"
+                required
+              >
+              <button 
+                type="submit" 
+                class="bg-white text-purple-600 px-6 md:px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap text-sm md:text-base"
+              >
+                Subscribe
+              </button>
+            </form>
+            <p class="text-xs md:text-sm text-blue-200 mt-2 md:mt-3">By subscribing, you agree to our Privacy Policy.</p>
+          </div>
         </div>
-    </footer>
+      </div>
+
+      <!-- Footer Links - FIXED MOBILE COLUMNS -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8 mb-8 md:mb-12">
+        <!-- Logo and Social -->
+        <div class="col-span-2 md:col-span-2">
+          <a href="/" class="inline-block mb-4">
+            <img 
+              src="https://github.com/danukaya123/quizontal-pro/blob/main/download%20(3).png?raw=true" 
+              alt="Quizontal Logo" 
+              class="footer-logo"
+              loading="lazy"
+            >
+          </a>
+          <p class="mt-2 md:mt-4 text-gray-400 text-sm mb-4 md:mb-6">
+            Quizontal is a free and easy-to-use platform that provides high-quality stock photos and HD videos for both personal and commercial use. Our collection includes a wide variety of images and videos suitable for blogs, websites, social media, presentations, and creative projects. 
+          </p>
+          <div class="flex space-x-3 md:space-x-4">
+            <a href="https://web.facebook.com/danuka.disanayaka.3701/" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
+              <i data-lucide="facebook" class="h-4 w-4 md:h-5 md:w-5"></i>
+            </a>
+            <a href="https://www.youtube.com/@quizontal" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
+              <i data-lucide="youtube" class="h-4 w-4 md:h-5 md:w-5"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/danuka-dissanayake-570803375?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors">
+              <i data-lucide="linkedin" class="h-4 w-4 md:h-5 md:w-5"></i>
+            <a href="https://wa.me/94774915917" target="_blank"
+               class="bg-gray-800 hover:bg-purple-600 text-white p-2.5 md:p-3 rounded-full transition-colors flex items-center justify-center">
+            <!-- WhatsApp SVG icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 md:h-5 md:w-5" fill="currentColor" viewBox="0 0 24 24">
+               <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.472-.148-.671.149s-.768.966-.941 1.164c-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.655-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.173.198-.298.297-.496.099-.198.05-.371-.025-.52-.074-.149-.671-1.611-.918-2.205-.242-.579-.487-.5-.671-.51-.173-.008-.371-.01-.57-.01s-.52.074-.792.372c-.273.297-1.04 1.016-1.04 2.479s1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.872.118.571-.085 1.758-.718 2.006-1.412.248-.694.248-1.289.173-1.412-.074-.124-.272-.198-.57-.347zM12.004 2C6.478 2 2 6.477 2 12c0 2.12.666 4.09 1.822 5.722L2 22l4.358-1.114C7.902 21.338 9.912 22 12 22c5.523 0 10-4.477 10-10S17.527 2 12.004 2z"/>
+              </svg>
+            </a>
+
+            </a>
+          </div>
+        </div>
+        
+        <!-- Product Column -->
+        <div>
+          <h3 class="text-base md:text-lg font-semibold mb-4 text-white">AI-Tools</h3>
+          <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
+            <li><a href="/ai-tools/ai-image-generator/index.html" class="hover:text-white transition-colors block">AI Image Generator</a></li>
+            <li><a href="https://quizontal.vercel.app/ai-tools/removebg" class="hover:text-white transition-colors block">AI Background Remover</a></li>
+            <li><a href="https://quizontal.vercel.app/ai-tools/paraphrase" class="hover:text-white transition-colors block">AI Text Paraphraser</a></li>
+            <li><a href="https://quizontal.vercel.app/ai-tools/humanize" class="hover:text-white transition-colors block">AI Text Humanizer</a></li>
+          </ul>
+        </div>
+        
+        <!-- Company Column -->
+        <div>
+          <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Downloaders</h3>
+          <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
+            <li><a href="https://quizontal.vercel.app/downloaders/youtube" class="hover:text-white transition-colors block">Youtube Downloader</a></li>
+            <li><a href="https://quizontal.vercel.app/downloaders/facebook" class="hover:text-white transition-colors block">Facebook Downloader</a></li>
+            <li><a href="https://quizontal.vercel.app/downloaders/tiktok" class="hover:text-white transition-colors block">Tiktok Downloader</a></li>
+          </ul>
+        </div>
+        
+        <!-- Support Column -->
+        <div>
+          <h3 class="text-base md:text-lg font-semibold mb-4 text-white">Resources</h3>
+          <ul class="space-y-2 md:space-y-3 text-sm text-gray-400">
+            <li><a href="/image-gallery/index.html" class="hover:text-white transition-colors block">Stock images</a></li>
+            <li><a href="/video-gallery/index.html" class="hover:text-white transition-colors block">Stock videos</a></li>
+            <li><a href="/wallpaper-gallery/index.html" class="hover:text-white transition-colors block">Wallpapers</a></li>
+            
+          </ul>
+        </div>
+      </div>
+      
+      <!-- Bottom Bar -->
+      <div class="border-t border-gray-800 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center">
+        <p class="text-gray-400 text-xs md:text-sm text-center md:text-left mb-4 md:mb-0">
+          © 2025 Quizontal. All rights reserved.
+        </p>
+        <div class="flex space-x-4 md:space-x-6">
+          <a href="/privacy-policy/index.html" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">Privacy Policy</a>
+          <a href="/terms-of-service/index.html" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">Terms of Service</a>
+          <a href="/about-us/index.html" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">About us</a>
+          <a href="/contact-us/index.html" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">Contact us</a>
+          <a href="/declaimer/index.html" class="text-gray-400 hover:text-white transition-colors text-xs md:text-sm">Declaimer</a>
+        </div>
+      </div>
+    </div>
+  </footer>
 
     <!-- JavaScript -->
 <script>
@@ -1707,16 +2047,68 @@
     });
 
     // ========== MOBILE MENU FUNCTIONS ==========
-    function toggleMobileMenu() {
-        const mobileMenu = document.getElementById('mobileMenu');
-        mobileMenu.classList.toggle('active');
-        document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : 'auto';
+    const mobileMenu = document.getElementById('mobileMenu');
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const closeMobileMenuBtn = document.getElementById('closeMobileMenu');
+
+    function openMobileMenu() {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
     }
 
     function closeMobileMenu() {
-        document.getElementById('mobileMenu').classList.remove('active');
-        document.body.style.overflow = 'auto';
+      mobileMenu.classList.remove('active');
+      document.body.style.overflow = '';
+      
+      // Close all dropdowns when closing mobile menu
+      document.querySelectorAll('.mobile-dropdown').forEach(dropdown => {
+        dropdown.classList.remove('active');
+      });
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
     }
+
+    mobileMenuBtn.addEventListener('click', openMobileMenu);
+    closeMobileMenuBtn.addEventListener('click', closeMobileMenu);
+
+    // Mobile dropdown functionality
+    document.querySelectorAll('.mobile-nav-link[data-dropdown]').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const dropdownId = button.getAttribute('data-dropdown') + '-dropdown';
+        const dropdown = document.getElementById(dropdownId);
+        const icon = button.querySelector('i');
+        
+        // Close other dropdowns
+        document.querySelectorAll('.mobile-dropdown').forEach(d => {
+          if (d.id !== dropdownId) {
+            d.classList.remove('active');
+          }
+        });
+        
+        document.querySelectorAll('.mobile-nav-link[data-dropdown]').forEach(link => {
+          if (link !== button) {
+            link.classList.remove('active');
+          }
+        });
+        
+        // Toggle current dropdown
+        dropdown.classList.toggle('active');
+        button.classList.toggle('active');
+        
+        if (dropdown.classList.contains('active')) {
+          icon.style.transform = 'rotate(180deg)';
+        } else {
+          icon.style.transform = 'rotate(0deg)';
+        }
+      });
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.mobile-dropdown-link, .mobile-nav-link[href^="#"]').forEach(link => {
+      link.addEventListener('click', closeMobileMenu);
+    });
 
     // ========== NEWSLETTER FORM ==========
     const newsletterForm = document.getElementById('newsletterForm');
